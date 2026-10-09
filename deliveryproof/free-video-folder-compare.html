@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Video Delivery Folder Compare — Missing Files & SHA-256 | DeliveryProof</title>
+<meta name="description" content="Free browser-based compare of approved versus final video delivery folders. Find missing, extra, renamed and changed files by SHA-256 for files up to 100 MiB. Private: no uploads.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://dlaepdfuf89-crypto.github.io/deliveryproof/free-video-folder-compare.html">
+<meta property="og:title" content="Free video export folder comparison · DeliveryProof">
+<meta property="og:description" content="Select approved and final delivery folders. Compare filenames, sizes and SHA-256 hashes locally in your browser. No uploads.">
+<style>
+:root{color-scheme:dark;--bg:#071223;--card:#142238;--line:#34516c;--main:#ecf4fc;--muted:#b0c2d5;--green:#78edbf;--red:#ffb29b;--amber:#ffe59c}
+*{box-sizing:border-box}body{background:radial-gradient(circle at 75% -15%,#21435d,transparent 48%),var(--bg);color:var(--main);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+main,header,footer{max-width:1080px;padding:24px;margin:0 auto}
+a{color:var(--green)}.back{font-size:14px}h1{font-size:clamp(32px,5vw,54px);line-height:1.13;letter-spacing:-.03em;margin:22px 0 12px}h2{font-size:24px;line-height:1.3}h3{font-size:19px}.intro{font-size:19px;color:#cadcec;max-width:850px}.hint,.minor{color:var(--muted)}.eyebrow{color:var(--green);font-size:13px;letter-spacing:.11em;text-transform:uppercase;font-weight:800}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel{border:1px solid var(--line);border-radius:17px;background:var(--card);padding:21px}.panel h2{margin:0 0 10px}.panel label{display:block;margin:6px 0;font-weight:750}
+input[type=file]{display:block;width:100%;margin-top:12px;font:inherit;color:var(--main);background:#1c334b;border:1px dashed #6a91ab;border-radius:10px;padding:14px}input::file-selector-button{background:#75e9bc;color:#0b2420;border:0;padding:8px 10px;border-radius:6px;font-weight:700;cursor:pointer;margin-right:10px}
+.btn{display:inline-block;font:inherit;font-weight:800;padding:13px 19px;border-radius:10px;cursor:pointer;color:#08251c;background:#81ebbe;border:1px solid #81ebbe;text-decoration:none}
+.btn.alt{color:var(--main);background:transparent;border-color:#7695aa}
+button:disabled{cursor:not-allowed;opacity:.55}.controls{display:flex;gap:13px;flex-wrap:wrap;align-items:center;margin:22px 0 12px}.counts{font-size:14px;color:var(--muted)}
+.result{margin:20px 0;padding:18px;border-radius:14px;background:#122a3b;border:1px solid #3a657a}.status{font-weight:850;font-size:21px}.ok{color:var(--green)}.fail{color:var(--red)}.warn{color:var(--amber)}.tablewrap{overflow-x:auto;margin-top:20px}table{border-collapse:collapse;min-width:700px;width:100%}th,td{padding:12px 13px;text-align:left;border-bottom:1px solid #35506c;word-break:break-word}th{font-size:13px;color:#c6d7e8}td{font-size:14px}td:nth-child(2){font-weight:850}code{color:#b9f0d9}details{margin:18px 0;background:#132439;border:1px solid var(--line);padding:13px 18px;border-radius:11px}summary{cursor:pointer;font-weight:700}li{margin-bottom:8px}.notice{border-left:4px solid #ffda8e;background:#302b23;color:#fff0c7;padding:13px 18px;border-radius:6px;margin:24px 0}
+section{margin:35px 0}footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;margin-top:45px}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #ffd77a;outline-offset:3px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}main,header,footer{padding:17px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"DeliveryProof Free Video Folder Compare","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, Linux (Chrome or Edge browser with directory-picker support)","description":"Locally compare two video-delivery folder contents using relative paths, file byte lengths, and SHA-256 digests of files at most 100 MiB. No uploads.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+</head><body>
+<header><a class="back" href="/deliveryproof/">← DeliveryProof · full video delivery QA tool</a></header>
+<main>
+<div class="eyebrow">Free browser utility · Private · No installation</div>
+<h1>Compare your approved and final delivery folders.</h1>
+<p class="intro">Catch missing files, unexpected exports and changed bytes in a video handoff — <strong>without uploading footage or installing an EXE.</strong></p>
+<div class="notice"><strong>Scope:</strong> This is a free, limited folder/file compare — not a full video QC. SHA-256 byte comparison is performed only for files up to <strong>100 MiB each</strong>. Larger equal-size files are always <strong>NEEDS REVIEW</strong>, never PASS. This tool does not inspect resolution, FPS, captions, audio, client approval or generate delivery ZIPs.</div>
+<section aria-label="Select local folders"><div class="grid">
+<div class="panel"><h2>1. Approved exports</h2><p class="hint">Use a folder of video files that a person already approved.</p><label for="approved">Select approved folder</label><input type="file" id="approved" webkitdirectory directory multiple aria-describedby="approved-count"><div id="approved-count" class="counts" aria-live="polite">No folder selected</div></div>
+<div class="panel"><h2>2. Final delivery folder</h2><p class="hint">Choose the folder you are about to hand off.</p><label for="final">Select final folder</label><input type="file" id="final" webkitdirectory directory multiple aria-describedby="final-count"><div id="final-count" class="counts" aria-live="polite">No folder selected</div></div>
+</div><div class="controls"><button type="button" class="btn" id="run" disabled>Compare folders</button><button type="button" id="download" class="btn alt" disabled>Download CSV report</button><span id="progress" class="counts" role="status" aria-live="polite">Select both folders to begin.</span></div>
+<div id="result" class="result" hidden><div id="result-status" class="status"></div><p id="result-detail"></p></div>
+<div class="tablewrap"><table id="results-table" hidden><thead><tr><th>Relative path</th><th>Result</th><th>Reason / what was tested</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<section><h2>How to interpret your comparison</h2><div class="grid"><div class="panel"><h3 class="ok">MATCHED (limited)</h3><p>Both folders contain the same paths, every item was no larger than 100 MiB, and SHA-256 hashes of all corresponding bytes matched. This does not mean a human approved the files.</p></div>
+<div class="panel"><h3 class="fail">FAIL / NEEDS REVIEW</h3><p>Missing, unexpected, changed or same-path size-different files fail. Files above the 100 MiB threshold or which cannot be read remain unverified; matching file sizes alone are not proof.</p></div></div>
+<details><summary>Privacy, compatibility and file-size constraints</summary><ul>
+<li>All comparisons run in this browser tab using Web Crypto SHA-256. This page has no upload handler, external script, tracking pixel or analytics service. The file selection remains local; leaving this page discards it.</li>
+<li>Choose folders in a current version of desktop Chrome or Edge; directory selection may be unavailable on other browsers, especially mobile.</li>
+<li>Files up to 100 MiB are read into memory one at a time for hashing. Very large video files are not hashed by this free webpage — use the local Windows application if that is needed.</li>
+<li>Paths are compared relative to the selected folder root. Case-insensitive path name collisions are treated as errors.</li>
+<li>CSV reports include local relative filenames and comparison outcomes only. Review filenames before sharing reports externally.</li>
+</ul></details></section>
+<section class="panel"><h2>Need complete video-delivery checking?</h2><p>The full <a href="/deliveryproof/">DeliveryProof Windows app</a> checks SHA-256 even for larger files, plus declared video dimensions, duration, average FPS and required audio-stream presence, and gates ZIP creation on technical PASS. It is an <strong>unsigned</strong> early-validation build, not a substitute for human editorial or security approval.</p>
+<div class="controls"><a class="btn" href="https://4085873036611.gumroad.com/l/deliveryproof-free-evaluation">Try Windows edition: 5 ZIPs free</a><a class="btn alt" href="https://4085873036611.gumroad.com/l/deliveryproof-international">Unlimited Windows edition — $39</a><a href="https://4085873036611.gumroad.com/l/deliveryproof">국내 49,000원</a></div></section>
+<section><h2>한국어 안내</h2><p>두 개의 폴더를 선택하면 파일명·상대경로·파일 크기를 대조하며, <strong>100MiB 이하의 파일은 SHA-256 해시로 실제 내용까지 비교</strong>합니다. 100MiB 초과 파일은 크기가 같더라도 검사 완료로 표시하지 않습니다. 고객 영상은 업로드되지 않습니다. 원본 승인 여부, 자막·화질·오디오 내용, 납품 규격 전체는 검사하지 않습니다.</p><p><a href="/deliveryproof/video-delivery-checklist.html">무료 영상 최종 납품 체크리스트</a> · <a href="https://4085873036611.gumroad.com/l/deliveryproof-free-evaluation">정식 Windows 평가판 5회 무료</a></p></section>
+</main><footer>DeliveryProof browser utility · File data is processed locally · No account required · Compare results are not evidence of client approval.</footer>
+<script>
+(function(){
+"use strict";
+const LIMIT=100*1024*1024;
+const approved=document.getElementById("approved"),final=document.getElementById("final");
+const run=document.getElementById("run"),download=document.getElementById("download");
+const progress=document.getElementById("progress"),result=document.getElementById("result");
+const status=document.getElementById("result-status"),detail=document.getElementById("result-detail");
+const table=document.getElementById("results-table"),tbody=document.getElementById("rows");
+let reportRows=[],busy=false;
+function escapeRelative(file){
+ const full=(file.webkitRelativePath||file.name||"").replace(/\\/g,"/");
+ const bits=full.split("/");
+ const path=bits.length>1?bits.slice(1).join("/"):bits[0];
+ if(!path||path.startsWith("/")||path.split("/").some(x=>x==="."||x===".."||x===""))throw Error("Invalid relative filename");
+ return path;
+}
+function mapFolder(files){
+ const map=new Map(),collisions=[];
+ for(const f of files){let path;try{path=escapeRelative(f)}catch(e){collisions.push({path:f.name||"(unknown)",state:"INVALID PATH",why:String(e.message)});continue}
+ const key=path.toLocaleLowerCase("en-US");
+ if(map.has(key)){collisions.push({path:path,state:"CASE COLLISION",why:"Two files use the same path when case is ignored"});}
+ else map.set(key,{path:path,file:f});
+ }
+ return {map,collisions};
+}
+async function sha(file){
+ if(!globalThis.crypto||!crypto.subtle)throw Error("Secure-context SHA-256 not available");
+ const b=await file.arrayBuffer();
+ const digest=await crypto.subtle.digest("SHA-256",b);
+ const bytes=new Uint8Array(digest);
+ return Array.from(bytes,x=>x.toString(16).padStart(2,"0")).join("");
+}
+async function compareFolderFiles(approvedFiles,finalFiles,onProgress){
+ const left=mapFolder(approvedFiles),right=mapFolder(finalFiles),rows=[];
+ rows.push(...left.collisions,...right.collisions);
+ const keys=new Set([...left.map.keys(),...right.map.keys()]);
+ let done=0;
+ for(const key of Array.from(keys).sort()){
+  const a=left.map.get(key),b=right.map.get(key);let entry;
+  if(!a)entry={path:b.path,state:"UNEXPECTED",why:"Exists only in final folder"};
+  else if(!b)entry={path:a.path,state:"MISSING",why:"Approved file absent from final folder"};
+  else if(a.path!==b.path)entry={path:a.path+" → "+b.path,state:"CASE CHANGED",why:"Relative path spelling differs"};
+  else if(a.file.size!==b.file.size)entry={path:a.path,state:"CHANGED",why:"Byte lengths differ: approved "+a.file.size+", final "+b.file.size};
+  else if(a.file.size>LIMIT)entry={path:a.path,state:"UNVERIFIED LARGE FILE",why:"Same file size, but over 100 MiB. Hash NOT checked."};
+  else{
+   try{
+    const ha=await sha(a.file),hb=await sha(b.file);
+    entry=ha===hb?{path:a.path,state:"HASH MATCH",why:"SHA-256 byte digests match"}:{path:a.path,state:"CHANGED",why:"SHA-256 byte digests differ"};
+   }catch(e){entry={path:a.path,state:"READ ERROR",why:"Unable to hash file: "+String(e.message||e)}}
+  }
+  rows.push(entry);done++;
+  if(onProgress)onProgress(done,keys.size);
+ }
+ const failure=rows.some(x=>["INVALID PATH","CASE COLLISION","UNEXPECTED","MISSING","CASE CHANGED","CHANGED"].includes(x.state));
+ const needs=rows.some(x=>["UNVERIFIED LARGE FILE","READ ERROR"].includes(x.state));
+ const overall=failure?"FAIL":needs?"NEEDS REVIEW":"MATCHED (limited file identity)";
+ return {rows,overall,compared:keys.size,hashMatched:rows.filter(x=>x.state==="HASH MATCH").length,unverified:rows.filter(x=>x.state==="UNVERIFIED LARGE FILE"||x.state==="READ ERROR").length};
+}
+function reset(){
+ reportRows=[];download.disabled=true;result.hidden=true;table.hidden=true;tbody.replaceChildren();
+ document.getElementById("approved-count").textContent=approved.files.length+" files selected";
+ document.getElementById("final-count").textContent=final.files.length+" files selected";
+ run.disabled=busy||!approved.files.length||!final.files.length;
+ progress.textContent=run.disabled?"Select two folders with files.":"Ready to compare selected folders.";
+}
+approved.addEventListener("change",reset);final.addEventListener("change",reset);
+run.addEventListener("click",async ()=>{
+ if(busy||!approved.files.length||!final.files.length)return;
+ busy=true;run.disabled=true;download.disabled=true;progress.textContent="Starting local comparison…";
+ try{
+  const data=await compareFolderFiles(Array.from(approved.files),Array.from(final.files),(done,total)=>{progress.textContent="Checking "+done+" / "+total+" unique paths…";});
+  reportRows=data.rows;tbody.replaceChildren();
+  for(const row of reportRows){
+   const tr=document.createElement("tr");
+   for(const [i,v] of [row.path,row.state,row.why].entries()){const td=document.createElement("td");td.textContent=v;
+   if(i===1)td.className=row.state==="HASH MATCH"?"ok":row.state==="UNVERIFIED LARGE FILE"||row.state==="READ ERROR"?"warn":"fail";tr.appendChild(td)}
+   tbody.appendChild(tr);
+  }
+  table.hidden=false;result.hidden=false;
+  status.textContent=data.overall;status.className="status "+(data.overall.startsWith("MATCHED")?"ok":data.overall==="FAIL"?"fail":"warn");
+  detail.textContent=data.compared+" distinct relative paths. SHA-256 confirmed "+data.hashMatched+" matches; "+data.unverified+" files unverified. Files remain on your computer.";
+  progress.textContent="Local comparison completed.";download.disabled=!reportRows.length;
+ }catch(e){result.hidden=false;status.textContent="ERROR — no PASS";status.className="status fail";detail.textContent=String(e.message||e);progress.textContent="Comparison could not complete."; }
+ finally{busy=false;run.disabled=!approved.files.length||!final.files.length;}
+});
+function csvSafe(v){let s=String(v??"");if(/^[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+download.addEventListener("click",()=>{
+ if(!reportRows.length)return;
+ const lines=[["Relative path","Result","Reason"]].concat(reportRows.map(x=>[x.path,x.state,x.why]));
+ const csv="\uFEFF"+lines.map(a=>a.map(csvSafe).join(",")).join("\r\n");
+ const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob);
+ const a=document.createElement("a");a.href=url;a.download="deliveryproof-local-folder-comparison.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);
+});
+window.__DeliveryProofFolderCompareTest={compareFolderFiles,escapeRelative,LIMIT};
+reset();
+})();
+</script>
+</body></html>
