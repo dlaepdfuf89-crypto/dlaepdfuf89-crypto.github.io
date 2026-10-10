@@ -19,14 +19,16 @@
 <form id="matrix-form" novalidate>
 <div class="fields">
 <div class="field"><label for="prefix">Project code</label><input id="prefix" autocomplete="off" spellcheck="false" value="campaign" maxlength="40" required><small>ASCII letters, numbers, hyphens, underscores; no spaces</small></div>
+<div class="field"><label for="master">Master film IDs <span>optional</span></label><input id="master" autocomplete="off" spellcheck="false" value="" placeholder="hero, product, testimonial"><small>Leave blank to retain the original filename structure. Use unique IDs when a campaign has multiple films.</small></div>
 <div class="field"><label for="language">Languages <span>comma-separated</span></label><input id="language" autocomplete="off" spellcheck="false" value="en, ko, ja" required><small>Examples: en, ko, fr-ca</small></div>
 <div class="field"><label for="ratio">Aspect ratios</label><input id="ratio" autocomplete="off" spellcheck="false" value="16x9, 9x16, 1x1" required><small>Examples: 16x9, 9x16, 1x1</small></div>
 <div class="field"><label for="duration">Runtimes</label><input id="duration" autocomplete="off" spellcheck="false" value="15s, 30s" required><small>Examples: 6s, 15s, 30s</small></div>
+<div class="field"><label for="caption">Caption options <span>optional</span></label><input id="caption" autocomplete="off" spellcheck="false" value="" placeholder="clean, burned"><small>Examples: clean, burned, open-captions. Leave blank for the original filename structure.</small></div>
 <div class="field"><label for="variant">Versions</label><input id="variant" autocomplete="off" spellcheck="false" value="master, clean" required><small>Examples: master, captioned, clean</small></div>
 <div class="field"><label for="layout">Folder structure</label><select id="layout"><option value="nested">Language / ratio / filename</option><option value="flat">All videos in one folder</option></select></div>
 <div class="field"><label for="extension">Export extension</label><select id="extension"><option value="mp4">.mp4</option><option value="mov">.mov</option><option value="mxf">.mxf</option></select></div>
 </div>
-<div class="form-actions"><button class="primary" type="submit">Generate expected files <span aria-hidden="true">↗</span></button><span id="form-error" class="error" role="alert" aria-live="polite"></span></div>
+<div class="form-actions"><button class="primary" type="submit">Generate expected files <span aria-hidden="true">↗</span></button><button class="secondary" type="button" id="load-example-90">Load 90-export example</button><span id="form-error" class="error" role="alert" aria-live="polite"></span></div>
 </form></section>
 <section class="panel" aria-labelledby="verify-title"><div class="section-head"><div><p class="step">STEP 02 / LOCAL INVENTORY</p><h2 id="verify-title">Compare a delivery folder</h2></div></div>
 <p class="subtext">Optional: after generating, select your <strong>final delivery folder</strong>. The browser reads file names and relative paths only. It does not read the video bytes or upload files. Auxiliary non-video files are counted separately.</p>
