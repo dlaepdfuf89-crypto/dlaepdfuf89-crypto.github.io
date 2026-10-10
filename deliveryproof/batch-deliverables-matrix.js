@@ -1,7 +1,7 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 const fields=['prefix','master','language','ratio','duration','caption','variant','layout','extension'];
-let plan=[],comparison=[],folderPaths=[],folderIgnored=0,hasPlan=false,hasComparison=false,planIsImported=false;
+let plan=[],comparison=[],folderPaths=[],folderIgnored=0,hasPlan=false,hasComparison=false,planIsImported=false,demoMode=false;
 const setError=(id,message)=>{$(id).textContent=message||''};
 const count=(id,value)=>{$(id).textContent=value};
 const status=(text,kind)=>{const x=$('state');x.textContent=text;x.className='result-state '+(kind||'')};
@@ -37,20 +37,23 @@ function generate(){
 function rowsToTable(records){
  const body=$('report-body');body.replaceChildren();
  if(!records.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=2;td.className='empty';td.textContent='No rows to show.';tr.append(td);body.append(tr);$('table-hint').textContent='';return;}
- for(const row of records.slice(0,50)){
+ const rank={MISSING:0,UNEXPECTED:1,DUPLICATE:2,PRESENT:3,PLANNED:4};
+ for(const row of records.slice().sort((a,b)=>(rank[a.status]??9)-(rank[b.status]??9)).slice(0,50)){
   const tr=document.createElement('tr');const td=document.createElement('td'),mark=document.createElement('td'),pill=document.createElement('span');
   td.textContent=row.path;pill.className='pill '+({PLANNED:'pending',PRESENT:'present',MISSING:'missing',UNEXPECTED:'extra',DUPLICATE:'missing'}[row.status]||'pending');
   pill.textContent=row.status;mark.append(pill);tr.append(td,mark);body.append(tr);
  }
- $('table-hint').textContent=records.length>50?'Showing the first 50 of '+records.length.toLocaleString()+' rows. Download CSV for the complete list.':'Showing '+records.length.toLocaleString()+' rows.';
+ $('table-hint').textContent=records.length>50?'Showing the first 50 of '+records.length.toLocaleString()+' rows, with differences first. Download CSV for the complete list.':'Showing '+records.length.toLocaleString()+' rows.';
 }
 function renderPlan(){
+ demoMode=false;$('download-results').textContent='Download comparison CSV';
  count('expected',plan.length.toLocaleString());count('present','—');count('missing','—');count('extra','—');
  status('PLANNED · NOT VERIFIED','planned');$('report-note').textContent=planIsImported?'Expected video paths imported from your local client naming list. No actual delivery folder has been compared; this is NOT a PASS or evidence of approved video content.':'Expected names generated. No actual delivery folder has been compared; this is not a PASS. File contents and approval have not been checked.';
  rowsToTable(plan.map(path=>({path,status:'PLANNED',detail:'Expected by naming matrix'})));
  $('download-planned').disabled=false;$('download-results').disabled=true;$('compare').disabled=!folderPaths.length;
 }
 function resetPlan(note){
+ demoMode=false;$('download-results').textContent='Download comparison CSV';
  hasPlan=false;hasComparison=false;planIsImported=false;plan=[];comparison=[];
  count('expected','0');count('present','—');count('missing','—');count('extra','—');status('NOT MEASURED','');
  $('download-planned').disabled=true;$('download-results').disabled=true;$('compare').disabled=true;
@@ -62,10 +65,20 @@ $('matrix-form').addEventListener('submit',e=>{
  try{plan=generate();hasPlan=true;hasComparison=false;planIsImported=false;comparison=[];renderPlan();}
  catch(err){resetPlan('Correct the naming matrix and generate again.');setError('form-error',err.message);}
 });
-$('load-example-90').addEventListener('click',()=>{
+function loadExample90(){
  const example={prefix:'film',master:'hero',language:'en,es,fr',ratio:'16x9,1x1,9x16',duration:'master,60s,30s,15s,6s',caption:'clean,burned',variant:'final',layout:'nested',extension:'mp4'};
  for(const [id,value] of Object.entries(example))$(id).value=value;
  $('matrix-form').requestSubmit();
+}
+$('load-example-90').addEventListener('click',loadExample90);
+$('run-demo-90').addEventListener('click',()=>{
+ loadExample90();
+ if(!hasPlan||plan.length!==90){setError('form-error','The example did not generate 90 filenames.');return}
+ // Only fabricated path strings: no local folder, remote services, or video bytes.
+ const synthetic=plan.filter((path,i)=>i!==7&&i!==87);
+ synthetic.push('en/16x9/film_hero_en_16x9_unrequested_preview.mp4');
+ compareWithPaths(synthetic,0,true);
+ $('results-title').scrollIntoView({behavior:'smooth',block:'start'});
 });
 for(const id of fields){$(id).addEventListener(id==='layout'||id==='extension'?'change':'input',()=>{
  if(hasPlan){resetPlan('The naming settings changed. Generate a new manifest before comparing.');}
@@ -153,30 +166,41 @@ $('folder').addEventListener('change',()=>{
  $('folder-state').textContent=folderPaths.length.toLocaleString()+' video files selected · '+folderIgnored.toLocaleString()+' auxiliary files excluded from this video-only comparison. File bytes were not read.';
  if(hasPlan)renderPlan();
 });
-$('compare').addEventListener('click',()=>{
- setError('compare-error','');
- if(!hasPlan){setError('compare-error','Generate the expected list first.');return}
- if(!folderPaths.length){setError('compare-error','Select a folder containing video files.');return}
+function compareWithPaths(paths,ignored,synthetic){
  const normalize=p=>p.normalize('NFC').replace(/\\/g,'/').toLowerCase();
  const expectedSet=new Set(plan.map(normalize));
  const actual=new Map(),duplicates=[];
- for(const path of folderPaths){
+ for(const path of paths){
   const key=normalize(path);
   if(actual.has(key))duplicates.push(path);
   else actual.set(key,path);
  }
- const plannedRows=plan.map(path=>({path,status:actual.has(normalize(path))?'PRESENT':'MISSING',detail:actual.has(normalize(path))?'Expected path found (content not checked)':'Expected path not present'}));
+ const plannedRows=plan.map(path=>({path,status:actual.has(normalize(path))?'PRESENT':'MISSING',detail:actual.has(normalize(path))?'Expected path found (video bytes not checked)':'Expected path not present'}));
  const unexpected=[...actual].filter(([key])=>!expectedSet.has(key)).map(([,path])=>({path,status:'UNEXPECTED',detail:'Video not listed in expected matrix'}));
  const duplicateRows=duplicates.map(path=>({path,status:'DUPLICATE',detail:'Conflicting case-insensitive relative path'}));
  comparison=[...plannedRows,...unexpected,...duplicateRows];
- const matched=plannedRows.filter(x=>x.status==='PRESENT').length,missing=plan.length-matched;
- count('expected',plan.length.toLocaleString());count('present',matched.toLocaleString());count('missing',missing.toLocaleString());count('extra',(unexpected.length+duplicateRows.length).toLocaleString());
- const exact=missing===0&&unexpected.length===0&&duplicates.length===0;
- status(exact?'INVENTORY MATCH · NOT FILE QC':'INVENTORY DIFFERENCES',exact?'ok':'bad');
- $('report-note').textContent=exact?
- 'All expected video paths were present and no unexpected video paths were found. This is NOT verification of bytes, dimensions, audio, the right version or customer approval. '+folderIgnored+' auxiliary items ignored.':
- missing+' expected video paths missing; '+unexpected.length+' unexpected video paths; '+duplicateRows.length+' case-colliding paths. File content and approval are NOT checked. '+folderIgnored+' auxiliary items ignored.';
- hasComparison=true;$('download-results').disabled=false;rowsToTable(comparison);
+ if(synthetic)comparison=comparison.map(x=>({...x,detail:'SYNTHETIC DEMO ONLY — no real folder inspected. '+x.detail}));
+ const matched=plannedRows.filter(x=>x.status==='PRESENT').length,missing=plan.length-matched,extras=unexpected.length+duplicateRows.length;
+ count('expected',plan.length.toLocaleString());count('present',matched.toLocaleString());count('missing',missing.toLocaleString());count('extra',extras.toLocaleString());
+ const exact=missing===0&&extras===0;
+ if(synthetic){
+  status('SYNTHETIC DEMO · NOT FILE QC','planned');
+  $('report-note').textContent='SYNTHETIC DEMONSTRATION ONLY: '+missing+' fabricated missing export paths and '+extras+' fabricated extra paths. No real video files or customer folder were selected, uploaded, verified, or approved. Import a real client list and choose your final local folder to run your own inventory check.';
+ }else{
+  status(exact?'INVENTORY MATCH · NOT FILE QC':'INVENTORY DIFFERENCES',exact?'ok':'bad');
+  $('report-note').textContent=exact?
+  'All expected video paths were present and no unexpected video paths were found. This is NOT verification of bytes, dimensions, audio, the right version or customer approval. '+ignored+' auxiliary items ignored.':
+  missing+' expected video paths missing; '+unexpected.length+' unexpected video paths; '+duplicateRows.length+' case-colliding paths. File content and approval are NOT checked. '+ignored+' auxiliary items ignored.';
+ }
+ demoMode=!!synthetic;hasComparison=true;$('download-results').disabled=false;
+ $('download-results').textContent=synthetic?'Download SYNTHETIC demo CSV':'Download comparison CSV';
+ rowsToTable(comparison);
+}
+$('compare').addEventListener('click',()=>{
+ setError('compare-error','');
+ if(!hasPlan){setError('compare-error','Generate the expected list first.');return}
+ if(!folderPaths.length){setError('compare-error','Select a folder containing video files.');return}
+ compareWithPaths(folderPaths,folderIgnored,false);
 });
 function cell(value){
  let s=String(value??'');if(/^[\s]*[=+@-]/.test(s))s="'"+s;
@@ -190,6 +214,6 @@ function exportCsv(filename,rows){
  setTimeout(()=>URL.revokeObjectURL(url),4500);
 }
 $('download-planned').addEventListener('click',()=>{if(hasPlan)exportCsv('deliveryproof-planned-video-exports.csv',plan.map(path=>({path,status:'PLANNED',detail:planIsImported?'Expected by imported client filename list; video content not approved':'Expected by naming matrix, not verified'})))});
-$('download-results').addEventListener('click',()=>{if(hasComparison)exportCsv('deliveryproof-video-inventory-comparison.csv',comparison)});
+$('download-results').addEventListener('click',()=>{if(hasComparison)exportCsv(demoMode?'deliveryproof-SYNTHETIC-demo-comparison.csv':'deliveryproof-video-inventory-comparison.csv',comparison)});
 window.__DeliveryProofMatrixTest={generate,parseTokens,cell,parseManifestCsv,parseImportedManifest,validRelativeVideoPath,normalizeRelative:p=>p.normalize('NFC').replace(/\\/g,'/').toLowerCase()};
 })();
