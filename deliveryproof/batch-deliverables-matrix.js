@@ -16,6 +16,9 @@ const parseTokens=(id)=>{
  return unique;
 };
 const parseOptionalTokens=id=>$(id).value.trim()?parseTokens(id):[''];
+const expandedDeliveryMode=()=>$('inventory-mode').value==='video-captions-audio';
+const supportedExtension=path=>expandedDeliveryMode()?/\.(mp4|mov|mxf|m4v|srt|vtt|wav|aif|aiff)$/i.test(path):/\.(mp4|mov|mxf|m4v)$/i.test(path);
+const scopeName=()=>expandedDeliveryMode()?'deliverable':'video';
 function generate(){
  const prefix=$('prefix').value.trim().toLowerCase();
  if(!/^[a-z0-9][a-z0-9_-]{0,39}$/.test(prefix))throw Error('Project code: use 1–40 ASCII letters, numbers, hyphens or underscores.');
@@ -116,7 +119,7 @@ function validRelativeVideoPath(input){
  if(path.length<5||path.length>512||path.startsWith('/')||/^[a-z]:/i.test(path)||path.includes('//'))throw Error('Use relative video paths, not absolute paths or empty folders.');
  const parts=path.split('/');
  if(parts.some(c=>!c||c==='.'||c==='..'||/[<>:"|?*\x00-\x1f]/.test(c)||/[ .]$/.test(c)))throw Error('Invalid filename segment or path traversal in expected manifest.');
- if(!/\.(mp4|mov|mxf|m4v)$/i.test(path))throw Error('Expected manifest contains a non-video path; only MP4, MOV, MXF or M4V paths are supported.');
+ if(!supportedExtension(path))throw Error(expandedDeliveryMode()?'Unsupported file type: use MP4/MOV/MXF/M4V/SRT/VTT/WAV/AIF/AIFF in expanded mode.':'Expected manifest contains a non-video path; only MP4, MOV, MXF or M4V paths are supported.');
  return path;
 }
 function parseImportedManifest(input,extension){
@@ -134,8 +137,8 @@ function parseImportedManifest(input,extension){
   if(pos<0&&rows[0].length>1)throw Error('For multi-column CSVs, label the filename column Relative path, Filename or Path.');
   names=rows.slice(start).filter(x=>x.some(y=>y.trim())).map(x=>x[idx]??'');
  }
- if(!names.length)throw Error('The manifest has no video paths.');
- if(names.length>2500)throw Error('Import 2,500 or fewer expected video paths per batch.');
+ if(!names.length)throw Error('The manifest has no file paths.');
+ if(names.length>2500)throw Error('Import 2,500 or fewer expected file paths per batch.');
  const next=names.map(validRelativeVideoPath),keys=new Set();
  for(const entry of next){const k=entry.toLowerCase();if(keys.has(k))throw Error('The manifest repeats a file path (including case-only duplicates): '+entry);keys.add(k)}
  return next.sort((a,b)=>a.localeCompare(b,'en'));
@@ -149,11 +152,11 @@ $('expected-csv').addEventListener('change',async()=>{
   const next=parseImportedManifest(content,extension);
   plan=next;hasPlan=true;hasComparison=false;planIsImported=true;comparison=[];
   renderPlan();
-  $('csv-state').textContent=next.length.toLocaleString()+' relative video filenames imported locally from '+file.name+'. The file bytes were not uploaded. Compare with the selected delivery folder below.';
+  $('csv-state').textContent=next.length.toLocaleString()+' relative '+scopeName()+' filenames imported locally from '+file.name+'. The file bytes were not uploaded. Compare with the selected delivery folder below.';
   setError('compare-error','');
  }catch(e){setError('csv-error',e.message);$('csv-state').textContent='Import rejected; previous plan (if any) remains in place.'}
 });
-$('folder').addEventListener('change',()=>{
+function updateFolderSelection(){
  const input=$('folder');folderPaths=[];folderIgnored=0;folderSelectionValid=false;hasComparison=false;comparison=[];
  $('download-results').disabled=true;setError('compare-error','');
  const files=[...input.files];
@@ -164,11 +167,19 @@ $('folder').addEventListener('change',()=>{
  const first=all[0].split('/')[0];
  const commonRoot=all.every(p=>p.startsWith(first+'/'));
  const stripped=all.map(p=>commonRoot?p.slice(first.length+1):p);
- const isVideo=p=>/\.(mp4|mov|mxf|m4v)$/i.test(p);
- folderPaths=stripped.filter(isVideo);
+ folderPaths=stripped.filter(supportedExtension);
  folderIgnored=stripped.length-folderPaths.length;
- $('folder-state').textContent=folderPaths.length.toLocaleString()+' video files selected · '+folderIgnored.toLocaleString()+' auxiliary files excluded from this video-only comparison. File bytes were not read.'+(folderPaths.length===0?' No video files found among selected items; run comparison to reveal all expected videos as MISSING.':'');
+ const kind=expandedDeliveryMode()?'deliverable':'video';
+ $('folder-state').textContent=folderPaths.length.toLocaleString()+' '+kind+' files selected · '+folderIgnored.toLocaleString()+' auxiliary files excluded from this comparison. File bytes were not read.'+(folderPaths.length===0?' No eligible files found among selected items; run comparison to reveal all expected files as MISSING.':'');
  if(hasPlan)renderPlan();
+}
+$('folder').addEventListener('change',updateFolderSelection);
+$('inventory-mode').addEventListener('change',()=>{
+ resetPlan('The file-type scope changed. Import the agreed manifest again or generate a new video-only example; do not reuse the previous results.');
+ $('expected-csv').value='';
+ $('csv-state').textContent='File-type scope changed. Please reimport your agreed CSV/TXT manifest.';
+ setError('csv-error','');
+ updateFolderSelection();
 });
 function compareWithPaths(paths,ignored,synthetic){
  const normalize=p=>p.normalize('NFC').replace(/\\/g,'/').toLowerCase();
@@ -179,8 +190,8 @@ function compareWithPaths(paths,ignored,synthetic){
   if(actual.has(key))duplicates.push(path);
   else actual.set(key,path);
  }
- const plannedRows=plan.map(path=>({path,status:actual.has(normalize(path))?'PRESENT':'MISSING',detail:actual.has(normalize(path))?'Expected path found (video bytes not checked)':'Expected path not present'}));
- const unexpected=[...actual].filter(([key])=>!expectedSet.has(key)).map(([,path])=>({path,status:'UNEXPECTED',detail:'Video not listed in expected matrix'}));
+ const plannedRows=plan.map(path=>({path,status:actual.has(normalize(path))?'PRESENT':'MISSING',detail:actual.has(normalize(path))?'Expected path found (file contents not checked)':'Expected path not present'}));
+ const unexpected=[...actual].filter(([key])=>!expectedSet.has(key)).map(([,path])=>({path,status:'UNEXPECTED',detail:'File not listed in expected matrix'}));
  const duplicateRows=duplicates.map(path=>({path,status:'DUPLICATE',detail:'Conflicting case-insensitive relative path'}));
  comparison=[...plannedRows,...unexpected,...duplicateRows];
  if(synthetic)comparison=comparison.map(x=>({...x,detail:'SYNTHETIC DEMO ONLY — no real folder inspected. '+x.detail}));
@@ -193,8 +204,8 @@ function compareWithPaths(paths,ignored,synthetic){
  }else{
   status(exact?'INVENTORY MATCH · NOT FILE QC':'INVENTORY DIFFERENCES',exact?'ok':'bad');
   $('report-note').textContent=exact?
-  'All expected video paths were present and no unexpected video paths were found. This is NOT verification of bytes, dimensions, audio, the right version or customer approval. '+ignored+' auxiliary items ignored.':
-  missing+' expected video paths missing; '+unexpected.length+' unexpected video paths; '+duplicateRows.length+' case-colliding paths. File content and approval are NOT checked. '+ignored+' auxiliary items ignored.';
+  'All expected file paths were present and no unexpected selected paths were found. This is NOT verification of bytes, dimensions, audio, caption accuracy, the right version or customer approval. '+ignored+' auxiliary items ignored.':
+  missing+' expected selected file paths missing; '+unexpected.length+' unexpected selected file paths; '+duplicateRows.length+' case-colliding paths. File content and approval are NOT checked. '+ignored+' auxiliary items ignored.';
  }
  demoMode=!!synthetic;hasComparison=true;$('download-results').disabled=false;
  $('download-results').textContent=synthetic?'Download SYNTHETIC demo CSV':'Download comparison CSV';
@@ -219,5 +230,5 @@ function exportCsv(filename,rows){
 }
 $('download-planned').addEventListener('click',()=>{if(hasPlan)exportCsv('deliveryproof-planned-video-exports.csv',plan.map(path=>({path,status:'PLANNED',detail:planIsImported?'Expected by imported client filename list; video content not approved':'Expected by naming matrix, not verified'})))});
 $('download-results').addEventListener('click',()=>{if(hasComparison)exportCsv(demoMode?'deliveryproof-SYNTHETIC-demo-comparison.csv':'deliveryproof-video-inventory-comparison.csv',comparison)});
-window.__DeliveryProofMatrixTest={generate,parseTokens,cell,parseManifestCsv,parseImportedManifest,validRelativeVideoPath,normalizeRelative:p=>p.normalize('NFC').replace(/\\/g,'/').toLowerCase()};
+window.__DeliveryProofMatrixTest={generate,parseTokens,cell,parseManifestCsv,parseImportedManifest,validRelativeVideoPath,supportedExtension,normalizeRelative:p=>p.normalize('NFC').replace(/\\/g,'/').toLowerCase()};
 })();
