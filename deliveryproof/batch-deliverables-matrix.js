@@ -1,7 +1,7 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 const fields=['prefix','master','language','ratio','duration','caption','variant','layout','extension'];
-let plan=[],comparison=[],folderPaths=[],folderIgnored=0,hasPlan=false,hasComparison=false,planIsImported=false,demoMode=false;
+let plan=[],comparison=[],folderPaths=[],folderIgnored=0,hasPlan=false,hasComparison=false,planIsImported=false,demoMode=false,folderSelectionValid=false;
 const setError=(id,message)=>{$(id).textContent=message||''};
 const count=(id,value)=>{$(id).textContent=value};
 const status=(text,kind)=>{const x=$('state');x.textContent=text;x.className='result-state '+(kind||'')};
@@ -50,7 +50,7 @@ function renderPlan(){
  count('expected',plan.length.toLocaleString());count('present','—');count('missing','—');count('extra','—');
  status('PLANNED · NOT VERIFIED','planned');$('report-note').textContent=planIsImported?'Expected video paths imported from your local client naming list. No actual delivery folder has been compared; this is NOT a PASS or evidence of approved video content.':'Expected names generated. No actual delivery folder has been compared; this is not a PASS. File contents and approval have not been checked.';
  rowsToTable(plan.map(path=>({path,status:'PLANNED',detail:'Expected by naming matrix'})));
- $('download-planned').disabled=false;$('download-results').disabled=true;$('compare').disabled=!folderPaths.length;
+ $('download-planned').disabled=false;$('download-results').disabled=true;$('compare').disabled=!folderSelectionValid;
 }
 function resetPlan(note){
  demoMode=false;$('download-results').textContent='Download comparison CSV';
@@ -154,11 +154,12 @@ $('expected-csv').addEventListener('change',async()=>{
  }catch(e){setError('csv-error',e.message);$('csv-state').textContent='Import rejected; previous plan (if any) remains in place.'}
 });
 $('folder').addEventListener('change',()=>{
- const input=$('folder');folderPaths=[];folderIgnored=0;hasComparison=false;comparison=[];
+ const input=$('folder');folderPaths=[];folderIgnored=0;folderSelectionValid=false;hasComparison=false;comparison=[];
  $('download-results').disabled=true;setError('compare-error','');
  const files=[...input.files];
- if(!files.length){$('folder-state').textContent='No folder selected — no comparison performed';if(hasPlan)renderPlan();return}
+ if(!files.length){$('folder-state').textContent='No files received from the folder picker. An entirely empty folder cannot be verified by this browser. No comparison performed.';if(hasPlan)renderPlan();return}
  if(files.length>30000){$('folder-state').textContent='Folder has more than 30,000 items. Choose a smaller batch.';if(hasPlan)renderPlan();return}
+ folderSelectionValid=true;
  const all=files.map(f=>(f.webkitRelativePath||f.name).replace(/\\/g,'/').normalize('NFC'));
  const first=all[0].split('/')[0];
  const commonRoot=all.every(p=>p.startsWith(first+'/'));
@@ -166,7 +167,7 @@ $('folder').addEventListener('change',()=>{
  const isVideo=p=>/\.(mp4|mov|mxf|m4v)$/i.test(p);
  folderPaths=stripped.filter(isVideo);
  folderIgnored=stripped.length-folderPaths.length;
- $('folder-state').textContent=folderPaths.length.toLocaleString()+' video files selected · '+folderIgnored.toLocaleString()+' auxiliary files excluded from this video-only comparison. File bytes were not read.';
+ $('folder-state').textContent=folderPaths.length.toLocaleString()+' video files selected · '+folderIgnored.toLocaleString()+' auxiliary files excluded from this video-only comparison. File bytes were not read.'+(folderPaths.length===0?' No video files found among selected items; run comparison to reveal all expected videos as MISSING.':'');
  if(hasPlan)renderPlan();
 });
 function compareWithPaths(paths,ignored,synthetic){
@@ -202,7 +203,7 @@ function compareWithPaths(paths,ignored,synthetic){
 $('compare').addEventListener('click',()=>{
  setError('compare-error','');
  if(!hasPlan){setError('compare-error','Generate the expected list first.');return}
- if(!folderPaths.length){setError('compare-error','Select a folder containing video files.');return}
+ if(!folderSelectionValid){setError('compare-error','Select a final folder with at least one file. An entirely empty folder cannot be inspected by this browser.');return}
  compareWithPaths(folderPaths,folderIgnored,false);
 });
 function cell(value){
