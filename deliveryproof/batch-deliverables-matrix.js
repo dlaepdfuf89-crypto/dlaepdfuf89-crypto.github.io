@@ -71,7 +71,7 @@ function loadExample90(){
  $('matrix-form').requestSubmit();
 }
 $('load-example-90').addEventListener('click',loadExample90);
-$('run-demo-90').addEventListener('click',()=>{
+function runDemo90(){
  loadExample90();
  if(!hasPlan||plan.length!==90){setError('form-error','The example did not generate 90 filenames.');return}
  // Only fabricated path strings: no local folder, remote services, or video bytes.
@@ -79,7 +79,10 @@ $('run-demo-90').addEventListener('click',()=>{
  synthetic.push('en/16x9/film_hero_en_16x9_unrequested_preview.mp4');
  compareWithPaths(synthetic,0,true);
  $('results-title').scrollIntoView({behavior:'smooth',block:'start'});
-});
+}
+$('run-demo-90').addEventListener('click',runDemo90);
+// Explicit ?demo=1 links are demo-only. Never inspect or request local files on page load.
+if(new URLSearchParams(location.search).get('demo')==='1')window.addEventListener('load',runDemo90,{once:true});
 for(const id of fields){$(id).addEventListener(id==='layout'||id==='extension'?'change':'input',()=>{
  if(hasPlan){resetPlan('The naming settings changed. Generate a new manifest before comparing.');}
  setError('form-error','');setError('compare-error','');
