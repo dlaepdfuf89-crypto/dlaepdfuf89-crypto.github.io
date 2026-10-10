@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const fields=['prefix','language','ratio','duration','variant','layout','extension'];
+const fields=['prefix','master','language','ratio','duration','caption','variant','layout','extension'];
 let plan=[],comparison=[],folderPaths=[],folderIgnored=0,hasPlan=false,hasComparison=false;
 const setError=(id,message)=>{$(id).textContent=message||''};
 const count=(id,value)=>{$(id).textContent=value};
@@ -15,17 +15,19 @@ const parseTokens=(id)=>{
  if(unique.length!==tokens.length)throw Error(id+': remove repeated values.');
  return unique;
 };
+const parseOptionalTokens=id=>$(id).value.trim()?parseTokens(id):[''];
 function generate(){
  const prefix=$('prefix').value.trim().toLowerCase();
  if(!/^[a-z0-9][a-z0-9_-]{0,39}$/.test(prefix))throw Error('Project code: use 1–40 ASCII letters, numbers, hyphens or underscores.');
- const values=[parseTokens('language'),parseTokens('ratio'),parseTokens('duration'),parseTokens('variant')];
+ const values=[parseOptionalTokens('master'),parseTokens('language'),parseTokens('ratio'),parseTokens('duration'),parseOptionalTokens('caption'),parseTokens('variant')];
  const total=values.reduce((n,a)=>n*a.length,1);
  if(total>2500)throw Error('This matrix has '+total.toLocaleString()+' combinations. Use 2,500 or fewer per batch.');
  const layout=$('layout').value,ext=$('extension').value;
  if(!['nested','flat'].includes(layout)||!['mp4','mov','mxf'].includes(ext))throw Error('Unsupported format selection.');
  const next=[];
- for(const lang of values[0])for(const ratio of values[1])for(const duration of values[2])for(const variant of values[3]){
-   const filename=prefix+'_'+lang+'_'+ratio+'_'+duration+'_'+variant+'.'+ext;
+ for(const master of values[0])for(const lang of values[1])for(const ratio of values[2])for(const duration of values[3])for(const caption of values[4])for(const variant of values[5]){
+   const components=[prefix];if(master)components.push(master);components.push(lang,ratio,duration);if(caption)components.push(caption);components.push(variant);
+   const filename=components.join('_')+'.'+ext;
    next.push(layout==='nested'?lang+'/'+ratio+'/'+filename:filename);
  }
  if(new Set(next).size!==next.length)throw Error('The naming plan contains a collision.');
@@ -59,6 +61,11 @@ $('matrix-form').addEventListener('submit',e=>{
  e.preventDefault();setError('form-error','');setError('compare-error','');
  try{plan=generate();hasPlan=true;hasComparison=false;comparison=[];renderPlan();}
  catch(err){resetPlan('Correct the naming matrix and generate again.');setError('form-error',err.message);}
+});
+$('load-example-90').addEventListener('click',()=>{
+ const example={prefix:'film',master:'hero',language:'en,es,fr',ratio:'16x9,1x1,9x16',duration:'master,60s,30s,15s,6s',caption:'clean,burned',variant:'final',layout:'nested',extension:'mp4'};
+ for(const [id,value] of Object.entries(example))$(id).value=value;
+ $('matrix-form').requestSubmit();
 });
 for(const id of fields){$(id).addEventListener(id==='layout'||id==='extension'?'change':'input',()=>{
  if(hasPlan){resetPlan('The naming settings changed. Generate a new manifest before comparing.');}
