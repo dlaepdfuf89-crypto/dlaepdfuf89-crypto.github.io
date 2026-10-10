@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Batch Video Deliverables Matrix & Folder Inventory | DeliveryProof</title>
+<meta name="description" content="Plan 20, 100 or 180 video deliverables across languages, aspect ratios, durations and versions. Generate a manifest and check actual files for missing or unexpected paths locally in your browser. Free, no upload.">
+<meta name="robots" content="index,follow"><link rel="canonical" href="https://dlaepdfuf89-crypto.github.io/deliveryproof/batch-deliverables-matrix.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Free batch video deliverables checklist · DeliveryProof">
+<meta property="og:description" content="Generate your delivery matrix, select an export folder, catch missing and extra files. Filename inventory only; no client media upload.">
+<meta property="og:url" content="https://dlaepdfuf89-crypto.github.io/deliveryproof/batch-deliverables-matrix.html">
+<link rel="stylesheet" href="/deliveryproof/batch-deliverables-matrix.css">
+<script src="/deliveryproof/batch-deliverables-matrix.js" defer></script></head>
+<body><a class="skip" href="#builder">Skip to manifest builder</a>
+<header class="sitebar"><div class="shell sitebar-inner"><a class="brand" href="/deliveryproof/">DeliveryProof<span> / free toolkit</span></a><nav aria-label="Helpful links"><a href="/deliveryproof/video-delivery-checklist.html">Handoff checklist</a><a href="/deliveryproof/free-video-folder-compare.html">SHA-256 compare</a><a href="/deliveryproof/ko.html" lang="ko">한국어</a></nav></div></header>
+<main class="shell">
+<section class="hero"><div class="eyebrow"><span class="dot"></span> FREE · LOCAL-ONLY · NO ACCOUNT</div>
+<h1>180 exports.<br><em>One clear handoff.</em></h1>
+<p class="intro">A campaign with many aspect ratios, languages, runtimes and clean/captioned versions becomes a naming and inventory problem. Build a consistent list of expected files, then check a selected final folder for missing or unexpected paths — without uploading the files.</p>
+<div class="hero-steps" aria-label="How this works"><span><strong>01</strong> Define variants</span><span><strong>02</strong> Generate the manifest</span><span><strong>03</strong> Check a local folder</span></div></section>
+<section id="builder" class="panel" aria-labelledby="build-title"><div class="section-head"><div><p class="step">STEP 01 / EXPECTATIONS</p><h2 id="build-title">Describe the delivery matrix</h2></div><div class="hint">All naming conventions here are examples. Agree them with your client first.</div></div>
+<form id="matrix-form" novalidate>
+<div class="fields">
+<div class="field"><label for="prefix">Project code</label><input id="prefix" autocomplete="off" spellcheck="false" value="campaign" maxlength="40" required><small>ASCII letters, numbers, hyphens, underscores; no spaces</small></div>
+<div class="field"><label for="language">Languages <span>comma-separated</span></label><input id="language" autocomplete="off" spellcheck="false" value="en, ko, ja" required><small>Examples: en, ko, fr-ca</small></div>
+<div class="field"><label for="ratio">Aspect ratios</label><input id="ratio" autocomplete="off" spellcheck="false" value="16x9, 9x16, 1x1" required><small>Examples: 16x9, 9x16, 1x1</small></div>
+<div class="field"><label for="duration">Runtimes</label><input id="duration" autocomplete="off" spellcheck="false" value="15s, 30s" required><small>Examples: 6s, 15s, 30s</small></div>
+<div class="field"><label for="variant">Versions</label><input id="variant" autocomplete="off" spellcheck="false" value="master, clean" required><small>Examples: master, captioned, clean</small></div>
+<div class="field"><label for="layout">Folder structure</label><select id="layout"><option value="nested">Language / ratio / filename</option><option value="flat">All videos in one folder</option></select></div>
+<div class="field"><label for="extension">Export extension</label><select id="extension"><option value="mp4">.mp4</option><option value="mov">.mov</option><option value="mxf">.mxf</option></select></div>
+</div>
+<div class="form-actions"><button class="primary" type="submit">Generate expected files <span aria-hidden="true">↗</span></button><span id="form-error" class="error" role="alert" aria-live="polite"></span></div>
+</form></section>
+<section class="panel" aria-labelledby="verify-title"><div class="section-head"><div><p class="step">STEP 02 / LOCAL INVENTORY</p><h2 id="verify-title">Compare a delivery folder</h2></div></div>
+<p class="subtext">Optional: after generating, select your <strong>final delivery folder</strong>. The browser reads file names and relative paths only. It does not read the video bytes or upload files. Auxiliary non-video files are counted separately.</p>
+<div class="upload-zone"><label for="folder">Choose final delivery folder</label><input type="file" id="folder" webkitdirectory directory multiple aria-describedby="folder-note"><p id="folder-note">Chrome / Edge desktop support folder selection. Select a folder containing final MP4, MOV, MXF or M4V exports.</p><div class="folder-state" id="folder-state" aria-live="polite">No folder selected — no comparison performed</div></div>
+<div class="form-actions"><button class="secondary" type="button" id="compare" disabled>Compare expected vs final folder</button><span id="compare-error" class="error" role="alert" aria-live="polite"></span></div>
+</section>
+<section class="panel results" aria-labelledby="results-title"><div class="section-head"><div><p class="step">STEP 03 / REVIEW</p><h2 id="results-title">Handoff inventory report</h2></div><div class="result-state" id="state" role="status" aria-live="polite">NOT MEASURED</div></div>
+<div class="stats"><div class="stat"><span>Expected exports</span><strong id="expected">0</strong></div><div class="stat"><span>Paths present</span><strong id="present">—</strong></div><div class="stat"><span>Missing</span><strong id="missing">—</strong></div><div class="stat"><span>Unexpected</span><strong id="extra">—</strong></div></div>
+<p class="subtext" id="report-note">Generate your naming plan first. A generated manifest is a plan, not a verification.</p>
+<div class="form-actions"><button id="download-planned" class="secondary" type="button" disabled>Download expected manifest CSV</button><button id="download-results" class="secondary" type="button" disabled>Download comparison CSV</button></div>
+<div class="table-scroller"><table><thead><tr><th>Relative delivery path</th><th>Status</th></tr></thead><tbody id="report-body"><tr><td colspan="2" class="empty">No expected files yet.</td></tr></tbody></table></div><p class="small" id="table-hint"></p>
+</section>
+<section class="next"><p class="step">NEXT / CHECK THE ACTUAL BYTES</p><h2>Matching filenames are not proof the video is right.</h2><p>A path-only match can still contain a wrong cut or silently changed export. For technical file checks against <strong>separately human-approved files</strong>, use a local SHA-256 folder comparison or the Windows evaluation. Neither method judges creative quality, caption wording or contractual sign-off.</p><div class="link-grid"><a href="/deliveryproof/free-video-folder-compare.html"><strong>Free browser SHA-256 comparison</strong><span>Compare approved vs final folders; files over 100 MiB are explicitly unverified.</span></a><a href="https://4085873036611.gumroad.com/l/deliveryproof-free-evaluation?utm_source=deliveryproof_site&utm_medium=matrix_tool&utm_campaign=free_eval"><strong>Five-delivery Windows evaluation</strong><span>Selected technical metadata and PASS-gated ZIP. Unsigned executable; Windows 10 x64 tested.</span></a><a href="/deliveryproof/technical-review.html"><strong>Technical &amp; security disclosure</strong><span>See packaging, limitations, dependencies and seller-hosted release hashes.</span></a></div></section>
+</main><footer><div class="shell"><strong>DeliveryProof</strong> · Private inventory tool · No uploads, storage, tracking or accounts. <a href="/deliveryproof/">Product home</a> · <a href="/deliveryproof/ko.html" lang="ko">한국어</a><p>Folder comparison checks file names and paths only, not content, approval, media specs or completeness against an independently approved manifest. A planned file missing from the final folder is not necessarily a delivery error unless the naming plan is agreed.</p></div></footer>
+</body></html>
