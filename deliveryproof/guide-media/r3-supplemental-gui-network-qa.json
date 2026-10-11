@@ -1,0 +1,57 @@
+{
+  "title": "Supplemental DeliveryProof Free R3 developer QA — Tk user workflow and limited TCP/UDP observations",
+  "date": "2026-10-11",
+  "source_artifact_sha256": "C971EDBB38CEF0F348378E14B725A7D39BC2094313CDD48043338128FE43010B",
+  "product_version": "0.13.0-dev",
+  "status": "PASS_WITH_SCOPE_LIMITATIONS",
+  "frozen_windows_exe_full_GUI_end_to_end_completed": false,
+  "tk_gui_workflow": {
+    "status": "PASS",
+    "checks": 17,
+    "check_names": [
+      "real_tk_window_and_version",
+      "gui_mediainfo_resolves",
+      "trial_quota_starts_at_five",
+      "gui_capture_created_four_file_manifest",
+      "gui_auto_selected_manifest",
+      "gui_capture_dialog_success",
+      "gui_pass_creates_exactly_one_result_folder",
+      "gui_pass_and_zip_real",
+      "gui_successful_package_counts_once",
+      "gui_fail_creates_second_report",
+      "gui_fail_report_and_blocked_zip",
+      "gui_fail_does_not_consume_trial",
+      "gui_pass_fail_notifications",
+      "gui_no_exception_dialogs",
+      "original_free_R3_zip_untouched",
+      "mainloop_completed_all_stages",
+      "no_tk_background_thread_errors"
+    ],
+    "details": "Actual R3 Tk GUI mainloop and its worker callbacks with original R3 synthetic videos and bundled MediaInfo, but launched from source modules rather than the bundled frozen executable.",
+    "pass": "Capture approved baseline, create matching PASS ZIP, decrement isolated trial counter once",
+    "fail": "Find mismatching final files, show FAIL and block ZIP without reducing trial count",
+    "actual_user_quota_modified": false
+  },
+  "process_network_idle_observation": {
+    "status": "COMPLETED",
+    "snapshots": 20,
+    "tcp_udp_sockets_observed_during_sample": 0,
+    "environment": "Developer-operated Windows 10 x64",
+    "technique": "Windows netstat -ano TCP/UDP snapshots filtered to the app's own top-level process PID during startup and idle",
+    "limitations": [
+      "Only this target GUI PID was monitored, not every native-library call or descendants.",
+      "Snapshots may miss very short-lived connections.",
+      "No synthetic-video verification run was performed during this idle observation.",
+      "This is not an independent assurance of zero network traffic or telemetry."
+    ]
+  },
+  "limitations": [
+    "Developer-operated synthetic assessment, not independent customer QA or security certification",
+    "The GUI source workflow is not the same as an end-to-end mouse-driven test of the frozen EXE",
+    "The idle-only process-PID socket snapshots may miss short-lived connections and do not cover descendants, native-library behavior under other workloads, DNS activity, or full packet capture",
+    "The local release file hash has not been independently verified against a buyer-hosted Gumroad download",
+    "No Windows 11, managed-endpoint or Authenticode validation was performed in this supplemental test."
+  ],
+  "client_approved_evaluation": false,
+  "paid_revenue_verified": false
+}
