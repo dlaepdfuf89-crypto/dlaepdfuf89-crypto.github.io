@@ -180,6 +180,7 @@ demoButton.addEventListener("click",async ()=>{
   status.textContent="SYNTHETIC EXAMPLE — NOT REAL FILE QC";status.className="status warn";
   detail.textContent="Browser-generated example bytes: 1 matching path, 1 changed, 1 missing and 1 unexpected. These are not playable videos or customer files. No folders were selected, no uploads occurred, and this is NOT a real delivery verification.";
   progress.textContent="Synthetic example finished. Select both of your own folders to run a real comparison.";
+  if(new URLSearchParams(location.search).get("demo")==="1") result.scrollIntoView({behavior:"smooth",block:"start"});
  }catch(e){
   result.hidden=false;status.textContent="SYNTHETIC EXAMPLE ERROR — NO PASS";status.className="status fail";
   detail.textContent=String(e.message||e);progress.textContent="Example failed; no customer files were accessed.";
