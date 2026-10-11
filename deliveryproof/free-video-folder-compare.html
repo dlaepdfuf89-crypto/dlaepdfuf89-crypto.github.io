@@ -188,6 +188,7 @@ demoButton.addEventListener("click",async ()=>{
  }
 });
 
+if(new URLSearchParams(location.search).get("demo")==="1")window.addEventListener("load",()=>demoButton.click(),{once:true});
 window.__DeliveryProofFolderCompareTest={compareFolderFiles,escapeRelative,LIMIT};
 reset();
 })();
