@@ -32,7 +32,7 @@ section{margin:35px 0}footer{border-top:1px solid var(--line);color:var(--muted)
 <section aria-label="Select local folders"><div class="grid">
 <div class="panel"><h2>1. Approved exports</h2><p class="hint">Use a folder of video files that a person already approved.</p><label for="approved">Select approved folder</label><input type="file" id="approved" webkitdirectory directory multiple aria-describedby="approved-count"><div id="approved-count" class="counts" aria-live="polite">No folder selected</div></div>
 <div class="panel"><h2>2. Final delivery folder</h2><p class="hint">Choose the folder you are about to hand off.</p><label for="final">Select final folder</label><input type="file" id="final" webkitdirectory directory multiple aria-describedby="final-count"><div id="final-count" class="counts" aria-live="polite">No folder selected</div></div>
-</div><div class="controls"><button type="button" class="btn" id="run" disabled>Compare folders</button><button type="button" id="download" class="btn alt" disabled>Download CSV report</button><span id="progress" class="counts" role="status" aria-live="polite">Select both folders to begin.</span></div>
+</div><div class="controls"><button type="button" class="btn" id="run" disabled>Compare folders</button><button type="button" class="btn alt" id="demo">Run synthetic example — no files needed</button><button type="button" id="download" class="btn alt" disabled>Download CSV report</button><span id="progress" class="counts" role="status" aria-live="polite">Select both folders to begin.</span></div>
 <div id="result" class="result" hidden><div id="result-status" class="status"></div><p id="result-detail"></p></div>
 <div class="tablewrap"><table id="results-table" hidden><thead><tr><th>Relative path</th><th>Result</th><th>Reason / what was tested</th></tr></thead><tbody id="rows"></tbody></table></div></section>
 <section><h2>How to interpret your comparison</h2><div class="grid"><div class="panel"><h3 class="ok">MATCHED (limited)</h3><p>Both folders contain the same paths, every item was no larger than 100 MiB, and SHA-256 hashes of all corresponding bytes matched. This does not mean a human approved the files.</p></div>
@@ -142,6 +142,52 @@ download.addEventListener("click",()=>{
  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob);
  const a=document.createElement("a");a.href=url;a.download="deliveryproof-local-folder-comparison.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);
 });
+// Browser-generated sample bytes: no customer files read, uploaded, or requested.
+const demoButton=document.getElementById("demo");
+demoButton.addEventListener("click",async ()=>{
+ if(busy)return;
+ busy=true;demoButton.disabled=true;run.disabled=true;download.disabled=true;
+ result.hidden=true;table.hidden=true;progress.textContent="Running synthetic example (no local files)…";
+ const fixture=(folder,name,bytes)=>{
+  const file=new File([new TextEncoder().encode(bytes)],name,{type:"video/mp4"});
+  Object.defineProperty(file,"webkitRelativePath",{value:folder+"/"+name,configurable:true});
+  return file;
+ };
+ const approvedFixtures=[
+  fixture("ApprovedDemo","campaign/vertical_clean.mp4","SYNTHETIC DEMO A: approved"),
+  fixture("ApprovedDemo","campaign/square_clean.mp4","SYNTHETIC DEMO B: approved"),
+  fixture("ApprovedDemo","campaign/cutdown_15s.mp4","SYNTHETIC DEMO C: approved")
+ ];
+ const finalFiles=[
+  fixture("FinalDemo","campaign/vertical_clean.mp4","SYNTHETIC DEMO A: approved"),
+  fixture("FinalDemo","campaign/square_clean.mp4","SYNTHETIC DEMO B: altered!"),
+  fixture("FinalDemo","campaign/preview_unapproved.mp4","SYNTHETIC DEMO D: extra")
+ ];
+ try{
+  const data=await compareFolderFiles(approvedFixtures,finalFiles);
+  reportRows=[];
+  tbody.replaceChildren();
+  for(const entry of data.rows){
+   const tr=document.createElement("tr");
+   for(const [i,v] of [entry.path,entry.state,"SYNTHETIC EXAMPLE ONLY — "+entry.why].entries()){
+    const td=document.createElement("td");td.textContent=v;
+    if(i===1)td.className=entry.state==="HASH MATCH"?"ok":"fail";
+    tr.appendChild(td);
+   }
+   tbody.appendChild(tr);
+  }
+  table.hidden=false;result.hidden=false;
+  status.textContent="SYNTHETIC EXAMPLE — NOT REAL FILE QC";status.className="status warn";
+  detail.textContent="Browser-generated example bytes: 1 matching path, 1 changed, 1 missing and 1 unexpected. These are not playable videos or customer files. No folders were selected, no uploads occurred, and this is NOT a real delivery verification.";
+  progress.textContent="Synthetic example finished. Select both of your own folders to run a real comparison.";
+ }catch(e){
+  result.hidden=false;status.textContent="SYNTHETIC EXAMPLE ERROR — NO PASS";status.className="status fail";
+  detail.textContent=String(e.message||e);progress.textContent="Example failed; no customer files were accessed.";
+ }finally{
+  busy=false;demoButton.disabled=false;run.disabled=!approved.files.length||!final.files.length;
+ }
+});
+
 window.__DeliveryProofFolderCompareTest={compareFolderFiles,escapeRelative,LIMIT};
 reset();
 })();
