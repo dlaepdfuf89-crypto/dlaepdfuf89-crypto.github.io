@@ -8,8 +8,9 @@ function calculate(){
   for(let i=1;i<=3;i++){
     const old=minutes('old'+i),next=minutes('new'+i),base=minutes('base'+i),reuse=minutes('reuse'+i);
     const invalid=[old,next,base,reuse].some(x=>x!==null&&!Number.isFinite(x));
-    if(invalid||base!==null&&next!==null&&base>next||reuse!==null&&next!==null&&reuse>next)error='Check invalid or inconsistent minutes in job '+i+'.';
-    const saved=old!==null&&next!==null&&!invalid?old-next:null;
+    const inconsistent=base!==null&&next!==null&&base>next||reuse!==null&&next!==null&&reuse>next;
+    if(invalid||inconsistent)error='Check invalid or inconsistent minutes in job '+i+'.';
+    const saved=old!==null&&next!==null&&!invalid&&!inconsistent?old-next:null;
     if(saved!==null){count++;sum+=saved;}
     el('net'+i).textContent=saved===null?'Not measured':fmt(saved)+' min';
     rows.push([i,old,next,base,reuse,saved,saved===null?'INCOMPLETE':'RECORDED']);
@@ -18,9 +19,10 @@ function calculate(){
   const average=count?sum/count:null;
   el('count').textContent=count+' / 3';el('total').textContent=average===null?'—':fmt(sum)+' min';
   el('average').textContent=average===null?'—':fmt(average)+' min';
-  el('status').textContent=error||(!count?'No measured jobs yet.':count===3?'All 3 paired tasks entered. Confirm the jobs are comparable.':count+' measured task(s), not yet a three-task sample.');
+  el('status').textContent=error||(!count?'No measured jobs yet.':count===3?'All 3 paired tasks entered. Confirm the jobs are comparable; financial estimates remain self-reported.':count+' measured task(s); complete all 3 before projecting payback or monthly value.');
   const vol=minutes('volume'),hour=minutes('hourly'),curr=el('currency').value;
-  const canProject=!error&&average!==null&&vol!==null&&Number.isInteger(vol)&&vol>0;
+  // Estimates need three comparable, valid pairs; a single convenient example must not be projected as ROI.
+  const canProject=!error&&count===3&&average!==null&&vol!==null&&Number.isInteger(vol)&&vol>0;
   el('monthly').textContent=canProject?fmt(average*vol)+' min':'—';
   const validCash=canProject&&hour!==null&&Number.isFinite(hour);
   el('money').textContent=validCash?new Intl.NumberFormat(curr==='KRW'?'ko-KR':'en-US',{style:'currency',currency:curr,maximumFractionDigits:curr==='KRW'?0:2}).format(average*vol*hour/60):'—';
