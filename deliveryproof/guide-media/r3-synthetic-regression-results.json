@@ -1,0 +1,63 @@
+{
+  "title": "DeliveryProof Free Evaluation R3 — developer-executed synthetic regression",
+  "date": "2026-10-11",
+  "product_version": "0.13.0-dev",
+  "exact_local_zip_filename": "DeliveryProof_FREE_EVALUATION_5_PACKAGES_20261010_R3.zip",
+  "publisher_local_zip_sha256": "C971EDBB38CEF0F348378E14B725A7D39BC2094313CDD48043338128FE43010B",
+  "status": "PASS",
+  "checks_total": 28,
+  "engine_video_regression": {
+    "checks": 16,
+    "passed": 16,
+    "case_names": [
+      "R3_bundled_MediaInfo_exists",
+      "baseline_four_samples",
+      "baseline_all_sha256",
+      "R3_PASS_status_and_package",
+      "R3_PASS_all_four_matched",
+      "R3_PASS_real_delivery_zip",
+      "R3_PASS_four_videos",
+      "R3_PASS_manifest_and_reports",
+      "R3_PASS_video_hash_en/landscape_15s.mp4",
+      "R3_PASS_video_hash_en/portrait_15s.mp4",
+      "R3_PASS_video_hash_ko/landscape_15s.mp4",
+      "R3_PASS_video_hash_ko/portrait_15s.mp4",
+      "R3_FAIL_status_and_zip_block",
+      "R3_FAIL_report_contains_specific_issues",
+      "R3_reports_html_exists",
+      "Original_R3_archive_unchanged"
+    ],
+    "inputs": "Four synthetic sample videos in original R3 ZIP, checked using R3 source engine and bundled MediaInfo native CLI",
+    "pass_criteria": "Approved paths, SHA-256 and metadata PASS; delivery ZIP created and hashes matched",
+    "fail_criteria": "Changed, missing or unapproved file identified and delivery ZIP blocked"
+  },
+  "evaluation_gate_regression": {
+    "checks": 12,
+    "passed": 12,
+    "case_names": [
+      "fresh_trial_has_five",
+      "no_change_before_successful_package",
+      "successful_package_1",
+      "successful_package_2",
+      "successful_package_3",
+      "successful_package_4",
+      "successful_package_5",
+      "sixth_package_blocked",
+      "sixth_rejected_with_purchase_guidance",
+      "corrupt_state_fails_closed",
+      "invalid_schema_fails_closed",
+      "real_user_quota_untouched"
+    ],
+    "conditions": "Fresh quota five; successful packages decrement to zero; sixth rejected; corrupt state fails closed",
+    "data_scope": "Disposable isolated evaluation state; no real user trial history modified"
+  },
+  "limitations": [
+    "Developer-run synthetic cases, not independent customer validation or real footage",
+    "Run with local R3 Python source modules and genuine R3-bundled MediaInfo; not full frozen graphical EXE end-to-end validation",
+    "Publisher local ZIP hash has not been independently compared with the download served from Gumroad",
+    "Does not independently certify third-party library network behavior, Windows 11, managed endpoints or code signing"
+  ],
+  "paid_release_live_verified": false,
+  "customers_tested": 0,
+  "sales_from_this_test_verified": 0
+}
