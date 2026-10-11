@@ -134,7 +134,7 @@ run.addEventListener("click",async ()=>{
  }catch(e){result.hidden=false;status.textContent="ERROR — no PASS";status.className="status fail";detail.textContent=String(e.message||e);progress.textContent="Comparison could not complete."; }
  finally{busy=false;run.disabled=!approved.files.length||!final.files.length;}
 });
-function csvSafe(v){let s=String(v??"");if(/^[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+function csvSafe(v){let s=String(v??"");if(/^[\s\uFEFF]*[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
 download.addEventListener("click",()=>{
  if(!reportRows.length)return;
  const lines=[["Relative path","Result","Reason"]].concat(reportRows.map(x=>[x.path,x.state,x.why]));
