@@ -24,11 +24,24 @@
       html+=dec.decode(bytes,{stream:true});
     }
     html+=dec.decode();
-    document.open();
-    document.write(html);
-    document.close();
+    const doc=new DOMParser().parseFromString(html,"text/html");
+    document.title=doc.title||"60초만 버텨봐 | Survive 60";
+    document.body.innerHTML=doc.body.innerHTML;
+    document.head.querySelectorAll("style[data-game]").forEach(x=>x.remove());
+    for(const st of doc.querySelectorAll("style")){
+      const n=document.createElement("style");
+      n.dataset.game="1";
+      n.textContent=st.textContent;
+      document.head.appendChild(n);
+    }
+    const src=doc.querySelector("script[type=module]")?.textContent||"";
+    if(!src) throw new Error("game module missing");
+    const s=document.createElement("script");
+    s.type="module";
+    s.textContent=src;
+    document.body.appendChild(s);
   }catch(e){
-    document.getElementById("boot").textContent="로딩 실패: "+e.message;
+    document.body.innerHTML='<div id="boot">로딩 실패: '+String(e.message||e)+'</div>';
     console.error(e);
   }
 })();
