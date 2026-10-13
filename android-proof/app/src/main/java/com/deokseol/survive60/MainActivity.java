@@ -55,6 +55,16 @@ public final class MainActivity extends Activity {
             }
             @Override public void onPageFinished(WebView view, String url) {
                 if (url.startsWith(ASSET_ORIGIN)) status.setVisibility(View.GONE);
+
+                if (url.startsWith(ASSET_ORIGIN) && (getApplicationInfo().flags & android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE)!=0) {
+                    // Debug only: exercise the real on-screen start button; release never autoplays.
+                    view.postDelayed(() -> view.evaluateJavascript(
+                        "(function(){var b=document.querySelector('.startBtn');if(!b)return 'START_BUTTON_MISSING';b.click();return 'START_CLICKED'})()",
+                        value -> android.util.Log.i("S60QA", "AUTO_START "+value)), 5500);
+                    view.postDelayed(() -> view.evaluateJavascript(
+                        "(function(){var h=document.querySelector('.hud strong');return JSON.stringify({running:!!document.querySelector('.shell.playing'),time:h?h.textContent:'none',enemies:document.querySelectorAll('.enemy').length})})()",
+                        value -> android.util.Log.i("S60QA", "GAME_STATE_20S "+value)), 20000);
+                }
             }
         });
         root.addView(game, new FrameLayout.LayoutParams(-1, -1));

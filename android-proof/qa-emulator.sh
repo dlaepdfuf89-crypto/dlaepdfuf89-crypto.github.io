@@ -43,13 +43,19 @@ adb shell dumpsys activity activities > android-proof/emu_activity.txt || true
 timeout 25 adb shell uiautomator dump /sdcard/s60-ui.xml || true
 adb pull /sdcard/s60-ui.xml android-proof/emu_window.xml || true
 adb logcat -d -b crash > android-proof/emu_crash.log || true
-adb logcat -d -v brief | grep -Ei 'chromium|WebView|javascript|console|ANR|Quickstep' | tail -n 250 > android-proof/emu_webview.log || true
+adb logcat -d -v brief | grep -Ei 'S60QA|chromium|WebView|javascript|console|ANR|Quickstep' | tail -n 250 > android-proof/emu_webview.log || true
 
 if grep -q "Quickstep isn't responding" android-proof/emu_window.xml; then
   echo 'EMULATOR_SYSTEM_QUICKSTEP_ANR'; exit 1
 fi
 if grep -q 'FATAL EXCEPTION.*com.deokseol.survive60\|Process: com.deokseol.survive60' android-proof/emu_crash.log; then
   echo 'APP_CRASH_DETECTED'; exit 1
+fi
+if ! grep -q 'S60QA.*AUTO_START.*START_CLICKED' android-proof/emu_webview.log; then
+  echo 'GAME_START_CLICK_NOT_CONFIRMED'; exit 1
+fi
+if ! grep -q 'S60QA.*GAME_STATE_20S.*running' android-proof/emu_webview.log; then
+  echo 'GAMEPLAY_STATE_NOT_OBSERVED'; exit 1
 fi
 if ! grep -q 'com.deokseol.survive60' android-proof/emu_activity.txt; then
   echo 'APP_NOT_IN_ACTIVITY_DUMP'; exit 1
