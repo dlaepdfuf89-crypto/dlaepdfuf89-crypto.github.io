@@ -9,7 +9,7 @@ const require=createRequire(import.meta.url);
 const ts=require(process.env.S60_TYPESCRIPT_PATH || 'typescript');
 const root=path.join(import.meta.dirname,'app','src','main','assets','chunks');
 const sourceSha='6e058da40ddae14f0fed0abfdef871925badf898e3e14f5f6c3a8b52fd7596fb';
-const targetSha='4f62ab0072bacb047cbfba9e587664801796073bbbfe874e0265ddc6e30aeffe';
+const targetSha='1df93932ba1379c55eb4d04f27cf82a04dd72b4a963c9e3e8512b4c3e3502421';
 const digest=b=>crypto.createHash('sha256').update(b).digest('hex');
 const parts=[];
 for(let i=0;i<11;i++){
@@ -26,7 +26,7 @@ const input=match[1];
 const res=ts.transpileModule(input,{fileName:'android_bundle.js',reportDiagnostics:true,compilerOptions:{target:ts.ScriptTarget.ES2017,module:ts.ModuleKind.ESNext,allowJs:true,removeComments:false,newLine:ts.NewLineKind.LineFeed}});
 const errors=(res.diagnostics||[]).filter(x=>x.category===ts.DiagnosticCategory.Error);
 if(errors.length)throw Error('Legacy compile errors: '+errors.slice(0,3).map(x=>ts.flattenDiagnosticMessageText(x.messageText,' ')).join(' | '));
-const changed=html.slice(0,match.index)+match[0].replace(input,res.outputText)+html.slice(match.index+match[0].length);
+const changed=html.slice(0,match.index)+match[0].replace(input, () => res.outputText)+html.slice(match.index+match[0].length);
 const bytes=Buffer.from(changed,'utf8');
 if(digest(bytes)!==targetSha)throw Error('Android transpilation hash drift: '+digest(bytes));
 if((res.outputText.match(/\?\./g)||[]).length)throw Error('Optional chaining not fully transpiled');
