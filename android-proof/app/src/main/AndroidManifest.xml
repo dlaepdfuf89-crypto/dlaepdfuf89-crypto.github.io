@@ -4,6 +4,7 @@
         android:allowBackup="false"
         android:usesCleartextTraffic="false"
         android:label="60초만 버텨봐"
+        android:icon="@drawable/oneplay_icon"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
         <activity
             android:name=".MainActivity"
