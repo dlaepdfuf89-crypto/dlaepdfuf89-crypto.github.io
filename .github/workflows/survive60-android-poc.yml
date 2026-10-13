@@ -48,3 +48,10 @@ jobs:
           path: android-proof/app/build/outputs/apk/release/app-release-unsigned.apk
           retention-days: 7
           if-no-files-found: error
+      - name: Save Android 35 signing utility for offline release QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android35-APKSigner-QA-Utility
+          path: /usr/local/lib/android/sdk/build-tools/35.0.0/lib/apksigner.jar
+          retention-days: 1
+          if-no-files-found: error
