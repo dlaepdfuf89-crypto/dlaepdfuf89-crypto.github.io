@@ -79,33 +79,7 @@ jobs:
           disable-animations: false
           emulator-boot-timeout: 500
           emulator-options: -no-window -no-snapshot -noaudio -no-boot-anim -gpu swiftshader_indirect -camera-back none -camera-front none
-          script: |
-            # Wait until PackageManager responds; boot_completed alone is not sufficient on a slow hosted emulator.
-            adb wait-for-device
-            for i in $(seq 1 30); do
-              if adb shell pm path android >/dev/null 2>&1; then break; fi
-              sleep 5
-            done
-            installed=0
-            for i in 1 2 3; do
-              if adb install --no-streaming -r /tmp/s60apk/app-debug.apk; then installed=1; break; fi
-              echo "Emulator package install attempt $i failed; retrying after ADB reconnect"
-              adb reconnect || true
-              sleep 12
-            done
-            if [ "$installed" != "1" ]; then echo 'EMULATOR_INSTALL_FAILED'; exit 1; fi
-            adb shell svc wifi disable || true
-            adb shell svc data disable || true
-            adb shell am start -n com.deokseol.survive60/.MainActivity
-            sleep 16
-            adb shell dumpsys activity activities | grep -m 2 'com.deokseol.survive60' || true
-            adb shell screencap -p /sdcard/s60-game.png
-            adb pull /sdcard/s60-game.png android-proof/emu_game.png
-            adb shell uiautomator dump /sdcard/s60-ui.xml || true
-            adb pull /sdcard/s60-ui.xml android-proof/emu_window.xml || true
-            adb logcat -d -b crash > android-proof/emu_crash.log
-            if grep -q 'com.deokseol.survive60' android-proof/emu_crash.log; then echo 'APP CRASHED'; exit 1; fi
-            echo 'EMULATOR_NO_FATAL_CRASH_PASS'
+          script: bash android-proof/qa-emulator.sh
       - name: Save screenshot and crash report for independent QA
         if: always()
         uses: actions/upload-artifact@v4
@@ -115,5 +89,6 @@ jobs:
             android-proof/emu_game.png
             android-proof/emu_window.xml
             android-proof/emu_crash.log
+            android-proof/emu_activity.txt
           if-no-files-found: warn
           retention-days: 7
