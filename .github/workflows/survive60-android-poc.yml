@@ -67,6 +67,15 @@ jobs:
         with:
           name: Survive60-Android-DEBUG-NOT-FOR-STORE
           path: /tmp/s60apk
+      - name: Enable KVM acceleration when supported
+        shell: bash
+        run: |
+          if [ -e /dev/kvm ]; then
+            sudo chmod 0666 /dev/kvm
+            echo "KVM_ENABLED=$(ls -l /dev/kvm)"
+          else
+            echo '::warning::No /dev/kvm on this runner; emulator may be unaccelerated.'
+          fi
       - name: Run game inside offline Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
