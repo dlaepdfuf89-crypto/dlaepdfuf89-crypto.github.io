@@ -101,8 +101,16 @@ public final class MainActivity extends Activity {
                 html.write(decoded, 0, decoded.length);
             }
             // Synthetic secure origin supports game localStorage, without remote requests.
+            // Chrome 66 Android System WebView ignores CSS inset:0; keep all overlays full-screen.
+            // This is a layout-only fallback, never a change to rewards, billing or original bundle.
+            String gameHtml = new String(html.toByteArray(), StandardCharsets.UTF_8);
+            String cssFallback = "<style id='s60-android-webview-layout-fallback'>"
+                    + ".overlay{top:0;right:0;bottom:0;left:0;width:100%;height:100%}"
+                    + ".spaceBackdrop,.grid,.arena:before,.arena:after,.menuHero:before{top:0;right:0;bottom:0;left:0}"
+                    + "</style>";
+            if (!gameHtml.contains("</head>")) throw new IllegalStateException("Game head missing");
             game.loadDataWithBaseURL(ASSET_ORIGIN,
-                    new String(html.toByteArray(), StandardCharsets.UTF_8),
+                    gameHtml.replace("</head>", cssFallback + "</head>"),
                     "text/html", "UTF-8", null);
         } catch (Exception error) {
             status.setText("게임 데이터 오류가 발생했습니다. 앱을 다시 실행해 주세요.");
