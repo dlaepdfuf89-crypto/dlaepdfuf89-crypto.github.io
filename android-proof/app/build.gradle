@@ -10,6 +10,8 @@ android {
         targetSdk 35
         versionCode 1
         versionName '1.0.0'
+        resValue 'string', 'oneadmax_app_key', String(project.findProperty('oneAdMaxAppKey') ?: 'UNCONFIGURED')
+        resValue 'string', 'oneadmax_reward_placement', String(project.findProperty('oneAdMaxRewardPlacement') ?: 'UNCONFIGURED')
     }
     buildTypes {
         release {
@@ -21,3 +23,6 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
+
+// ONE AdMax Android SDK. Actual requests are OFF unless official keys exist.
+dependencies { implementation 'com.oneadmax.sdk:sdk-ads:1.2.5' }

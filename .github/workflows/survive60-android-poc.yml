@@ -1,7 +1,7 @@
 name: Survive 60 Android — free debug and unsigned release
 on:
   push:
-    branches: ['stage/survive60-android-poc-20261013']
+    branches: ['stage/survive60-android-poc-20261013', 'stage/survive60-onestore-admax-20261013']
     paths:
       - 'android-proof/**'
       - '.github/workflows/survive60-android-poc.yml'
@@ -57,6 +57,7 @@ jobs:
           if-no-files-found: error
 
   emulator-offline-smoke:
+    if: github.ref_name == 'stage/survive60-android-poc-20261013'
     name: Offline actual Android emulator smoke
     needs: build-debug-apk
     runs-on: ubuntu-latest

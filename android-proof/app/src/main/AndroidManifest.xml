@@ -1,10 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <queries>
+        <intent><action android:name="com.onestore.iaa.intent.action.REWARD" /></intent>
+    </queries>
     <application
         android:allowBackup="false"
         android:usesCleartextTraffic="false"
         android:label="60초만 버텨봐"
         android:icon="@drawable/oneplay_icon"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <meta-data android:name="com.oneadmax.global.appkey" android:value="@string/oneadmax_app_key" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

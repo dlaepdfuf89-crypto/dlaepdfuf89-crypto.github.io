@@ -27,6 +27,7 @@ public final class MainActivity extends Activity {
     private static final int PART_COUNT = 11;
     private static final int BACKGROUND = Color.rgb(7, 19, 33);
     private WebView game;
+    private Survive60AdMaxRewardBridge adManager;
     private TextView status;
 
     @Override public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,15 @@ public final class MainActivity extends Activity {
         status.setPadding(28, 28, 28, 28);
         root.addView(status, new FrameLayout.LayoutParams(-1, -1));
         setContentView(root);
+        // No ad requests without a real approved media key + placement ID.
+        adManager = new Survive60AdMaxRewardBridge(this, rewardSlot -> {
+            if (game != null) {
+                // Java emits a verified completion signal only. The game must
+                // explicitly map it to one-time rewards in a later audited build.
+                game.evaluateJavascript("window.dispatchEvent(new CustomEvent('s60-native-reward',{detail:{slot:'" + rewardSlot + "'}}))", null);
+            }
+        });
+        adManager.initializeIfConfigured();
         startBundledGame();
     }
 
@@ -101,14 +111,17 @@ public final class MainActivity extends Activity {
     }
 
     @Override protected void onPause() {
+        if (adManager != null) adManager.onPause();
         if (game != null) game.onPause();
         super.onPause();
     }
     @Override protected void onResume() {
         super.onResume();
+        if (adManager != null) adManager.onResume();
         if (game != null) game.onResume();
     }
     @Override protected void onDestroy() {
+        if (adManager != null) { adManager.destroy(); adManager = null; }
         if (game != null) {
             game.stopLoading();
             game.destroy();
