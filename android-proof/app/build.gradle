@@ -10,8 +10,8 @@ android {
         targetSdk 35
         versionCode 1
         versionName '1.0.0'
-        resValue 'string', 'oneadmax_app_key', String(project.findProperty('oneAdMaxAppKey') ?: 'UNCONFIGURED')
-        resValue 'string', 'oneadmax_reward_placement', String(project.findProperty('oneAdMaxRewardPlacement') ?: 'UNCONFIGURED')
+        resValue 'string', 'oneadmax_app_key', (project.findProperty('oneAdMaxAppKey') ?: 'UNCONFIGURED').toString()
+        resValue 'string', 'oneadmax_reward_placement', (project.findProperty('oneAdMaxRewardPlacement') ?: 'UNCONFIGURED').toString()
     }
     buildTypes {
         release {
