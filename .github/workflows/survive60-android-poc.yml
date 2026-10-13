@@ -70,14 +70,15 @@ jobs:
       - name: Run game inside offline Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
-          target: google_apis
+          api-level: 28
+          target: default
           arch: x86_64
-          profile: pixel_5
-          ram-size: 2048M
+          profile: pixel_2
+          ram-size: 1536M
           heap-size: 256M
-          disable-animations: true
-          emulator-boot-timeout: 600
+          disable-animations: false
+          emulator-boot-timeout: 500
+          emulator-options: -no-window -no-snapshot -noaudio -no-boot-anim -gpu swiftshader_indirect -camera-back none -camera-front none
           script: |
             # Wait until PackageManager responds; boot_completed alone is not sufficient on a slow hosted emulator.
             adb wait-for-device
