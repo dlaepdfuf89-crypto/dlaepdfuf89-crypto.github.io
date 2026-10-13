@@ -79,7 +79,20 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           script: |
-            adb install -r /tmp/s60apk/app-debug.apk
+            # Wait until PackageManager responds; boot_completed alone is not sufficient on a slow hosted emulator.
+            adb wait-for-device
+            for i in $(seq 1 30); do
+              if adb shell pm path android >/dev/null 2>&1; then break; fi
+              sleep 5
+            done
+            installed=0
+            for i in 1 2 3; do
+              if adb install --no-streaming -r /tmp/s60apk/app-debug.apk; then installed=1; break; fi
+              echo "Emulator package install attempt $i failed; retrying after ADB reconnect"
+              adb reconnect || true
+              sleep 12
+            done
+            if [ "$installed" != "1" ]; then echo 'EMULATOR_INSTALL_FAILED'; exit 1; fi
             adb shell svc wifi disable || true
             adb shell svc data disable || true
             adb shell am start -n com.deokseol.survive60/.MainActivity
