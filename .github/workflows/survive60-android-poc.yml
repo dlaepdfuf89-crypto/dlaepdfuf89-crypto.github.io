@@ -55,3 +55,51 @@ jobs:
           path: /usr/local/lib/android/sdk/build-tools/35.0.0/lib/apksigner.jar
           retention-days: 1
           if-no-files-found: error
+
+  emulator-offline-smoke:
+    name: Offline actual Android emulator smoke
+    needs: build-debug-apk
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: Survive60-Android-DEBUG-NOT-FOR-STORE
+          path: /tmp/s60apk
+      - name: Run game inside offline Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          ram-size: 2048M
+          heap-size: 256M
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: |
+            adb install -r /tmp/s60apk/app-debug.apk
+            adb shell svc wifi disable || true
+            adb shell svc data disable || true
+            adb shell am start -n com.deokseol.survive60/.MainActivity
+            sleep 16
+            adb shell dumpsys activity activities | grep -m 2 'com.deokseol.survive60' || true
+            adb shell screencap -p /sdcard/s60-game.png
+            adb pull /sdcard/s60-game.png android-proof/emu_game.png
+            adb shell uiautomator dump /sdcard/s60-ui.xml || true
+            adb pull /sdcard/s60-ui.xml android-proof/emu_window.xml || true
+            adb logcat -d -b crash > android-proof/emu_crash.log
+            if grep -q 'com.deokseol.survive60' android-proof/emu_crash.log; then echo 'APP CRASHED'; exit 1; fi
+            echo 'EMULATOR_NO_FATAL_CRASH_PASS'
+      - name: Save screenshot and crash report for independent QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Survive60-Android-Offline-Emulator-QA
+          path: |
+            android-proof/emu_game.png
+            android-proof/emu_window.xml
+            android-proof/emu_crash.log
+          if-no-files-found: warn
+          retention-days: 7
