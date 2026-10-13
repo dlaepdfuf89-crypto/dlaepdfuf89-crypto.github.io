@@ -10,12 +10,21 @@
 <div id="boot">Survive 60 로딩 중...</div>
 <script type="module">
 import { createSDK } from "https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js";
-window.sdk = createSDK();
+const sdk = createSDK();
+window.sdk = sdk;
 
 (async()=>{
   const dec=new TextDecoder();
   let html="";
+  let nativeReady=false;
   try{
+    const info=await sdk.initializeAsync();
+    nativeReady=!info?.err;
+  }catch(e){
+    console.warn("ONEstore initialize fallback",e);
+  }
+  try{
+    if(nativeReady) sdk.setLoadingProgress(0);
     for(let i=0;i<10;i++){
       const n=String(i).padStart(3,"0")+".txt";
       const r=await fetch("./chunks/"+n,{cache:"no-store"});
@@ -25,6 +34,7 @@ window.sdk = createSDK();
       const bytes=new Uint8Array(raw.length);
       for(let j=0;j<raw.length;j++) bytes[j]=raw.charCodeAt(j);
       html+=dec.decode(bytes,{stream:true});
+      if(nativeReady) sdk.setLoadingProgress(Math.round((i+1)*90/10));
     }
     html+=dec.decode();
     const doc=new DOMParser().parseFromString(html,"text/html");
@@ -36,6 +46,10 @@ window.sdk = createSDK();
       n.dataset.game="1";
       n.textContent=st.textContent;
       document.head.appendChild(n);
+    }
+    if(nativeReady){
+      sdk.setLoadingProgress(100);
+      await sdk.startGameAsync();
     }
     const src=doc.querySelector("script[type=module]")?.textContent||"";
     if(!src) throw new Error("game module missing");
