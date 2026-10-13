@@ -86,6 +86,7 @@ jobs:
         with:
           name: Survive60-Android-Offline-Emulator-QA
           path: |
+            android-proof/emu_game_initial.png
             android-proof/emu_game.png
             android-proof/emu_window.xml
             android-proof/emu_crash.log
