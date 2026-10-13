@@ -22,6 +22,10 @@ if [ "$installed" -ne 1 ]; then echo "APP_INSTALL_FAILED"; exit 1; fi
 # Game HTML is bundled; both wifi and cellular data must be disabled.
 adb shell svc wifi disable || true
 adb shell svc data disable || true
+# Prevent the resource-constrained emulator's Quickstep launcher from obstructing game rendering.
+adb shell am force-stop com.android.launcher3 || true
+adb shell am force-stop com.google.android.apps.nexuslauncher || true
+sleep 8
 adb shell am start -n com.deokseol.survive60/.MainActivity
 mkdir -p android-proof
 
@@ -39,7 +43,11 @@ adb shell dumpsys activity activities > android-proof/emu_activity.txt || true
 timeout 25 adb shell uiautomator dump /sdcard/s60-ui.xml || true
 adb pull /sdcard/s60-ui.xml android-proof/emu_window.xml || true
 adb logcat -d -b crash > android-proof/emu_crash.log || true
+adb logcat -d -v brief | grep -Ei 'chromium|WebView|javascript|console|ANR|Quickstep' | tail -n 250 > android-proof/emu_webview.log || true
 
+if grep -q "Quickstep isn't responding" android-proof/emu_window.xml; then
+  echo 'EMULATOR_SYSTEM_QUICKSTEP_ANR'; exit 1
+fi
 if grep -q 'FATAL EXCEPTION.*com.deokseol.survive60\|Process: com.deokseol.survive60' android-proof/emu_crash.log; then
   echo 'APP_CRASH_DETECTED'; exit 1
 fi

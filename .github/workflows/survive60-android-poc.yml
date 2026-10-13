@@ -74,9 +74,9 @@ jobs:
           target: default
           arch: x86_64
           profile: pixel_2
-          ram-size: 1536M
-          heap-size: 256M
-          disable-animations: false
+          ram-size: 3072M
+          heap-size: 384M
+          disable-animations: true
           emulator-boot-timeout: 500
           emulator-options: -no-window -no-snapshot -noaudio -no-boot-anim -gpu swiftshader_indirect -camera-back none -camera-front none
           script: bash android-proof/qa-emulator.sh
@@ -90,6 +90,7 @@ jobs:
             android-proof/emu_game.png
             android-proof/emu_window.xml
             android-proof/emu_crash.log
+            android-proof/emu_webview.log
             android-proof/emu_activity.txt
           if-no-files-found: warn
           retention-days: 7
