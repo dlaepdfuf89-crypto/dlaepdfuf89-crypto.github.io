@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="Private two-player playtest feedback for the free Raincheck Pin mystery.">
+<title>Send private feedback — The Raincheck Pin | Bellglass</title>
+<style>
+:root{color-scheme:dark;--bg:#101c2a;--panel:#17283b;--ink:#f6f2ea;--line:#425466;--accent:#e2b77c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.58 system-ui,-apple-system,Segoe UI,sans-serif}
+main{width:min(740px,calc(100% - 28px));margin:24px auto 55px}
+small,.muted{color:#c6ced8}.eyebrow{color:var(--accent);font-size:13px;letter-spacing:.12em;font-weight:750}
+h1{line-height:1.15;margin:14px 0 8px;font-size:clamp(30px,7vw,45px)}
+p{margin:10px 0 18px}a{color:#f3d5aa}
+fieldset{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:16px 18px;margin:16px 0}
+legend{font-size:17px;font-weight:750;padding:0 8px;color:var(--accent)}
+label{display:block;font-weight:650;margin:15px 0 5px}
+input,select,textarea{width:100%;background:#0c1724;color:#f6f2ea;border:1px solid #738092;padding:10px 12px;font:inherit;border-radius:6px;min-height:42px}
+textarea{min-height:84px;resize:vertical}
+button{background:var(--accent);border:0;color:#132033;font:inherit;font-weight:800;border-radius:6px;padding:12px 15px;cursor:pointer}
+button.secondary{background:#283f56;color:#fff;border:1px solid #718498}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.notice{font-size:13px;color:#cbd2db;margin-top:12px}
+#status{min-height:28px;font-weight:650;color:#e9d7b9;padding:10px 0}
+@media(max-width:500px){fieldset{padding:13px}.actions button{width:100%}}
+</style></head><body><main>
+<p class="eyebrow">Bellglass Mysteries · Free case v0.1.4 · Private feedback</p>
+<h1>How did your investigation go?</h1>
+<p>Tell us how <strong>The Raincheck Pin</strong> worked for two adults. <strong>Stopping early is valuable feedback too.</strong> Answer only what you can; no names, account or review required. Do not post spoilers publicly.</p>
+<form id="feedback" novalidate>
+<fieldset><legend>Play circumstances</legend>
+<label for="status-play">What happened?</label>
+<select name="status" id="status-play"><option value="Completed">Completed</option><option value="Stopped early">Stopped early</option><option value="Could not start">Could not start</option></select>
+<label for="format">Device or print method</label>
+<select name="format" id="format"><option value="Two phones">Two phones</option><option value="Laptop/desktop">Laptop or desktop screens</option><option value="Printed">Printed paper</option><option value="Mixed devices/print">Mixed devices and paper</option><option value="Other/not sure">Other / not sure</option></select>
+<label for="prepare">Preparation time in minutes (optional)</label><input id="prepare" name="prepare" type="number" min="0" max="300" inputmode="numeric" placeholder="e.g. 3">
+<label for="duration">Actual play time in minutes (optional)</label><input id="duration" name="duration" type="number" min="0" max="300" inputmode="numeric" placeholder="e.g. 12">
+<label for="hint">Did you open the optional hint?</label>
+<select id="hint" name="hint"><option value="No">No</option><option value="Yes">Yes</option><option value="Did not reach that step">Did not reach that step</option></select>
+</fieldset>
+<fieldset><legend>Fairness &amp; collaboration</legend>
+<label for="stuck">First confusing clue or step (optional)</label><textarea id="stuck" name="stuck" placeholder="Something that stopped or puzzled you"></textarea>
+<label for="a">A player's useful discovery (optional)</label><textarea id="a" name="a" placeholder="What did Investigator A contribute?"></textarea>
+<label for="b">B player's useful discovery (optional)</label><textarea id="b" name="b" placeholder="What did Investigator B contribute?"></textarea>
+<label for="fair">Did the solution feel supported by the evidence?</label>
+<select id="fair" name="fair"><option value="Not sure / not finished">Not sure / not finished</option><option value="Yes">Yes</option><option value="Partly">Partly</option><option value="No">No</option></select>
+<label for="more">Other feedback (optional)</label><textarea id="more" name="more" placeholder="What should change?"></textarea>
+</fieldset>
+<div class="actions">
+<button type="button" id="email">Open email app with answers</button>
+<button type="button" class="secondary" id="gmail">Open Gmail compose</button>
+<button type="button" class="secondary" id="copy">Copy answers for any webmail</button>
+</div>
+<div role="status" aria-live="polite" id="status"></div>
+<p class="notice"><strong>Important:</strong> Your answers are <strong>not sent automatically</strong>. Choose a method above, then <strong>send</strong> your email to <strong>dlaepdfuf89+bellglass@gmail.com</strong>. Your answers stay on this device until you choose a button. No tracking or external form backend is used. Use the Copy option if you do not have a default email app.</p>
+</form>
+<p><a href="./">Return to the free game</a> · <a href="./play/investigator-a.html">Investigator A</a> · <a href="./play/investigator-b.html">Investigator B</a></p>
+</main>
+<script>
+(function(){
+const email='dlaepdfuf89+bellglass@gmail.com';
+const subject='Raincheck Pin v0.1.4 private two-person playtest feedback';
+const fields=[
+['Case','The Raincheck Pin v0.1.4'],['Status','status-play'],['Play format','format'],['Preparation minutes','prepare'],['Play minutes','duration'],
+['Optional hint','hint'],['First confusing clue','stuck'],['Investigator A contribution','a'],['Investigator B contribution','b'],
+['Solution supported','fair'],['Other notes','more']
+];
+function formatAnswers(){
+ return fields.map(([name,id])=>name+': '+(id==='The Raincheck Pin v0.1.4'?id:document.getElementById(id).value.trim())).join('\n')+
+ '\n\nNo names or personal details are required. This is a voluntary test, not a paid purchase.';
+}
+const status=document.getElementById('status');
+document.getElementById('email').addEventListener('click',function(){
+ status.textContent='Your mail app should open. You must press Send there to deliver your feedback.';
+ window.location.href='mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(formatAnswers());
+});
+document.getElementById('gmail').addEventListener('click',function(){
+ const url='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(email)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(formatAnswers());
+ status.textContent='Opening Gmail compose. Please press Send in Gmail to deliver your feedback.';
+ window.open(url,'_blank','noopener,noreferrer');
+});
+document.getElementById('copy').addEventListener('click',async function(){
+ const t='To: '+email+'\nSubject: '+subject+'\n\n'+formatAnswers();
+ try{
+  if(navigator.clipboard && isSecureContext){await navigator.clipboard.writeText(t);}
+  else{const e=document.createElement('textarea');e.value=t;e.style.position='fixed';e.style.opacity='0';document.body.appendChild(e);e.select();const ok=document.execCommand('copy');e.remove();if(!ok)throw Error('blocked');}
+  status.textContent='Copied! Paste into your webmail, send it to the address above, and press Send.';
+ }catch(e){
+  status.textContent='Clipboard unavailable. Try Open email app, or manually email '+email+'.';
+ }
+});
+})();
+</script></body></html>
