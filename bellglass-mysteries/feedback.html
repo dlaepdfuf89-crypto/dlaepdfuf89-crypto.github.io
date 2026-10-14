@@ -27,6 +27,9 @@ button.secondary{background:#283f56;color:#fff;border:1px solid #718498}
 <p>Tell us how <strong>The Raincheck Pin</strong> worked for two adults. <strong>Stopping early is valuable feedback too.</strong> Answer only what you can; no names, account or review required. Do not post spoilers publicly.</p>
 <form id="feedback" novalidate>
 <fieldset><legend>Play circumstances</legend>
+<label for="pair">Who actually participated?</label>
+<select name="pair" id="pair" required><option value="" selected disabled>Choose your actual play group</option><option value="Two adults played together">Two adults played together</option><option value="One adult only">Only one adult tried it</option><option value="Could not begin / no pair">Could not begin / did not have a partner</option><option value="Other or not sure">Other / not sure</option></select>
+<p class="notice">Only completed or attempted sessions with two actual adults count toward our two-person blind-playtest goal. Other feedback is welcome but recorded separately.</p>
 <label for="status-play">What happened?</label>
 <select name="status" id="status-play"><option value="" selected disabled>Choose a result</option><option value="Completed">Completed</option><option value="Stopped early">Stopped early</option><option value="Could not start">Could not start</option></select>
 <label for="format">Device or print method</label>
@@ -42,6 +45,8 @@ button.secondary{background:#283f56;color:#fff;border:1px solid #718498}
 <label for="b">B player's useful discovery (optional)</label><textarea id="b" maxlength="1200" name="b" placeholder="What did Investigator B contribute?"></textarea>
 <label for="fair">Did the solution feel supported by the evidence?</label>
 <select id="fair" name="fair"><option value="Not sure / not finished">Not sure / not finished</option><option value="Yes">Yes</option><option value="Partly">Partly</option><option value="No">No</option></select>
+<label for="discovery">Where did you find the free game? (optional)</label>
+<select id="discovery" name="discovery"><option value="Not sure / prefer not to say">Not sure / prefer not to say</option><option value="PnPFinder">PnPFinder</option><option value="PnP Archive KOREA">PnP Archive KOREA</option><option value="GitHub">GitHub</option><option value="BoardGameGeek">BoardGameGeek</option><option value="Indie Playtest Fest">Indie Playtest Fest</option><option value="Friend / direct link">Friend / direct link</option><option value="Other">Other</option></select>
 <label for="more">Other feedback (optional)</label><textarea id="more" maxlength="1200" name="more" placeholder="What should change?"></textarea>
 </fieldset>
 <label for="direct-consent" class="notice" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer"><input id="direct-consent" type="checkbox" style="width:22px;min-width:22px;min-height:22px;margin-top:4px"><span>I agree to send the answers I wrote through the third-party <a href="https://formsubmit.co/" target="_blank" rel="noopener noreferrer">FormSubmit service</a> to the private Bellglass Gmail inbox. I understand the service may temporarily retain the submission. I will not include names, contact details or sensitive information. This is voluntary.</span></label>
@@ -61,9 +66,9 @@ button.secondary{background:#283f56;color:#fff;border:1px solid #718498}
 const email='dlaepdfuf89+bellglass@gmail.com';
 const subject='Raincheck Pin v0.1.4 private two-person playtest feedback';
 const fields=[
-['Case','The Raincheck Pin v0.1.4'],['Status','status-play'],['Play format','format'],['Preparation minutes','prepare'],['Play minutes','duration'],
+['Case','The Raincheck Pin v0.1.4'],['Actual participants','pair'],['Status','status-play'],['Play format','format'],['Preparation minutes','prepare'],['Play minutes','duration'],
 ['Optional hint','hint'],['First confusing clue','stuck'],['Investigator A contribution','a'],['Investigator B contribution','b'],
-['Solution supported','fair'],['Other notes','more']
+['Solution supported','fair'],['Discovery channel','discovery'],['Other notes','more']
 ];
 function formatAnswers(){
  return fields.map(([name,id])=>name+': '+(id==='The Raincheck Pin v0.1.4'?id:document.getElementById(id).value.trim())).join('\n')+
@@ -78,7 +83,12 @@ direct.addEventListener('click',async function(){
   status.textContent='Please check the consent box above, or choose email/copy instead.';
   return;
  }
- const outcome=document.getElementById('status-play').value;
+ const participants=document.getElementById('pair').value;
+ if(!participants){
+  status.textContent='Please choose who actually played. One-player and unable-to-start reports are welcome too.';
+  document.getElementById('pair').focus();return;
+ }
+  const outcome=document.getElementById('status-play').value;
  if(!outcome){
   status.textContent='Please choose whether the two players finished, stopped early, or could not start.';
   document.getElementById('status-play').focus();
