@@ -28,7 +28,7 @@ button.secondary{background:#283f56;color:#fff;border:1px solid #718498}
 <form id="feedback" novalidate>
 <fieldset><legend>Play circumstances</legend>
 <label for="status-play">What happened?</label>
-<select name="status" id="status-play"><option value="Completed">Completed</option><option value="Stopped early">Stopped early</option><option value="Could not start">Could not start</option></select>
+<select name="status" id="status-play"><option value="" selected disabled>Choose a result</option><option value="Completed">Completed</option><option value="Stopped early">Stopped early</option><option value="Could not start">Could not start</option></select>
 <label for="format">Device or print method</label>
 <select name="format" id="format"><option value="Two phones">Two phones</option><option value="Laptop/desktop">Laptop or desktop screens</option><option value="Printed">Printed paper</option><option value="Mixed devices/print">Mixed devices and paper</option><option value="Other/not sure">Other / not sure</option></select>
 <label for="prepare">Preparation time in minutes (optional)</label><input id="prepare" name="prepare" type="number" min="0" max="300" inputmode="numeric" placeholder="e.g. 3">
@@ -37,20 +37,22 @@ button.secondary{background:#283f56;color:#fff;border:1px solid #718498}
 <select id="hint" name="hint"><option value="No">No</option><option value="Yes">Yes</option><option value="Did not reach that step">Did not reach that step</option></select>
 </fieldset>
 <fieldset><legend>Fairness &amp; collaboration</legend>
-<label for="stuck">First confusing clue or step (optional)</label><textarea id="stuck" name="stuck" placeholder="Something that stopped or puzzled you"></textarea>
-<label for="a">A player's useful discovery (optional)</label><textarea id="a" name="a" placeholder="What did Investigator A contribute?"></textarea>
-<label for="b">B player's useful discovery (optional)</label><textarea id="b" name="b" placeholder="What did Investigator B contribute?"></textarea>
+<label for="stuck">First confusing clue or step (optional)</label><textarea id="stuck" maxlength="1200" name="stuck" placeholder="Something that stopped or puzzled you"></textarea>
+<label for="a">A player's useful discovery (optional)</label><textarea id="a" maxlength="1200" name="a" placeholder="What did Investigator A contribute?"></textarea>
+<label for="b">B player's useful discovery (optional)</label><textarea id="b" maxlength="1200" name="b" placeholder="What did Investigator B contribute?"></textarea>
 <label for="fair">Did the solution feel supported by the evidence?</label>
 <select id="fair" name="fair"><option value="Not sure / not finished">Not sure / not finished</option><option value="Yes">Yes</option><option value="Partly">Partly</option><option value="No">No</option></select>
-<label for="more">Other feedback (optional)</label><textarea id="more" name="more" placeholder="What should change?"></textarea>
+<label for="more">Other feedback (optional)</label><textarea id="more" maxlength="1200" name="more" placeholder="What should change?"></textarea>
 </fieldset>
+<label for="direct-consent" class="notice" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer"><input id="direct-consent" type="checkbox" style="width:22px;min-width:22px;min-height:22px;margin-top:4px"><span>I agree to send the answers I wrote through the third-party <a href="https://formsubmit.co/" target="_blank" rel="noopener noreferrer">FormSubmit service</a> to the private Bellglass Gmail inbox. I understand the service may temporarily retain the submission. I will not include names, contact details or sensitive information. This is voluntary.</span></label>
 <div class="actions">
-<button type="button" id="email">Open email app with answers</button>
+<button type="button" id="send-direct">Send private feedback now</button>
+<button type="button" class="secondary" id="email">Open email app</button>
 <button type="button" class="secondary" id="gmail">Open Gmail compose</button>
-<button type="button" class="secondary" id="copy">Copy answers for any webmail</button>
+<button type="button" class="secondary" id="copy">Copy for any webmail</button>
 </div>
 <div role="status" aria-live="polite" id="status"></div>
-<p class="notice"><strong>Important:</strong> Your answers are <strong>not sent automatically</strong>. Choose a method above, then <strong>send</strong> your email to <strong>dlaepdfuf89+bellglass@gmail.com</strong>. Your answers stay on this device until you choose a button. No tracking or external form backend is used. Use the Copy option if you do not have a default email app.</p>
+<p class="notice"><strong>How sending works:</strong> The first button delivers your answers through FormSubmit when you consent and press it; a success message appears only if the service confirms receipt. Or skip the third-party form and use the email, Gmail or copy options — you must press Send in your email program. The address is <strong>dlaepdfuf89+bellglass@gmail.com</strong>. No account, mailing-list signup or payment required. Please do not include solution spoilers in public comments.</p>
 </form>
 <p><a href="./">Return to the free game</a> · <a href="./play/investigator-a.html">Investigator A</a> · <a href="./play/investigator-b.html">Investigator B</a></p>
 </main>
@@ -68,6 +70,58 @@ function formatAnswers(){
  '\n\nNo names or personal details are required. This is a voluntary test, not a paid purchase.';
 }
 const status=document.getElementById('status');
+const direct=document.getElementById('send-direct');
+let inFlight=false;
+direct.addEventListener('click',async function(){
+ if(inFlight)return;
+ if(!document.getElementById('direct-consent').checked){
+  status.textContent='Please check the consent box above, or choose email/copy instead.';
+  return;
+ }
+ const outcome=document.getElementById('status-play').value;
+ if(!outcome){
+  status.textContent='Please choose whether the two players finished, stopped early, or could not start.';
+  document.getElementById('status-play').focus();
+  return;
+ }
+ for(const field of ['prepare','duration']){
+  const v=document.getElementById(field).value;
+  if(v && (!/^\\d+$/.test(v) || Number(v)>300)){
+   status.textContent='Please enter a whole number between 0 and 300 for time in minutes.';
+   document.getElementById(field).focus();
+   return;
+  }
+ }
+ const payload={
+  '_subject':'Raincheck Pin v0.1.4 real two-person feedback',
+  '_template':'table',
+  '_honey':'',
+  '_captcha':'false'
+ };
+ for(const [name,id] of fields){
+  payload[name]=(id==='The Raincheck Pin v0.1.4'?id:document.getElementById(id).value.trim());
+ }
+ inFlight=true;direct.disabled=true;direct.textContent='Sending…';
+ status.textContent='Sending your feedback. Keep this page open until confirmation.';
+ try{
+  const response=await fetch('https://formsubmit.co/ajax/daa6a3d10137fc3375530f14b3a16269',{
+   method:'POST',
+   headers:{'Accept':'application/json','Content-Type':'application/json'},
+   body:JSON.stringify(payload)
+  });
+  const result=await response.json();
+  if(response.ok && (result.success===true || result.success==='true')){
+   status.textContent='Feedback sent successfully. Thank you — it has been accepted for email delivery.';
+   direct.textContent='Sent';
+  }else{
+   status.textContent='Submission was not confirmed. Nothing is marked sent. Please use Open email app or Copy for webmail instead.';
+   direct.disabled=false;direct.textContent='Retry sending';
+  }
+ }catch(e){
+  status.textContent='Could not confirm delivery. Please use Open email app or Copy for webmail instead.';
+  direct.disabled=false;direct.textContent='Retry sending';
+ }finally{inFlight=false;}
+});
 document.getElementById('email').addEventListener('click',function(){
  status.textContent='Your mail app should open. You must press Send there to deliver your feedback.';
  window.location.href='mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(formatAnswers());
