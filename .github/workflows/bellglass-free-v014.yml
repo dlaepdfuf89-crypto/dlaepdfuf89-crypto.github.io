@@ -1,0 +1,35 @@
+name: Bellglass free-case v0.1.4 one-time QA release
+on:
+  push:
+    paths:
+      - .github/workflows/bellglass-free-v014.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF engine
+        run: python -m pip install --disable-pip-version-check pymupdf==1.26.5
+      - name: Create and verify v0.1.4 public ZIP
+        run: python bellglass-mysteries/scripts/patch_free_v014.py
+      - name: Commit only Bellglass ZIP
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bellglass-mysteries/downloads/Raincheck_Pin_Free_Tester_v0.1.4.zip
+          if git diff --cached --quiet; then
+            echo "No ZIP changes"
+          else
+            git commit -m "Bellglass: public free-case v0.1.4 with verified private feedback"
+            git push
+          fi
