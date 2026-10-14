@@ -86,7 +86,7 @@ direct.addEventListener('click',async function(){
  }
  for(const field of ['prepare','duration']){
   const v=document.getElementById(field).value;
-  if(v && (!/^\\d+$/.test(v) || Number(v)>300)){
+  if(v && (!/^\d+$/.test(v) || Number(v)>300)){
    status.textContent='Please enter a whole number between 0 and 300 for time in minutes.';
    document.getElementById(field).focus();
    return;
