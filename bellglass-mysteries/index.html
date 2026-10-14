@@ -42,6 +42,10 @@ figure{margin:24px 0 0;background:#f7f7f7;border:1px solid var(--line);border-ra
 <section id="instant-play" style="margin:26px 0 10px;border-color:#b38d58">
 <h2>Start playing on two screens — no ZIP needed</h2>
 <p><strong>Two adults, two sets of private evidence.</strong> Open the instructions together. Then each person opens their own PDF on their own device; <strong>do not read each other's file</strong>. Talk through the clues, use a notes app or paper to record your conclusion, and agree on a verdict before opening the answer.</p>
+<div class="box" style="margin:16px 0 20px;border-color:#b38d58">
+<strong>Fast two-device setup:</strong> One person <a href="./play/investigator-a.html">enters as Investigator A</a>. Send the other person their own <a id="partner-b-link" href="./play/investigator-b.html">Investigator B invitation page</a>. Neither role page links to the other investigator's dossier.
+<div style="margin-top:12px"><button type="button" id="copy-b-invite" style="background:#e2b77c;color:#142033;border:0;border-radius:5px;padding:11px 15px;font-weight:800;cursor:pointer">Copy Player B invitation link</button><span id="copy-b-status" role="status" aria-live="polite" style="display:inline-block;padding-left:9px;color:#e5eaf1;font-size:13px"></span></div>
+</div>
 <div class="columns">
 <div class="box"><h3>1 · Both players</h3><p><a href="./play/01_START_HERE.pdf">Read Start Here (PDF)</a> · Open this first</p></div>
 <div class="box"><h3>2 · Player A only</h3><p><a href="./play/02_INVESTIGATOR_A.pdf">Open Investigator A evidence (PDF)</a></p></div>
@@ -57,7 +61,7 @@ figure{margin:24px 0 0;background:#f7f7f7;border:1px solid var(--line);border-ra
 <figure><img src="./assets/raincheck_intro_preview.png" alt="Actual first page of the free Raincheck Pin PDF, showing the case overview without spoilers" loading="lazy"><figcaption>Real PDF preview · first page · no solution shown</figcaption></figure>
 <section><h2>How two people play</h2>
 <ol>
-<li>Download and extract the ZIP once. Read the single <strong>START_HERE.txt</strong> quick guide, then choose <strong>Screen</strong> (phones/computers), <strong>A4</strong> or <strong>USLetter</strong> (print). All three contain identical evidence; use just one.</li>
+<li>On two devices, use the separate Investigator A and B invitation pages above (no ZIP required). For offline or print play, download the ZIP once, read <strong>START_HERE.txt</strong>, and select just one edition: Screen, A4 or USLetter.</li>
 <li>Read <strong>01_START_HERE.pdf</strong> together. Player A privately reads <strong>02_INVESTIGATOR_A.pdf</strong>. Player B privately reads <strong>03_INVESTIGATOR_B.pdf</strong>.</li>
 <li>Describe clues aloud and compare timestamps. Use <strong>04_SHARED_WORKSHEET.pdf</strong> as prompts, but record your verdict on paper or in a basic Notes app (this worksheet has no fillable fields). Both investigators should contribute evidence.</li>
 <li>If stuck, open only <strong>06_OPTIONAL_HINT_01.pdf</strong>. Agree on a verdict before opening the separate <strong>99_ANSWER_KEY_OPEN_LAST.pdf</strong>.</li></ol>
@@ -77,4 +81,24 @@ figure{margin:24px 0 0;background:#f7f7f7;border:1px solid var(--line);border-ra
 <p>This is a digital download, designed for a one-time solution; discovering the answer reduces its replay surprise.</p></section>
 <section><h2>Rights, safety &amp; transparency</h2><p>Fictional scenario. Free personal use and printing for the two players are permitted. Please do not redistribute, resell or repost the PDFs.</p><p>The story and layout were developed with generative-AI assistance and programmatic checks. <strong>Actual human enjoyment, duration and fairness remain under evaluation.</strong> Nothing here is a review, testimonial or sales claim.</p></section>
 </main><footer>© 2026 Bellglass Mysteries · Free early-access case · Version 0.1.4-QA · Last updated 14 Oct 2026</footer>
+<script>
+(function(){
+const btn=document.getElementById('copy-b-invite');
+const status=document.getElementById('copy-b-status');
+const link=new URL('./play/investigator-b.html',document.baseURI).href;
+btn.addEventListener('click',async function(){
+ try {
+  if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(link);}
+  else{
+   const input=document.createElement('textarea');input.value=link;input.setAttribute('readonly','');input.style.position='fixed';input.style.opacity='0';
+   document.body.appendChild(input);input.select();const ok=document.execCommand('copy');input.remove();
+   if(!ok)throw new Error('Copy blocked');
+  }
+  status.textContent='Copied. Send the link to your partner.';
+ }catch(e){
+  status.textContent='Copy blocked. Use the Player B link above and choose Copy Link in your browser.';
+ }
+});
+})();
+</script>
 </body></html>
