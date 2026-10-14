@@ -34,7 +34,16 @@
 <li>MediaInfo is bundled locally. The software checks files and selected metadata against user-approved inputs; it does not certify creative, language, color or legal approvals.</li>
 <li>Independent buyers have not yet reported measured time savings or completed a separately verified paid checkout acceptance test. Results may differ by workflow.</li>
 <li>Contact the publisher for legitimate quota-state issues; this free trial may retain quota records after uninstall.</li></ul>
+<section aria-labelledby="r4-input-safety"><h2 id="r4-input-safety">Input paths and failure behavior (R4 source review)</h2>
+<p>The following describes publisher inspection of the R4 evaluation Python source, not independent binary certification or an enterprise endpoint security audit.</p>
+<ul>
+<li><strong>File paths:</strong> Approved manifest entries must be portable relative paths. The implementation rejects absolute or escaping paths, unsafe Windows names, duplicate JSON keys, and Windows case-insensitive filename collisions.</li>
+<li><strong>Symbolic links and junctions:</strong> The implementation rejects symbolic links, Windows junctions, and special files in the inspected input tree. Resolved candidate files must remain inside the selected input root.</li>
+<li><strong>Missing or inaccessible inputs:</strong> An unreadable or incompletely traversed input tree raises a check error rather than silently receiving a technical PASS. Failed required checks prevent producing a verified delivery ZIP.</li>
+<li><strong>Metadata failures:</strong> Local MediaInfo / ffprobe probing treats missing, incomplete, corrupt, or unsupported metadata and process launch/timeout failures as errors. The examined source sets a 15-second per-file metadata probe limit and also enforces an overall execution deadline.</li>
+</ul>
+<p><strong>Security boundary:</strong> These are source-level observations; they do not establish that every frozen native dependency has undergone independent security testing, that all environments are supported, or that the complete executable is certified to make no network connections. The application remains unsigned; evaluate using synthetic material and follow organizational security policies.</p></section>
 <p><a class="cta" href="https://4085873036611.gumroad.com/l/deliveryproof-free-evaluation">Get R4 free evaluation</a><a class="cta" href="https://4085873036611.gumroad.com/l/deliveryproof-international">Unlimited edition $39 once</a></p>
 <p><a href="https://4085873036611.gumroad.com/l/deliveryproof">한국어 정식판 ₩49,000</a> · <a href="/deliveryproof/free-evaluation-r3.html">Historical R3 screenshots (different earlier binary)</a></p>
-<small>Revision 2026-10-12 · Local app processing · No client footage needs to be uploaded.</small>
+<small>Revision 2026-10-14 · Local app processing · No client footage needs to be uploaded.</small>
 </main></body></html>
