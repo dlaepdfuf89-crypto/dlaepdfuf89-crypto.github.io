@@ -28,6 +28,7 @@
 import { createSDK } from "https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js";
 const sdk = createSDK();
 window.sdk = sdk;
+window.__s60OneplaySdkReady = false;
 
 (async()=>{
   const dec=new TextDecoder();
@@ -70,6 +71,7 @@ window.sdk = sdk;
     if(nativeReady){
       sdk.setLoadingProgress(100);
       await sdk.startGameAsync();
+      window.__s60OneplaySdkReady = true;
     }
     const src=doc.querySelector("script[type=module]")?.textContent||"";
     if(!src) throw new Error("game module missing");
