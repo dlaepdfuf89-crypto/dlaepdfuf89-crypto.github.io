@@ -1,0 +1,84 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bellglass Interval v0.1.6 — Private Pair Playtest Feedback</title>
+<meta name="robots" content="noindex,follow"><meta name="description" content="Optional structured feedback form for volunteers who tried the free private Bellglass Interval v0.1.6 two-adult detective mystery.">
+<meta name="theme-color" content="#122437"><style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#0e1925;color:#f5f0e6;font:16px/1.55 system-ui,Arial,sans-serif}
+main,header{width:min(750px,calc(100% - 32px));margin:auto}header{padding:27px 0 9px;font-weight:800;color:#dfb580;letter-spacing:.11em;font-size:12px}
+h1{font-size:clamp(30px,5.5vw,45px);line-height:1.13;margin:15px 0}h2{font-size:22px;margin:0 0 12px}.lead{color:#cbd7dd}
+fieldset,section{background:#192b3b;border:1px solid #51606e;border-radius:12px;padding:23px;margin:20px 0}legend{font-weight:850;color:#dfb580;padding:0 8px}label{display:block;margin:18px 0 7px;font-weight:700}
+input,select,textarea{width:100%;border:1px solid #8296a0;border-radius:6px;background:#0c1e2c;color:white;padding:12px;font:inherit}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #e5b87d;outline-offset:2px}
+textarea{min-height:92px;resize:vertical}small,.fine{color:#c0cad0;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.check{display:flex;align-items:flex-start;gap:10px;font-weight:450}.check input{width:20px;height:20px;flex-shrink:0;margin:4px 0 0}
+button{border:0;padding:15px 18px;border-radius:7px;background:#dfb580;color:#152335;font:800 16px system-ui,Arial,sans-serif;cursor:pointer;width:100%;min-height:48px}
+button:disabled{opacity:.6;cursor:wait}a{color:#dfb580}#status{min-height:24px;padding:10px 0}footer{padding:5px 0 40px;color:#c0cad0;font-size:13px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}fieldset,section{padding:17px}}
+</style></head>
+<body><header><a href="./" style="color:inherit">BELLGLASS MYSTERIES</a></header>
+<main><h1>Your two-person case report</h1>
+<p class="lead">For volunteers who tried <strong>The Bellglass Interval v0.1.6 private development build</strong>. Tell us what really happened during your playtest—unfinished sessions and criticism matter just as much as completed ones.</p>
+<p class="fine">This is not a public review, purchase, mailing-list sign-up or marketing survey. AI-assisted fiction; no verified play duration or quality claims. You may submit without names or email addresses.</p>
+<form id="feedback" novalidate>
+<fieldset><legend>1. What actually happened?</legend>
+<div class="grid"><div><label for="status-play">Your pair's progress *</label><select id="status-play" required><option value="">Choose</option><option value="completed_as_pair">Both completed final verdict</option><option value="stopped_during_act_1">Stopped in Act 1</option><option value="stopped_during_act_2">Stopped in Act 2</option><option value="stopped_during_act_3">Stopped in Act 3</option><option value="only_one_player_started">Only one person started</option><option value="did_not_start">Did not start</option></select></div>
+<div><label for="format">Playing format *</label><select id="format" required><option value="">Choose</option><option>Separate computer screens</option><option>Separate phones/tablets</option><option>Printed PDFs</option><option>Mixed devices / print</option><option>Other or did not play</option></select></div></div>
+<div class="grid"><div><label for="prep">Preparation time (minutes)</label><input id="prep" type="number" min="0" max="600" placeholder="Optional"></div><div><label for="minutes">Active play time (minutes)</label><input id="minutes" type="number" min="0" max="1200" placeholder="Optional"></div></div>
+<div class="grid"><div><label for="hints">How many hint PDFs opened?</label><select id="hints"><option value="">Not sure / not applicable</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div><label for="both">Did both players meaningfully contribute?</label><select id="both"><option value="">Not sure / not applicable</option><option value="yes">Yes</option><option value="mostly_one">Mostly one person</option><option value="no">No</option><option value="not_two">Two people did not play</option></select></div></div>
+</fieldset>
+<fieldset><legend>2. Where did the investigation work—or fail?</legend>
+<label for="blocked">First clue, instruction or scene that confused or stopped you</label><textarea id="blocked" maxlength="1800" placeholder="An exhibit ID, act, or a description. You can be critical."></textarea>
+<label for="best">Most satisfying discovery or reversal (optional)</label><textarea id="best" maxlength="1200" placeholder="What felt earned, if anything?"></textarea>
+<label for="weak">Least convincing or unfair clue (optional)</label><textarea id="weak" maxlength="1200" placeholder="Where did you guess instead of deducing?"></textarea>
+<div class="grid"><div><label for="fairness">Fairness of clues</label><select id="fairness"><option value="">Not rated</option><option value="1">1 / Very unfair</option><option value="2">2 / Poor</option><option value="3">3 / Mixed</option><option value="4">4 / Mostly fair</option><option value="5">5 / Very fair</option></select></div>
+<div><label for="ending">How satisfying was the ending?</label><select id="ending"><option value="">Not rated / did not reach ending</option><option value="1">1 / Very unsatisfying</option><option value="2">2 / Poor</option><option value="3">3 / Mixed</option><option value="4">4 / Satisfying</option><option value="5">5 / Very satisfying</option></select></div></div>
+</fieldset>
+<fieldset><legend>3. Optional follow-up</legend>
+<label for="contact">Email (optional; only if you want a direct reply)</label><input id="contact" type="email" maxlength="200" autocomplete="email" placeholder="No email is needed to submit">
+<p class="fine">The form uses FormSubmit to send your answers to Bellglass Mysteries. Do not include names, personal addresses, secrets, or anyone else's sensitive information. Please discuss the game rather than the players.</p>
+<label class="check"><input type="checkbox" id="consent" required><span>I am voluntarily submitting feedback through the FormSubmit email relay. I understand that I can skip optional fields, including email, and this is not a marketing subscription. *</span></label>
+<div style="position:absolute;left:-10000px" aria-hidden="true"><label for="trap">Leave blank</label><input id="trap" autocomplete="off" tabindex="-1"></div>
+</fieldset>
+<button type="submit" id="send">Send playtest feedback</button>
+<p id="status" role="status" aria-live="polite"></p>
+<p class="fine">If the form fails, you can send feedback directly to <a href="mailto:dlaepdfuf89+bellglass@gmail.com?subject=Bellglass%20v0.1.6%20private%20playtest%20feedback">dlaepdfuf89+bellglass@gmail.com</a>. No payment is requested.</p>
+</form>
+<footer><a href="./volunteer-playtest.html">About the private playtest</a> · <a href="./">Free mini-case</a> · This test edition is distinct from the sold v0.1.5 early-access edition.</footer>
+</main>
+<script>
+(function(){
+const form=document.getElementById('feedback'),btn=document.getElementById('send'),status=document.getElementById('status');
+let sending=false;
+form.addEventListener('submit',async function(event){
+ event.preventDefault();
+ if(sending) return;
+ if(!document.getElementById('status-play').value||!document.getElementById('format').value){status.textContent='Choose your actual progress and format, even if you did not start.';return}
+ if(!document.getElementById('consent').checked){status.textContent='Confirm voluntary feedback delivery consent to submit.';return}
+ const contact=document.getElementById('contact');
+ if(contact.value&&(!contact.checkValidity()||contact.value.length>200)){status.textContent='Check the optional reply email or leave it blank.';return}
+ if(document.getElementById('trap').value){status.textContent='Could not submit this form.';return}
+ sending=true;btn.disabled=true;btn.textContent='Sending…';status.textContent='Sending your case report.';
+ const get=id=>document.getElementById(id).value.trim();
+ try{
+ const payload={
+ '_subject':'BELLGLASS V016 EXTERNAL PAIR PLAYTEST FEEDBACK - VERIFY HUMAN',
+ '_captcha':'false','_template':'table',
+ 'Submission':'VOLUNTARY_V016_PRIVATE_HUMAN_PLAYTEST_FEEDBACK_NOT_ORDER',
+ 'Pair completion status':get('status-play'),'Device/print format':get('format'),
+ 'Preparation minutes':get('prep')||'not reported','Actual play minutes':get('minutes')||'not reported',
+ 'Hints opened':get('hints')||'not reported','Both players participated':get('both')||'not reported',
+ 'First confusion / stop point':get('blocked')||'not reported',
+ 'Strongest reveal':get('best')||'not reported','Weakest clue':get('weak')||'not reported',
+ 'Clue fairness rating':get('fairness')||'not rated','Ending rating':get('ending')||'not rated',
+ 'Optional reply email':get('contact')||'not provided',
+ 'Feedback consent':'Voluntary relay / no marketing'
+ };
+ const r=await fetch('https://formsubmit.co/ajax/daa6a3d10137fc3375530f14b3a16269',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+ const data=await r.json();
+ if(!r.ok||!(data.success===true||data.success==='true'))throw Error('not confirmed');
+ status.textContent='Your feedback was accepted for delivery. Thank you for being specific. This does not automatically count as a verified two-adult completed test.';
+ btn.textContent='Feedback submitted';
+ }catch(e){status.textContent='We could not confirm delivery. Please send your feedback to the email address below.';btn.disabled=false;btn.textContent='Try again';}
+ finally{sending=false}
+});
+})();
+</script></body></html>
