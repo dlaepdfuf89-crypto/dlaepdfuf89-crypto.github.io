@@ -22,76 +22,17 @@
 <meta name="twitter:title" content="60초만 버텨봐 | Survive 60">
 <meta name="twitter:description" content="한 손으로 60초 생존! 보스전, 무기 진화, 코인 강화에 도전하세요.">
 <style>html,body{margin:0;background:#071321;color:#fff;font-family:system-ui,sans-serif}#boot{position:fixed;inset:0;display:grid;place-items:center;font-size:14px}</style>
+<link rel="stylesheet" crossorigin href="/survive60/rc-next/assets/index-B-xjswEA.css">
 </head>
 <body>
-<div id="boot">Survive 60 로딩 중...</div>
+<div id="root"></div>
 <script type="module">
-import { createSDK } from "https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js";
-const sdk = createSDK();
-window.sdk = sdk;
-window.__s60OneplaySdkReady = false;
-const bootDiag=(reason)=>{try{sessionStorage.setItem('s60-oneplay-host-boot-diagnostic-v1',JSON.stringify({reason,at:new Date().toISOString(),nativeReady:window.__s60OneplaySdkReady===true}))}catch{}};
-bootDiag('sdk_boot_begin');
-
-(async()=>{
-  const dec=new TextDecoder();
-  let html="";
-  let nativeReady=false;
-  try{
-    const info=await sdk.initializeAsync();
-    nativeReady=!info?.err;
-    bootDiag(nativeReady?'sdk_initialize_success':'sdk_initialize_rejected');
-  }catch(e){
-    bootDiag('sdk_initialize_exception');
-    console.warn("ONEstore initialize fallback",e);
-  }
-  try{
-    if(nativeReady) sdk.setLoadingProgress(0);
-    for(let i=0;i<11;i++){
-      const n=String(i).padStart(3,"0")+".txt";
-      const r=await fetch("./chunks/"+n,{cache:"no-store"});
-      if(!r.ok) throw new Error(n+" "+r.status);
-      const b64=(await r.text()).trim();
-      const raw=atob(b64);
-      const bytes=new Uint8Array(raw.length);
-      for(let j=0;j<raw.length;j++) bytes[j]=raw.charCodeAt(j);
-      html+=dec.decode(bytes,{stream:true});
-      if(nativeReady) sdk.setLoadingProgress(Math.round((i+1)*90/11));
-    }
-    html+=dec.decode();
-    const doc=new DOMParser().parseFromString(html,"text/html");
-    document.title=doc.title||"60초만 버텨봐 | Survive 60";
-    document.body.innerHTML=doc.body.innerHTML;
-    document.head.querySelectorAll("style[data-game]").forEach(x=>x.remove());
-    for(const st of doc.querySelectorAll("style")){
-      const n=document.createElement("style");
-      n.dataset.game="1";
-      n.textContent=st.textContent;
-      document.head.appendChild(n);
-    }
-    const cardFix=document.createElement("style");
-    cardFix.dataset.game="ship-card-fix";
-    cardFix.textContent=".shipDock .shipCard,.shipDock .shipCard.selected{height:118px!important;min-height:118px!important;padding:8px 5px 7px!important;background-image:none!important;background:linear-gradient(180deg,#101b2d,#08111f)!important;background-size:auto!important;background-position:center!important;border:1px solid #314969!important;border-radius:13px!important;box-shadow:inset 0 1px 0 #ffffff12,0 8px 18px #0005!important;overflow:hidden!important;font-size:10px!important}.shipDock .shipCard.selected{border-color:#6fc9ff!important;background:linear-gradient(180deg,#14375a,#0b2137)!important;box-shadow:0 0 0 2px #43b8ff33,0 0 18px #35aaff44,inset 0 1px 0 #ffffff18!important;transform:none!important}.shipDock .shipCard .shipSvg.compact{display:block!important;opacity:1!important;width:54px!important;height:64px!important;margin:-2px auto 1px!important;object-fit:contain!important;filter:drop-shadow(0 0 6px #73d8ff88)!important}.shipDock .shipCard.viper .shipSvg.compact{filter:drop-shadow(0 0 6px #c06cff88)!important}.shipDock .shipCard.aegis .shipSvg.compact{filter:drop-shadow(0 0 6px #ffc15f88)!important}.shipDock .shipCard>b{display:block!important;font-size:10px!important;line-height:1.05!important;color:#edf7ff!important;letter-spacing:.5px!important}.shipDock .shipCard>small{display:block!important;margin-top:2px!important;font-size:8px!important;line-height:1.05!important;color:#8599b6!important}.shipDock .shipCard>.shipBars{display:none!important}.shipDock .shipCard:disabled{opacity:.5!important;filter:grayscale(.45) brightness(.78)!important}";
-    document.head.appendChild(cardFix);
-    if(nativeReady){
-      sdk.setLoadingProgress(100);
-      await sdk.startGameAsync();
-      window.__s60OneplaySdkReady = true;
-      bootDiag('sdk_start_game_success');
-    }
-    const src=doc.querySelector("script[type=module]")?.textContent||"";
-    if(!src) throw new Error("game module missing");
-    const s=document.createElement("script");
-    s.type="module";
-    s.textContent=src;
-    document.body.appendChild(s);
-    if(!nativeReady)bootDiag('public_browser_fallback_no_native_sdk');
-  }catch(e){
-    document.body.innerHTML='<div id="boot">로딩 실패: '+String(e.message||e)+'</div>';
-    bootDiag('game_module_load_exception');
-    console.error(e);
-  }
-})();
+import {createSDK} from "https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js";
+const mark=(s)=>{try{sessionStorage.setItem("s60-oneplay-host-boot-diagnostic-v1",JSON.stringify({status:s,time:new Date().toISOString()}))}catch{}};
+window.__s60OneplaySdkReady=false;
+mark("initializing");
+try{const sdk=createSDK();window.sdk=sdk;const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);await sdk.startGameAsync();window.__s60OneplaySdkReady=true;mark("native_sdk_ready")}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
+await import("/survive60/rc-next/assets/index-C6LjRFLP.js");
 </script>
 </body>
 </html>
