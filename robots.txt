@@ -1,9 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /bellglass-mysteries/play/06_OPTIONAL_HINT_01.pdf
-Disallow: /bellglass-mysteries/play/99_ANSWER_KEY_OPEN_LAST.pdf
 User-agent: Yeti
 Allow: /
-Disallow: /bellglass-mysteries/play/06_OPTIONAL_HINT_01.pdf
-Disallow: /bellglass-mysteries/play/99_ANSWER_KEY_OPEN_LAST.pdf
 Sitemap: https://dlaepdfuf89-crypto.github.io/sitemap.xml
