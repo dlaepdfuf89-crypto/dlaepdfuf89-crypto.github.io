@@ -32,7 +32,7 @@ const mark=(s)=>{try{sessionStorage.setItem("s60-oneplay-host-boot-diagnostic-v1
 window.__s60OneplaySdkReady=false;
 mark("initializing");
 try{const sdk=createSDK();window.sdk=sdk;const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);await sdk.startGameAsync();window.__s60OneplaySdkReady=true;mark("native_sdk_ready")}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
-await import("/survive60/rc-next/assets/index-GhNE7Sc9.js");
+await import("/survive60/rc-next/assets/index-Cx0uxMlv.js");
 </script>
 </body>
 </html>
