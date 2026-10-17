@@ -144,7 +144,60 @@ const localStorage=(()=>{const cache=new Map();return Object.freeze({getItem(key
       </div>
       <p id="dataStatus" role="status" class="form-message"></p>
     </section>
-  </main>
+  <section class="panel" id="sellerFeedback" style="margin-top:22px">
+<h2 style="font-size:21px;margin:0 0 8px">5분 무료 체험 · 사용성 의견</h2>
+<p class="panel-note">판매자님의 원가·상호·고객명·연락처는 받지 않습니다. 응답은 이 페이지에서 작성만 되고, 자동 수집·전송되지 않습니다.</p>
+<label for="fb_role">1. 실제로 단체주문 견적을 내본 판매자이신가요?</label>
+<select id="fb_role" style="width:100%;padding:12px;border:1px solid #cddbd9;border-radius:8px;margin:7px 0 16px">
+<option value="">선택해 주세요</option><option value="yes">예, 단체주문 견적 경험이 있습니다</option>
+<option value="no">아니요</option></select>
+<label for="fb_method">2. 평소 단체주문 견적 계산은 어떻게 하시나요?</label>
+<select id="fb_method" style="width:100%;padding:12px;border:1px solid #cddbd9;border-radius:8px;margin:7px 0 16px">
+<option value="">선택해 주세요</option><option value="manual">계산기/수기로</option>
+<option value="sheet">엑셀/스프레드시트</option><option value="app">기존 앱/서비스</option>
+<option value="other">기타</option></select>
+<p class="panel-note">3. 현재 위 계산기를 직접 사용해 주문 견적을 내고, 상품 설정 저장 후 두 번째 주문을 계산해 보세요. 아래 타이머는 두 번째 주문 계산을 시작할 때 누릅니다.</p>
+<div class="result-actions"><button id="fb_start" class="btn outline" type="button">두 번째 계산 시작</button>
+<button id="fb_done" class="btn primary" type="button" disabled>계산 완료</button></div>
+<p id="fb_clock" class="panel-note" role="status">아직 측정하지 않았습니다.</p>
+<label for="fb_reuse">4. 다음 단체주문에서 다시 사용할 구체적인 이유 또는 불편한 점</label>
+<textarea id="fb_reuse" maxlength="350" rows="3" style="width:100%;border:1px solid #cddbd9;border-radius:8px;padding:12px;margin:7px 0 16px" placeholder="제품 원가, 고객 이름, 연락처는 적지 마세요."></textarea>
+<label for="fb_paid">5. 9,900원 한 번 결제하는 유료판이라면 꼭 필요한 기능</label>
+<textarea id="fb_paid" maxlength="250" rows="2" style="width:100%;border:1px solid #cddbd9;border-radius:8px;padding:12px;margin:7px 0 16px" placeholder="예: 주문 이력 여러 건 / 여러 품목 동시에 계산 / 기타"></textarea>
+<label for="fb_error">6. 계산상 치명적인 오류를 발견하셨나요?</label>
+<select id="fb_error" style="width:100%;padding:12px;border:1px solid #cddbd9;border-radius:8px;margin:7px 0 16px">
+<option value="">선택해 주세요</option><option value="none">발견하지 못했습니다</option>
+<option value="found">발견했습니다 (상대방에게 항목만 알려주세요)</option><option value="unsure">판단 어려움</option></select>
+<button id="fb_copy" class="btn primary" type="button">익명 의견 만들고 복사</button>
+<textarea id="fb_output" readonly rows="7" style="width:100%;border:1px solid #cddbd9;border-radius:8px;padding:12px;margin-top:12px" aria-label="익명 의견 복사 영역"></textarea>
+<p id="fb_status" class="panel-note" role="status">체험 요청을 받으셨다면, 복사한 의견을 요청자에게 전달해 주세요. 이 사이트는 답변을 자동 수집하지 않습니다.</p>
+</section>
+</main>
   <footer class="footer wrap"><span>주문마진 · 연구용 P0 시제품</span><span>계산 결과는 입력값과 가정에 따라 달라집니다. 세무·회계 자문이 아닙니다.</span></footer>
+<script>
+(()=>{
+const byId=(id)=>document.getElementById(id);
+const begin=byId("fb_start"),end=byId("fb_done"),clock=byId("fb_clock");
+let startAt=null,seconds=null;
+begin.onclick=()=>{seconds=null;startAt=performance.now();end.disabled=false;clock.textContent="측정 중 · 저장된 상품을 불러와 두 번째 견적을 계산하세요.";};
+end.onclick=()=>{if(startAt===null)return;seconds=Math.round((performance.now()-startAt)/1000);startAt=null;end.disabled=true;clock.textContent="계산 완료 · "+seconds+"초"+(seconds<=120?" (2분 이내)":" (2분 초과)");};
+byId("fb_copy").onclick=async()=>{
+const role=byId("fb_role").value,method=byId("fb_method").value;
+const reuse=byId("fb_reuse").value.trim(),paid=byId("fb_paid").value.trim(),error=byId("fb_error").value;
+if(!role||!method||seconds===null||!reuse||!paid||!error){byId("fb_status").textContent="모든 항목과 두 번째 견적 계산 시간을 입력해 주세요.";return;}
+const scrub=(s)=>s.replace(/https?:\/\/\S+/gi,"[링크 제외]").replace(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g,"[이메일 제외]").replace(/\b0\d{1,2}[- ]?\d{3,4}[- ]?\d{4}\b/g,"[연락처 제외]").slice(0,350);
+const output=["[주문마진 시제품 익명 체험 의견]","단체주문 경험: "+(role==="yes"?"있음":"없음"),
+"기존 계산 방법: "+({manual:"수기/계산기",sheet:"엑셀/스프레드시트",app:"기존 앱",other:"기타"}[method]||"기타"),
+"두 번째 견적 시간: "+seconds+"초",
+"다시 쓸 이유/불편점: "+scrub(reuse),
+"9,900원 유료판 필요 기능: "+scrub(paid),
+"계산 오류: "+({none:"확인 못함",found:"발견(항목 확인 필요)",unsure:"판단 어려움"}[error]),
+"※ 실제 구매나 제품 검증이 아닌 참가자 자기 보고입니다."].join("\n");
+byId("fb_output").value=output;
+try{await navigator.clipboard.writeText(output);byId("fb_status").textContent="익명 의견을 복사했습니다. 요청자에게 직접 전달해 주세요. 자동 전송은 하지 않았습니다.";}
+catch{byId("fb_output").focus();byId("fb_output").select();byId("fb_status").textContent="자동 복사가 제한됐습니다. 위 내용을 직접 복사해 체험 요청자에게 전달해 주세요.";}
+};
+})();
+</script>
 </body>
 </html>
