@@ -37,7 +37,7 @@ const localStorage=(()=>{const cache=new Map();return Object.freeze({getItem(key
 <p style="font-size:14px;line-height:1.8">주문 25개, 한 배치 생산량 12개라면 재료비는 3배치 기준입니다. 남는 11개는 팔린 것으로 계산하지 않습니다. 배치 수, 포장비, 주문 할인, 수수료, 내 작업비를 함께 확인하세요.</p>
 <p style="font-size:13px;line-height:1.8">현재 구움과자 실제 판매자 <strong>8분의 5분 무료 사용성 평가</strong>를 모집하고 있습니다. 가입·결제·원가 자료 제출은 요구하지 않습니다. 이 페이지에서는 새로고침하면 입력한 값이 삭제되며, 답변도 자동 수집하지 않습니다.</p>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-<a href="#start" class="btn primary" style="display:inline-block;flex:1;min-width:180px;text-decoration:none;text-align:center;padding:13px">무료 주문 계산하기 ↓</a>
+<a href="#start" id="pilotDirectStart" class="btn primary" style="display:inline-block;flex:1;min-width:180px;text-decoration:none;text-align:center;padding:13px">무료 주문 계산 바로 시작</a>
 <a href="#sellerFeedback" class="btn outline" style="display:inline-block;flex:1;min-width:180px;text-decoration:none;text-align:center;padding:13px">판매자 체험 의견 ↓</a>
 </div></section><div role="note" style="background:#fff0db;color:#74512f;border:1px solid #ead2b2;padding:13px 16px;border-radius:12px;margin-top:18px;font-size:13px;line-height:1.75">공개 체험판은 개인정보와 원가를 서버에 전송하지 않고, 이 페이지 안에서만 임시 계산합니다. 새로고침하면 저장한 상품도 사라집니다. 중요한 데이터는 공개 체험판에 입력하지 마세요. 계산 결과의 백업이 필요하면 파일로 직접 내려받으세요.</div>
     <section id="home" class="screen">
@@ -197,7 +197,7 @@ document.getElementById('fb_share').addEventListener('click',async()=>{
 <p id="fb_status" class="panel-note" role="status">체험 요청을 받으셨다면, 복사한 의견을 요청자에게 전달해 주세요. 이 사이트는 답변을 자동 수집하지 않습니다.</p>
 </section>
 </main>
-  <footer class="footer wrap"><span>주문마진 · 연구용 P0 시제품</span><span>계산 결과는 입력값과 가정에 따라 달라집니다. 세무·회계 자문이 아닙니다.</span></footer>
+  <footer class="footer wrap"><span>주문마진 · 무료 체험판 · 베타</span><span>계산 결과는 입력값과 가정에 따라 달라집니다. 세무·회계 자문이 아닙니다.</span></footer>
 <script>
 (()=>{
 const byId=(id)=>document.getElementById(id);
@@ -222,6 +222,12 @@ try{await navigator.clipboard.writeText(output);byId("fb_status").textContent="�
 catch{byId("fb_output").focus();byId("fb_output").select();byId("fb_status").textContent="자동 복사가 제한됐습니다. 위 내용을 직접 복사해 체험 요청자에게 전달해 주세요.";}
 };
 })();
+</script>
+<script>
+document.getElementById('pilotDirectStart').addEventListener('click', (e)=>{
+ e.preventDefault();
+ document.getElementById('start').click();
+});
 </script>
 </body>
 </html>
