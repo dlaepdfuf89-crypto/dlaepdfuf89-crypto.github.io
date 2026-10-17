@@ -194,7 +194,14 @@ document.getElementById('fb_share').addEventListener('click',async()=>{
  catch(e){note.textContent=e.name==='AbortError'?'공유를 취소했습니다.':'공유 실패: 내용을 직접 복사해 전달해 주세요.';}
 });
 </script>
-<p id="fb_status" class="panel-note" role="status">체험 요청을 받으셨다면, 복사한 의견을 요청자에게 전달해 주세요. 이 사이트는 답변을 자동 수집하지 않습니다.</p>
+<section id="feedbackReceiver" class="panel" style="margin-top:14px">
+<h3>주문마진 무료 체험 의견 수신</h3>
+<p><a id="feedbackAddress" href="mailto:dlaepdfuf89@gmail.com">dlaepdfuf89@gmail.com</a></p>
+<p class="panel-note">이 주소는 무료 체험 의견을 받는 공개 연락처입니다. 먼저 아래의 '익명 의견 만들고 복사'를 눌러 의견을 생성해 주세요. 메일 앱에서 내용을 확인하고 직접 보내야 전송됩니다. 사이트는 자동 수집·발송하지 않습니다.</p>
+<a id="fb_email" href="mailto:dlaepdfuf89@gmail.com" class="btn primary" style="display:inline-block;text-decoration:none;padding:13px">익명 의견을 이메일로 보내기</a>
+<p id="fb_emailStatus" role="status" class="panel-note">메일 앱이 없다면 의견을 복사해 위 수신 주소로 직접 보내 주세요.</p>
+</section>
+<p id="fb_status" class="panel-note" role="status">익명 의견을 작성한 후 위 공개 수신처로 보내 주세요. 사이트는 자동으로 전송하지 않습니다.</p>
 </section>
 </main>
   <footer class="footer wrap"><span>주문마진 · 무료 체험판 · 베타</span><span>계산 결과는 입력값과 가정에 따라 달라집니다. 세무·회계 자문이 아닙니다.</span></footer>
@@ -227,6 +234,15 @@ catch{byId("fb_output").focus();byId("fb_output").select();byId("fb_status").tex
 document.getElementById('pilotDirectStart').addEventListener('click', (e)=>{
  e.preventDefault();
  document.getElementById('start').click();
+});
+</script>
+<script>
+document.getElementById('fb_email').addEventListener('click',function(e){
+ const feedback=document.getElementById('fb_output').value.trim();
+ const status=document.getElementById('fb_emailStatus');
+ if(!feedback){e.preventDefault();status.textContent='먼저 체험 의견을 생성해 주세요.';return;}
+ this.href='mailto:dlaepdfuf89@gmail.com?subject='+encodeURIComponent('주문마진 무료 체험 의견')+'&body='+encodeURIComponent(feedback);
+ status.textContent='이메일 앱에서 수신인과 내용을 확인하고 직접 보내기를 눌러 주세요. 아직 발송을 확인한 것은 아닙니다.';
 });
 </script>
 </body>
