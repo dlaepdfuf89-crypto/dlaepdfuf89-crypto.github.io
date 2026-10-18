@@ -12,10 +12,11 @@ banner.id="sandbox-diagnostic";
 banner.setAttribute("role","status");
 banner.style.cssText="position:fixed;z-index:999999;top:32px;left:4px;right:4px;background:rgba(10,18,37,.92);border:1px solid #76b9d0;border-radius:5px;padding:5px;color:#e8f5ff;font:12px/1.5 sans-serif;pointer-events:none;";
 document.documentElement.appendChild(banner);
-let sdkState="PENDING",purchaseState="PENDING",serverState="PENDING",lastFail="-";
-function paint(){banner.textContent="SANDBOX DIAG | SDK: "+sdkState+" | IAP: "+purchaseState+" | API: "+serverState+" | ERROR: "+lastFail;}
+let sdkState="PENDING",purchaseState="PENDING",productState="-",serverState="PENDING",lastStage="-",lastFail="-";
+function paint(){banner.textContent="SANDBOX DIAG | SDK:"+sdkState+" | IAP:"+purchaseState+" | SKU:"+productState+" | API:"+serverState+" | STEP:"+lastStage+" | ERROR:"+lastFail;}
 paint();
-window.addEventListener("s60-iap-error",e=>{lastFail=String(e.detail?.reason||"unknown").slice(0,110);paint();});
+window.addEventListener("s60-iap-error",e=>{lastFail=String(e.detail?.reason||"unknown").slice(0,100);paint();});
+window.addEventListener("s60-iap-phase",e=>{lastStage=String(e.detail?.stage||"-").slice(0,28);paint();});
 window.__s60OneplaySdkReady=false;
 try{
  const m=await import("https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js");
@@ -24,15 +25,19 @@ try{
  const result=await sdk.initializeAsync();
  if(result?.err){sdkState="ERROR "+String(result.err).slice(0,35);}
  else{
+  sdk.setLoadingProgress(100);
   const started=await sdk.startGameAsync();
   if(started?.err){sdkState="START_ERROR "+String(started.err).slice(0,35);}
   else{window.__s60OneplaySdkReady=true;sdkState="OK";}
  }
  try{purchaseState=String(sdk.iap?.isSupported("purchase")===true);}catch{purchaseState="ERROR";}
-}catch(error){sdkState="ERROR "+String(error?.message||error).slice(0,60);}
+ if(window.__s60OneplaySdkReady===true && sdk.iap?.isSupported("getProductDetails")===true){
+  sdk.iap.getProductDetailsAsync(["coin_500"]).then(v=>{productState=Array.isArray(v)?(v.some(x=>x.productId==="coin_500")?"YES":"NOT_FOUND"):"INVALID";paint();}).catch(e=>{productState="ERROR "+String(e?.reason||"unknown").slice(0,28);paint();});
+ }else{productState="UNSUPPORTED";}
+}catch(error){sdkState="ERROR "+String(error?.reason||error?.message||error).slice(0,60);}
 paint();
 try{const res=await fetch("https://survive60-oneplay-iap-sandbox.dlaepdfuf58.workers.dev/v1/iap/availability",{cache:"no-store"});const obj=await res.json();serverState=res.status===200&&obj.ready===true?"OK":"HTTP "+res.status;}catch(error){serverState="NETWORK";}paint();
-await import("/survive60/iap-sandbox/assets/index-_7w6Vxbf.js");
+await import("/survive60/iap-sandbox/assets/index-BhT3sEgN.js");
 </script>
     <link rel="stylesheet" crossorigin href="/survive60/iap-sandbox/assets/index--DhrQQxl.css">
   </head>
