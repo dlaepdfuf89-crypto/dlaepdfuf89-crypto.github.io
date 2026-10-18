@@ -37,7 +37,7 @@ try{
 }catch(error){sdkState="ERROR "+String(error?.reason||error?.message||error).slice(0,60);}
 paint();
 try{const res=await fetch("https://survive60-oneplay-iap-sandbox.dlaepdfuf58.workers.dev/v1/iap/availability",{cache:"no-store"});const obj=await res.json();serverState=res.status===200&&obj.ready===true?"OK":"HTTP "+res.status;}catch(error){serverState="NETWORK";}paint();
-await import("/survive60/iap-sandbox/assets/index-BhT3sEgN.js");
+await import("/survive60/iap-sandbox/assets/index-BDzrh1DV.js");
 </script>
     <link rel="stylesheet" crossorigin href="/survive60/iap-sandbox/assets/index--DhrQQxl.css">
   </head>
