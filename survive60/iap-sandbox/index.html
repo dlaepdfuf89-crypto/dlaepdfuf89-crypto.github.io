@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#071321" />
+    <link rel="icon" type="image/png" href="/survive60/iap-sandbox/favicon.png" />
+    <title>60초만 버텨봐 | Survive 60</title>
+    <script type="module">
+import {createSDK} from "https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js";
+window.__s60OneplaySdkReady=false;
+try {
+ const sdk=createSDK();
+ window.sdk=sdk;
+ const result=await sdk.initializeAsync();
+ if(!result?.err){
+   sdk.setLoadingProgress(100);
+   await sdk.startGameAsync();
+   window.__s60OneplaySdkReady=true;
+ }
+} catch(error){console.warn("ONEplay SDK unavailable in test-only page", error)}
+await import("/survive60/iap-sandbox/assets/index-C057uUa6.js");
+</script>
+    <link rel="stylesheet" crossorigin href="/survive60/iap-sandbox/assets/index--DhrQQxl.css">
+  </head>
+  <body>
+    <div id="root"></div>
+<div role="status" aria-label="Sandbox test" style="position:fixed;right:4px;top:4px;z-index:9999;padding:3px 7px;border-radius:5px;background:#152e46;color:#fff;font:12px Arial,sans-serif;pointer-events:none">ONEplay SANDBOX / 테스트 전용</div>
+  </body>
+</html>
