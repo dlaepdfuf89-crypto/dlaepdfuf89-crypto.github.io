@@ -10,10 +10,12 @@
 const banner=document.createElement("div");
 banner.id="sandbox-diagnostic";
 banner.setAttribute("role","status");
-banner.style.cssText="position:fixed;z-index:999999;top:32px;left:4px;right:4px;background:rgba(10,18,37,.92);border:1px solid #76b9d0;border-radius:5px;padding:5px;color:#e8f5ff;font:12px/1.5 sans-serif;white-space:pre-line;pointer-events:none;";
+banner.style.cssText="position:fixed;z-index:999999;top:3px;left:4px;right:123px;max-height:22px;overflow:hidden;background:rgba(10,18,37,.92);border:1px solid #76b9d0;border-radius:5px;padding:3px 5px;color:#e8f5ff;font:11px/1.4 sans-serif;white-space:nowrap;cursor:pointer;";
 document.documentElement.appendChild(banner);
 let sdkState="PENDING",purchaseState="PENDING",productState="-",serverState="PENDING",lastStage="-",lastFail="-";
-let serverGrants="-",serverCoins="-",revoked="-";
+let serverGrants="-",serverCoins="-",revoked="-",expanded=false;
+banner.setAttribute("aria-label","Sandbox 진단 상세 펼치기");
+banner.addEventListener("click",()=>{expanded=!expanded;banner.setAttribute("aria-label",expanded?"Sandbox 진단 상세 접기":"Sandbox 진단 상세 펼치기");paint();});
 function paint(){
  let session="NO",legacy="NO",localCoins="-",paidMarks=0;
  try{
@@ -22,9 +24,14 @@ function paint(){
   const wallet=JSON.parse(localStorage.getItem("s60-wallet-v2:oneplay-sandbox")||"null");
   if(wallet&&Number.isSafeInteger(wallet.balance)){localCoins=String(wallet.balance);paidMarks=Array.isArray(wallet.orders)?wallet.orders.filter(x=>typeof x==="string"&&x.startsWith("oneplay:")).length:0;}
  }catch{localCoins="READ_ERROR";}
- banner.textContent="SANDBOX | SDK:"+sdkState+" | IAP:"+purchaseState+" | SKU:"+productState+" | API:"+serverState
+ banner.style.top=expanded?"82px":"3px";
+ banner.style.right=expanded?"4px":"123px";
+ banner.style.maxHeight=expanded?"none":"22px";
+ banner.style.whiteSpace=expanded?"pre-line":"nowrap";
+ banner.textContent=expanded?("SANDBOX | SDK:"+sdkState+" | IAP:"+purchaseState+" | SKU:"+productState+" | API:"+serverState
   +"\nSESSION:"+session+" | LEGACY:"+legacy+" | SERVER:"+serverGrants+"건/"+serverCoins+"코인 | REFUNDS:"+revoked
-  +"\nGAME COINS:"+localCoins+" | PURCHASE MARKERS:"+paidMarks+" | STEP:"+lastStage+" | ERROR:"+lastFail;
+  +"\nGAME COINS:"+localCoins+" | PURCHASE MARKERS:"+paidMarks+" | STEP:"+lastStage+" | ERROR:"+lastFail)
+  :("SANDBOX | 서버:"+serverCoins+" · 게임:"+localCoins+" (상세)");
 }
 window.addEventListener("s60-iap-ledger",e=>{serverGrants=String(e.detail?.count??"?");serverCoins=String(e.detail?.coins??"?");revoked=String(e.detail?.revoked??"?");lastFail="-";paint();});
 const retry=document.createElement("button");retry.textContent="↻ 코인 동기화";retry.type="button";
