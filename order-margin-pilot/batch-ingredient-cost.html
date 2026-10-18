@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구움과자 한 배치 재료비 계산기 | 주문마진 무료 도구</title>
+<meta name="description" content="밀가루·버터·설탕 등 구입한 재료의 가격·포장량·배치 사용량으로 구움과자 한 번 생산할 때의 재료비를 계산합니다. 무료·가입 없음·서버 저장 없음.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://dlaepdfuf89-crypto.github.io/order-margin-pilot/batch-ingredient-cost.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="밀가루·버터 원가부터 계산해 한 배치 재료비 알아보기">
+<meta property="og:description" content="재료별 구입가와 사용량을 입력해 한 배치 원가를 계산한 후 주문마진 단체주문 견적에 입력해 보세요.">
+<meta property="og:url" content="https://dlaepdfuf89-crypto.github.io/order-margin-pilot/batch-ingredient-cost.html">
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:#20382d;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f8f5;line-height:1.68;word-break:keep-all}
+header{background:#164636;color:white}
+nav{max-width:900px;margin:auto;padding:16px 20px;display:flex;justify-content:space-between;gap:14px;align-items:center}
+nav a{color:white;font-size:.88rem}
+main{max-width:900px;margin:25px auto 60px;background:white;border:1px solid #dfeae2;border-radius:16px;padding:28px 33px}
+h1{font-size:clamp(1.6rem,4vw,2.25rem);line-height:1.32;letter-spacing:-.035em;margin:7px 0 18px}
+h2{font-size:1.3rem;margin:30px 0 8px}
+p{margin:12px 0}
+small,.subtle{font-size:.87rem;color:#5a7262}
+button,.button{font:inherit;border:0;background:#176b50;color:white;padding:11px 15px;border-radius:9px;cursor:pointer;font-weight:700}
+button.alt,.button.alt{background:#ebf1ed;color:#235540}
+button:disabled{background:#d7e2db;color:#6f8377;cursor:default}
+.button{display:inline-block;text-decoration:none}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin:17px 0}
+.actions>*{flex:0 1 auto}
+section.ingredient{border:1px solid #cadcd0;border-radius:12px;padding:17px;margin:12px 0;background:#fcfefd}
+.ingredient-header{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ingredient-header h3{font-size:1.05rem;margin:0}
+.ingredient-header button{padding:5px 11px;font-size:.9rem}
+.fields{display:grid;grid-template-columns:1.5fr repeat(3,minmax(0,1fr));gap:12px}
+label{font-size:.85rem;color:#395747;display:block;font-weight:650}
+input{width:100%;padding:11px 10px;border:1px solid #bacbbe;border-radius:7px;font:inherit;color:#1e332a;background:white;margin:4px 0 0}
+input:focus{outline:2px solid #1c8560;outline-offset:1px}
+.result{border:1px solid #b2dbc4;background:#f2fbf5;border-radius:12px;padding:17px;margin:24px 0}
+#total{font-size:2rem;font-weight:820;color:#135e45;line-height:1.35}
+#message{min-height:25px;color:#ab422b;font-size:.9rem}
+table{width:100%;border-collapse:collapse}
+th,td{padding:9px 5px;border-bottom:1px solid #d9e9df;text-align:left}
+td:last-child,th:last-child{text-align:right}
+#detail td:first-child{overflow-wrap:anywhere}
+footer{max-width:900px;margin:0 auto 35px;padding:0 20px;color:#5a7262;font-size:.86rem}
+@media(max-width:700px){main{margin:0;border:none;border-radius:0;padding:22px 16px}.fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.fields label:first-child{grid-column:1/-1}.actions>*{flex:1 1 135px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"주문마진 한 배치 재료비 계산기","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"ko-KR","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"url":"https://dlaepdfuf89-crypto.github.io/order-margin-pilot/batch-ingredient-cost.html","description":"소규모 제과 공방의 재료 구입가와 한 번 생산할 때 사용량으로 배치 재료비를 계산하는 무료 웹 도구"}</script>
+</head>
+<body>
+<header><nav><strong>주문마진 · 배치 재료비 계산</strong><a href="./">단체주문 견적 계산기 ↗</a></nav></header>
+<main>
+<p class="subtle">구움과자 공방용 · 가입 없음 · 로컬 계산</p>
+<h1>밀가루·버터·설탕, 한 번 구울 때 재료비는 얼마인가요?</h1>
+<p>큰 포장으로 구입한 재료라도 <strong>한 배치에 실제로 사용하는 양</strong>만큼 나눠 계산합니다. 원가가 정리되면 <strong>주문마진의 ‘한 배치 재료비’</strong> 입력칸에 그 금액을 복사해 넣으세요.</p>
+<p class="subtle">중량(g)·부피(mL)·개수(개)는 재료별로 자유롭게 쓸 수 있으나, <strong>같은 재료의 구입량과 사용량은 반드시 동일 단위</strong>여야 합니다. 숫자만 입력합니다.</p>
+<div class="actions">
+<button id="sample" type="button" class="alt">가상 쿠키 배합 예시 채우기</button>
+<button id="add" type="button">재료 한 줄 추가</button>
+<button id="clear" class="alt" type="button">입력 초기화</button>
+</div>
+<div id="rows" aria-label="원재료 입력 목록"></div>
+<p id="message" role="status" aria-live="polite"></p>
+<section class="result" aria-live="polite">
+<strong>한 배치 재료비 합계</strong>
+<div id="total">—</div>
+<p class="subtle">재료별 정밀 계산값을 합산한 후 합계만 원 단위로 반올림합니다. 화면에 반올림한 개별 원가의 합계와 1원 정도 차이 날 수 있습니다.</p>
+<table><thead><tr><th>재료</th><th>배치 사용 원가</th></tr></thead><tbody id="detail"></tbody></table>
+</section>
+<div class="actions">
+<button id="copy" disabled type="button">배치 재료비 숫자 복사</button>
+<a class="button alt" href="./#start" target="_blank" rel="noopener noreferrer">주문마진 계산기로 가기 ↗</a>
+</div>
+<p id="copyStatus" class="subtle" role="status">한 배치에 사용한 모든 재료를 입력한 뒤 숫자를 복사하세요.</p>
+<h2>가상 배합 예시</h2>
+<p>밀가루 1,000g을 2,400원에 사서 300g 사용하면 <strong>720원</strong>, 버터 450g을 9,900원에 사서 90g 사용하면 <strong>1,980원</strong>, 설탕 1,000g을 2,600원에 사서 100g 사용하면 <strong>260원</strong>입니다. 이 세 재료의 가상 배치 비용 합은 <strong>2,960원</strong>입니다. 다른 재료가 있다면 전부 추가해야 정확한 배치 재료비가 됩니다.</p>
+<h2>견적에서 빠뜨리면 안 되는 비용</h2>
+<p>이 도구는 **재료비만** 계산합니다. 완제품 포장, 판매·결제 수수료, 할인, 본인 작업시간, 임대료 등은 여기에 섞지 말고 <a href="./">주문마진 단체주문 계산기</a>에서 별도 입력하세요. 폐기·손실률, 배송, 세금과 비정상적인 대량 주문은 사용자가 직접 확인해야 합니다.</p>
+<p>유상 결제 기능이 없는 무료 웹 시제품입니다. <strong>입력 데이터는 서버로 자동 전송되지 않고 브라우저에 영구 저장되지 않습니다.</strong> 이 페이지를 닫거나 새로고침하면 사라집니다. 실제 업체·고객 개인정보를 입력하지 마세요.</p>
+<p><a href="./trial-feedback-30sec.html" target="_blank" rel="noopener">이 도구에서 부족한 점을 30초 만에 의견 보내기</a></p>
+</main>
+<footer><a href="./privacy.html">개인정보 처리방침</a> · 사용금액은 입력에 따른 시뮬레이션이며 회계·세무 자문이나 확정 판매 원가가 아닙니다.</footer>
+<script>
+(()=>{
+'use strict';
+const rows=document.getElementById('rows'),add=document.getElementById('add'),clear=document.getElementById('clear');
+const sample=document.getElementById('sample'),message=document.getElementById('message');
+const total=document.getElementById('total'),detail=document.getElementById('detail'),copy=document.getElementById('copy'),status=document.getElementById('copyStatus');
+const formatter=new Intl.NumberFormat('ko-KR',{maximumFractionDigits:0});
+const nmax=1_000_000_000;
+const maxRows=12;
+let result=null;
+const fields=[['ingredient','재료명','예: 박력분'],['price','구입한 포장 가격 (원)','2400'],['pack','구입한 포장량 (g·mL·개)','1000'],['used','한 배치 사용량 (같은 단위)','300']];
+const number=(s,zero=false)=>{
+ const t=String(s).trim().replaceAll(',','');
+ if(!/^\d{1,9}(?:\.\d{1,3})?$/.test(t))return NaN;
+ const v=Number(t);return Number.isFinite(v)&&v<=nmax&&(zero?v>=0:v>0)?v:NaN;
+};
+function addRow(values={}){
+ if(rows.children.length>=maxRows)return;
+ const section=document.createElement('section');section.className='ingredient';
+ const head=document.createElement('div');head.className='ingredient-header';
+ const title=document.createElement('h3');title.textContent='재료';head.append(title);
+ const remove=document.createElement('button');remove.className='alt';remove.type='button';remove.textContent='삭제';head.append(remove);
+ section.append(head);
+ const grid=document.createElement('div');grid.className='fields';
+ fields.forEach(([key,labelText,placeholder])=>{
+   const label=document.createElement('label');label.textContent=labelText;
+   const field=document.createElement('input');field.dataset.field=key;field.type='text';field.autocomplete='off';field.placeholder=placeholder;
+   field.inputMode=key==='ingredient'?'text': 'decimal';field.maxLength=key==='ingredient'?40:16;
+   field.value=values[key]??'';field.addEventListener('input',calculate);
+   label.append(field);grid.append(label);
+ });
+ section.append(grid);rows.append(section);
+ remove.addEventListener('click',()=>{section.remove();relabel();calculate()});
+ relabel();calculate();
+}
+function relabel(){[...rows.children].forEach((r,i)=>{r.querySelector('h3').textContent='재료 '+(i+1)});add.disabled=rows.children.length>=maxRows}
+function calculate(){
+ result=null;copy.disabled=true;status.textContent='검증된 결과가 나오면 숫자를 복사할 수 있습니다.';
+ message.textContent='';detail.replaceChildren();total.textContent='—';
+ const data=[];
+ let error='';
+ for(const [index,row] of [...rows.children].entries()){
+  const get=k=>row.querySelector('[data-field="'+k+'"]').value.trim();
+  const name=get('ingredient'),price=get('price'),pack=get('pack'),used=get('used');
+  if([name,price,pack,used].every(x=>x===''))continue;
+  if(!name||!price||!pack||!used){error='재료 '+(index+1)+'번은 이름·구입가·포장량·사용량을 모두 입력하세요.';break}
+  const p=number(price,true),q=number(pack),u=number(used,true);
+  if(name.length>40||!Number.isInteger(p)||!Number.isFinite(q)||!Number.isFinite(u)){
+   error='재료 '+(index+1)+'번의 금액은 원 단위 정수, 포장량·사용량은 0 이상의 숫자(소수 3자리 이하)로 입력해 주세요.';break
+  }
+  const cost=p*u/q;
+  if(!Number.isFinite(cost)||cost>1e12){error='금액이 너무 큽니다. 배치 사용량·구입량을 확인하세요.';break}
+  data.push({name,cost});
+ }
+ if(error){message.textContent=error;return}
+ if(!data.length){message.textContent='재료를 하나 이상 입력하거나 가상 배합 예시를 눌러보세요.';return}
+ const sum=data.reduce((n,x)=>n+x.cost,0);
+ if(!Number.isSafeInteger(Math.round(sum))||sum>1e12){message.textContent='합계가 너무 큽니다. 입력을 확인하세요.';return}
+ result=Math.round(sum);
+ total.textContent=formatter.format(result)+'원';
+ data.forEach(({name,cost})=>{
+  const tr=document.createElement('tr'),one=document.createElement('td'),two=document.createElement('td');
+  one.textContent=name;two.textContent=formatter.format(Math.round(cost))+'원';tr.append(one,two);detail.append(tr);
+ });
+ copy.disabled=false;message.textContent='유효한 재료 '+data.length+'개를 계산했습니다.';
+}
+add.addEventListener('click',()=>addRow());
+clear.addEventListener('click',()=>{rows.replaceChildren();addRow();status.textContent='입력 자료를 초기화했습니다.'});
+sample.addEventListener('click',()=>{
+ rows.replaceChildren();
+ addRow({ingredient:'밀가루',price:'2400',pack:'1000',used:'300'});
+ addRow({ingredient:'버터',price:'9900',pack:'450',used:'90'});
+ addRow({ingredient:'설탕',price:'2600',pack:'1000',used:'100'});
+ status.textContent='이 값은 실제 업체 원가가 아닌 가상 예시입니다.';
+});
+copy.addEventListener('click',async()=>{
+ if(result===null)return;
+ try{await navigator.clipboard.writeText(String(result));status.textContent='배치 재료비 '+formatter.format(result)+'원을 숫자로 복사했습니다. 주문마진의 ‘한 배치 재료비’ 칸에 붙여넣으세요.';}
+ catch{status.textContent='복사에 실패했습니다. 위 합계 숫자 '+formatter.format(result)+'을 직접 입력하세요.'}
+});
+addRow();
+})();
+</script>
+</body>
+</html>
