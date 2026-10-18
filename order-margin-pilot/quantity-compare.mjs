@@ -58,4 +58,6 @@ if(form&&screen){
  }
  form.addEventListener('submit',()=>queueMicrotask(refresh));
  demo?.addEventListener('click',()=>queueMicrotask(refresh));
+ // Late-loaded enhancement: a quote may already be visible before this module is ready.
+ if(!screen.hidden)queueMicrotask(refresh);
 }
