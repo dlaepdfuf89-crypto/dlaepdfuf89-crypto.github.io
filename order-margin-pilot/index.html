@@ -87,7 +87,7 @@ const localStorage=(()=>{const cache=new Map();return Object.freeze({getItem(key
             <legend><span class="numb">1</span> 제품과 주문 수량</legend>
             <div class="field-row">
               <label>한 배치 생산량 <span class="req">필수</span><span class="hint">정상 납품 가능한 수량</span><input name="yield" inputmode="numeric" type="text" autocomplete="off" placeholder="예: 12" data-unit="개"><span class="unit">개</span><small class="error" data-error="yield"></small></label>
-              <label>한 배치 재료비 <span class="hint">전체 배치의 원가</span><input name="batchCost" inputmode="numeric" type="text" autocomplete="off" placeholder="예: 12000"><span class="unit">원</span><small class="error" data-error="batchCost"></small></label>
+              <label>한 배치 재료비 <span class="hint">전체 배치의 원가 · <a id="ingredientHelperLink" href="./batch-ingredient-cost.html" target="_blank" rel="noopener noreferrer">재료별로 계산하기 ↗</a></span><input name="batchCost" inputmode="numeric" type="text" autocomplete="off" placeholder="예: 12000"><span class="unit">원</span><small class="error" data-error="batchCost"></small></label>
               <label>주문 수량 <span class="req">필수</span><input name="quantity" inputmode="numeric" type="text" autocomplete="off" placeholder="예: 48"><span class="unit">개</span><small class="error" data-error="quantity"></small></label>
               <label>개당 판매가 <span class="req">필수</span><input name="unitPrice" inputmode="numeric" type="text" autocomplete="off" placeholder="예: 3500"><span class="unit">원</span><small class="error" data-error="unitPrice"></small></label>
             </div>
