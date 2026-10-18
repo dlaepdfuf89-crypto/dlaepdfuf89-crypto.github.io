@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>30초 체험 의견 · 주문마진 무료 원가 계산기</title>
+<meta name="description" content="주문마진 구움과자 단체주문 계산기 무료 체험 의견을 간단히 보내주세요. 가입·주문 원가·전화번호 제출은 필요 없습니다.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://dlaepdfuf89-crypto.github.io/order-margin-pilot/trial-feedback-30sec.html">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f8f6;color:#18352b;font:16px/1.7 system-ui,-apple-system,"Noto Sans KR",sans-serif;word-break:keep-all}
+nav{background:#143c32;color:white;padding:14px max(18px,calc((100vw - 700px)/2));display:flex;justify-content:space-between;gap:12px}
+nav a{color:white;font-size:14px}
+main{max-width:730px;background:white;margin:24px auto;padding:28px;border:1px solid #e0eae4;border-radius:16px}
+h1{font-size:clamp(23px,4.5vw,33px);line-height:1.4;margin:0 0 12px;letter-spacing:-.04em}
+p{margin:8px 0 18px}
+.small{font-size:14px;color:#52685b}.group{margin:24px 0}.group strong{display:block;margin-bottom:10px}
+.choice{display:block;padding:12px 13px;margin:8px 0;border:1px solid #bfcfc5;border-radius:9px;cursor:pointer}
+.choice:has(input:checked){border-color:#156e53;background:#eaf7f0}
+.choice input{margin-right:9px;accent-color:#156e53}
+textarea{width:100%;border:1px solid #bfcfc5;border-radius:9px;padding:12px;font:inherit;resize:vertical;min-height:82px}
+button,.link-button{appearance:none;border:none;border-radius:9px;padding:13px 17px;font:inherit;font-weight:750;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
+.primary{color:#fff;background:#14654f}.secondary{background:#eaf1eb;color:#164d3e}
+.actions{display:flex;flex-wrap:wrap;gap:9px}
+.status{min-height:24px;font-size:14px;color:#174e3d;margin-top:12px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f7f4;border:1px solid #e0eae4;border-radius:8px;padding:12px;font:13px/1.7 system-ui,sans-serif}
+footer{max-width:730px;margin:0 auto 30px;padding:0 16px;font-size:13px;color:#52685b}
+@media(max-width:600px){main{margin:0;border-radius:0;border:none;padding:23px 17px}.actions>*{flex:1 1 200px}}
+</style>
+</head>
+<body>
+<nav><strong>주문마진</strong><a href="./" rel="home">무료 계산기로 돌아가기</a></nav>
+<main>
+<p class="small">구움과자·답례품 단체주문 계산기 | 실사용자 의견 수집</p>
+<h1>30초만에 사용 의견을 남겨주세요</h1>
+<p>가입이나 구매는 필요 없습니다. 의견은 <strong>직접 이메일 전송 또는 복사</strong>하는 방식이며, 사이트가 자동 저장하거나 보내지는 않습니다.</p>
+<div class="group" role="group" aria-labelledby="roleTitle">
+<strong id="roleTitle">1. 단체주문 견적 경험이 있으신가요?</strong>
+<label class="choice"><input type="radio" name="role" value="현업 판매자: 견적 경험 있음">네, 실제로 판매하거나 견적을 내봤어요</label>
+<label class="choice"><input type="radio" name="role" value="판매 준비/관심">아니요, 판매 준비 중이거나 관심이 있어요</label>
+</div>
+<div class="group" role="group" aria-labelledby="opinionTitle">
+<strong id="opinionTitle">2. 주문마진을 보고 든 생각은?</strong>
+<label class="choice"><input type="radio" name="opinion" value="업무에서 써보고 싶음">단체주문 견적에 써보고 싶어요</label>
+<label class="choice"><input type="radio" name="opinion" value="개선이 필요함">불편하거나 필요한 기능이 빠졌어요</label>
+<label class="choice"><input type="radio" name="opinion" value="현재는 사용할 이유가 없음">제 업무에는 필요하지 않아요</label>
+<label class="choice"><input type="radio" name="opinion" value="계산 오류 의심">계산이 이상한 것 같아요</label>
+</div>
+<label for="comment"><strong>선택: 어떤 점 때문인가요?</strong></label>
+<textarea id="comment" maxlength="200" placeholder="예: 포장 박스 단위 비용도 계산하면 좋겠습니다. (실제 원가·고객 정보는 넣지 마세요)"></textarea>
+<p class="small">이메일을 보내면 발신 이메일 주소가 수신자에게 보일 수 있습니다. 익명으로 공유하려면 미리보기 내용을 복사해 별도 익명 전달 경로에서 직접 보내세요. 실제 주문 원가, 고객명, 전화번호, 상호 등은 작성하지 마세요.</p>
+<div class="actions">
+<button id="make" class="primary" type="button">의견 만들기</button>
+<a id="email" class="link-button secondary" href="#" aria-disabled="true">이메일로 보내기</a>
+<button id="copy" class="secondary" type="button" disabled>의견 복사</button>
+</div>
+<p id="status" class="status" role="status">2개 항목을 선택하면 의견을 만들 수 있습니다.</p>
+<pre id="preview" hidden aria-label="전송할 의견 미리보기"></pre>
+<p class="small">수신: <a href="mailto:dlaepdfuf89@gmail.com">dlaepdfuf89@gmail.com</a> · 전송 전 이메일 앱에서 최종 확인해야 합니다. 전송 여부는 사이트에서 알 수 없습니다.</p>
+<p class="small"><a href="./#sellerFeedback">기존 5분 상세 설문 보기</a> · <a href="./bakery-bulk-order-quote.html">견적 계산 예시 보기</a></p>
+</main>
+<footer><a href="./privacy.html">개인정보 처리방침</a> · 현재 공개 버전은 무료 웹 베타이며, 답변·매출·사용 경험을 자동으로 확인하지 않습니다.</footer>
+<script>
+(()=>{
+'use strict';
+const role=document.querySelectorAll('input[name="role"]');
+const opinion=document.querySelectorAll('input[name="opinion"]');
+const comment=document.getElementById('comment');
+const make=document.getElementById('make');
+const email=document.getElementById('email');
+const copy=document.getElementById('copy');
+const status=document.getElementById('status');
+const preview=document.getElementById('preview');
+let current='';
+const chosen=(nodes)=>[...nodes].find(x=>x.checked)?.value||'';
+const clean=s=>s.trim().replace(/[\u0000-\u001f\u007f]/g,' ').slice(0,200);
+const invalidate=()=>{
+ current='';email.setAttribute('href','#');email.setAttribute('aria-disabled','true');copy.disabled=true;preview.hidden=true;
+ status.textContent='변경된 선택을 확인하고 의견 만들기를 다시 눌러주세요.';
+};
+for(const e of [...role,...opinion,comment])e.addEventListener('change',invalidate);
+comment.addEventListener('input',invalidate);
+make.addEventListener('click',()=>{
+ const a=chosen(role),b=chosen(opinion);
+ if(!a||!b){status.textContent='1번과 2번 항목을 모두 선택해 주세요.';return;}
+ const detail=clean(comment.value);
+ current=['[주문마진 30초 무료 체험 의견]','단체주문 경험: '+a,'체험 의견: '+b,'이유: '+(detail||'미작성'),'※ 입력한 원가나 개인정보는 포함하지 말아 주세요.'].join('\n');
+ preview.textContent=current;
+ preview.hidden=false;copy.disabled=false;
+ email.setAttribute('href','mailto:dlaepdfuf89@gmail.com?subject='+encodeURIComponent('주문마진 30초 사용 의견')+'&body='+encodeURIComponent(current));
+ email.setAttribute('aria-disabled','false');
+ status.textContent='의견 미리보기를 확인했습니다. 이메일 앱에서 직접 보내거나 내용을 복사하세요. 자동 발송되지 않습니다.';
+});
+email.addEventListener('click',event=>{
+ if(!current){event.preventDefault();status.textContent='먼저 1번·2번을 선택하고 의견 만들기를 눌러주세요.';return;}
+ status.textContent='이메일 앱이 열리면 수신처·본문을 확인하고 직접 전송하세요. 사이트는 발송 여부를 확인하지 않습니다.';
+});
+copy.addEventListener('click',async()=>{
+ if(!current)return;
+ try{
+   await navigator.clipboard.writeText(current);
+   status.textContent='의견 문구를 복사했습니다. 실제 발송은 사용자가 직접 진행해야 합니다.';
+ }catch{
+   const selection=window.getSelection();
+   const range=document.createRange();range.selectNodeContents(preview);selection.removeAllRanges();selection.addRange(range);
+   status.textContent='자동 복사가 차단됐습니다. 선택된 내용을 길게 눌러 복사해 주세요.';
+ }
+});
+})();
+</script>
+</body>
+</html>
