@@ -74,6 +74,18 @@ footer{padding-top:35px;padding-bottom:30px;font-size:12px;color:#67778b}
 </tbody></table>
 <p class="note"><span class="warn">제외 행 2건:</span> 수량 빈칸 1건, 존재하지 않는 날짜(2026-02-30) 1건. 오류 행이 있다면 집계 결과는 부분 집계로 표시합니다.</p>
 </div>
+
+<div class="panel" style="margin-top:18px">
+<h3>가상 CSV 파일로 직접 검증해 보세요</h3>
+<p class="note">개인정보가 없는 2026년 가상 거래 예시입니다. 입력 5행 중 3행은 집계, 2행은 검수 대상으로 분류했습니다. 아래 4개 파일은 <strong>실제 처리 엔진에서 생성해 검증한 가상 예제</strong>이며 유료 고객 납품물이 아닙니다.</p>
+<div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px">
+<div class="card"><strong>원본 CSV</strong><p class="note">정상·오류 데이터 5행</p><a href="./samples/example_input.csv" download>원본 예시 내려받기 ↓</a></div>
+<div class="card"><strong>정상 거래 통합</strong><p class="note">검증 통과 3행</p><a href="./samples/example_merged.csv" download>통합 결과 내려받기 ↓</a></div>
+<div class="card"><strong>거래처·상품별 집계</strong><p class="note">수량 6 / 금액 55,000원</p><a href="./samples/example_summary.csv" download>집계 결과 내려받기 ↓</a></div>
+<div class="card"><strong>오류 분리 내역</strong><p class="note">수량 빈칸·유효하지 않은 날짜</p><a href="./samples/example_errors.csv" download>오류 목록 내려받기 ↓</a></div>
+</div>
+<p class="note">Windows Excel에서 열 수 있는 BOM 포함 UTF-8 CSV입니다. 엑셀 XLSX 파일과 혼동하지 마세요.</p>
+</div>
 </section>
 <section id="scope" class="section">
 <h2>지원 범위와 사전 확인 사항</h2>
