@@ -1,0 +1,9 @@
+{
+	"appId": "com.songisongi.survive60",
+	"appName": "60초만 버텨봐",
+	"webDir": "www",
+	"android": {
+		"allowMixedContent": false,
+		"backgroundColor": "#071321"
+	}
+}

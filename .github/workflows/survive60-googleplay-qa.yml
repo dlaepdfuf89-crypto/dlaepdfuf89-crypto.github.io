@@ -1,0 +1,54 @@
+name: Survive60 Google Play AAB (unsigned QA only)
+on:
+  push:
+    branches: ['stage/survive60-android-poc-20261013']
+    paths:
+      - 'googleplay-android/**'
+      - '.github/workflows/survive60-googleplay-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  googleplay-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Capacitor Android Gradle module
+        working-directory: googleplay-android
+        run: npm install --no-audit --no-fund --ignore-scripts --no-package-lock
+      - name: Install API 36 SDK (GitHub hosted runner)
+        shell: bash
+        run: |
+          SDKMANAGER="$(find "${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools" -maxdepth 3 -type f -name sdkmanager | head -1)"
+          if [ -z "$SDKMANAGER" ]; then SDKMANAGER="$(command -v sdkmanager)"; fi
+          "$SDKMANAGER" 'platforms;android-36' 'build-tools;36.0.0' 'platform-tools'
+      - name: Android release AAB and debug APK, no signing or upload to Play Console
+        working-directory: googleplay-android/android
+        shell: bash
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:bundleRelease :app:assembleDebug --stacktrace
+      - name: Upload unsigned release AAB (NOT for Play Console)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Survive60-GooglePlay-UNSIGNED-AAB-QA
+          path: googleplay-android/android/app/build/outputs/bundle/release/*.aab
+          retention-days: 7
+          if-no-files-found: error
+      - name: Upload unsigned debug APK for emulator verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: Survive60-GooglePlay-DEBUG-QA
+          path: googleplay-android/android/app/build/outputs/apk/debug/*.apk
+          retention-days: 7
+          if-no-files-found: error
