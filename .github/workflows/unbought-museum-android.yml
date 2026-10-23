@@ -1,0 +1,57 @@
+name: Unbought Museum Android debug build
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'unbought-museum-build/**'
+      - '.github/workflows/unbought-museum-android.yml'
+permissions:
+  contents: read
+concurrency:
+  group: unbought-museum-android-debug
+  cancel-in-progress: true
+jobs:
+  debug-apks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            unbought-museum-build
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - name: Confirm preinstalled Android SDK and prevent implicit license actions
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Using preinstalled runner SDK; no sdkmanager --licenses or license acceptance"
+          test -n "${ANDROID_HOME:-}"
+          test -f "$ANDROID_HOME/platforms/android-36/android.jar"
+          test -d "$ANDROID_HOME/build-tools"
+          java -version
+      - name: Build separate Google Play and ONE store debug variants
+        shell: bash
+        run: |
+          set -euo pipefail
+          gradle -p unbought-museum-build/android-native :app:assemblePlayDebug :app:assembleOnestoreDebug --no-daemon --console=plain
+      - name: List generated test packages and hashes
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find unbought-museum-build/android-native/app/build/outputs/apk -name '*.apk' -print -exec sha256sum {} \;
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: museum-android-debug-test-apks
+          path: |
+            unbought-museum-build/android-native/app/build/outputs/apk/play/debug/*.apk
+            unbought-museum-build/android-native/app/build/outputs/apk/onestore/debug/*.apk
+          retention-days: 14
+          if-no-files-found: error

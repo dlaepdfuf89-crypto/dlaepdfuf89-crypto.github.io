@@ -1,0 +1,338 @@
+/*
+ THE UNBOUGHT MUSEUM · V17 CURATORIAL INTERFACE
+ Typography-first, exhibition-first, modern luxurious. Do not alter app data.
+ Local system fonts only; no trackers, downloads or pseudo-payments.
+*/
+body[data-app="museum"]{
+ --bg:#f6f4ed;--paper:#fffcf5;--ink:#163b31;--muted:#5b7064;
+ --accent:#194c3b;--soft:#e9e8dd;--line:#dfddd0;--gold:#b48b53;
+ --museum-brass:#e8cc8a;--museum-serif:Georgia,"Noto Serif KR",serif;
+ --museum-font:Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+ font-family:var(--museum-font);
+ font-size:15px;line-height:1.65;color:#173e33;
+ background:linear-gradient(150deg,#fbfaf5 0%,#f1f0e8 59%,#eff3ed 100%);
+}
+body[data-app="museum"] .shell{max-width:1670px}
+body[data-app="museum"] h1,body[data-app="museum"] h2,
+body[data-app="museum"] h3{font-family:var(--museum-font);font-feature-settings:"kern";text-wrap:balance}
+body[data-app="museum"] .sidebar{
+ background:linear-gradient(165deg,#163f34 0%,#0c3029 62%,#0b2924);
+ border-right:1px solid #3c5c4d;box-shadow:7px 0 25px #17352b15;color:#f6f4ea;
+}
+body[data-app="museum"] .brand-mark{
+ width:51px;height:51px;border-radius:15px;color:#f5d294;
+ background:linear-gradient(135deg,#6f7354,#235344 85%);
+ border:1px solid #c0a67b;box-shadow:inset 0 1px #ffffdb78,0 8px 17px #061e1a57;
+}
+body[data-app="museum"] .brand{gap:9px}
+body[data-app="museum"] .brand strong{
+ color:#fff8e9;font-size:18px;font-weight:850;line-height:1.4;
+ letter-spacing:-.7px;max-width:200px;
+}
+body[data-app="museum"] .brand small{font-size:9px;letter-spacing:1.8px;color:#dbc18e}
+body[data-app="museum"] .nav{gap:10px;margin-top:48px}
+body[data-app="museum"] .nav button{
+ color:#d4e2d8;min-height:50px;font-size:13px;font-weight:710;
+ border-radius:13px;border:1px solid transparent;letter-spacing:-.2px;
+}
+body[data-app="museum"] .nav button:hover{background:#ffffff13}
+body[data-app="museum"] .nav button.active{
+ color:#ffe4a2;background:linear-gradient(100deg,#e5d09026,#ffffff04);
+ border-color:#e3c17c5c;box-shadow:inset 3px 0 #edc97d;
+}
+body[data-app="museum"] .side-bottom{color:#cadacf;font-size:12px;line-height:1.9}
+body[data-app="museum"] .small-rule{background:#ddbd7e;width:36px}
+body[data-app="museum"] .topbar{
+ border-bottom:1px solid #d4c9b8;margin-bottom:25px;padding-bottom:16px;
+}
+body[data-app="museum"] .topbar .hello{
+ color:#85724e;letter-spacing:2.3px;font-family:Georgia,serif;font-weight:700;
+}
+body[data-app="museum"] .badge{
+ color:#725936;background:#f6eedb;border:1px solid #cfb78a;
+ font-size:11px;font-weight:750;padding:6px 12px;box-shadow:inset 0 1px #fffcf1;
+}
+body[data-app="museum"] .intro{margin-bottom:26px}
+body[data-app="museum"] .intro .eyebrow{
+ color:#a07742;font-size:11px;letter-spacing:1.1px;font-weight:850;margin-bottom:11px;
+}
+body[data-app="museum"] .intro h1{
+ color:#153f32;font-size:clamp(32px,3.25vw,48px);
+ font-weight:850;letter-spacing:-2.1px;line-height:1.32;
+}
+body[data-app="museum"] .intro .lead{font-size:14px;line-height:1.7;color:#536e60}
+body[data-app="museum"] .intro-seal{
+ height:82px;width:82px;color:#9e7d4e;font-size:9px;letter-spacing:1.2px;
+ border:2px solid #d2b77a;background:#faf5e8;
+ box-shadow:inset 0 0 0 4px #fffefa,inset 0 0 0 5px #d9c7aa;
+}
+body[data-app="museum"] .workbench{
+ display:grid;grid-template-columns:minmax(0,1.17fr) minmax(355px,1fr);
+ gap:22px;align-items:stretch;
+}
+body[data-app="museum"] .hero{
+ border-radius:22px;min-height:550px;overflow:hidden;
+ border:1px solid #c6b48c;
+ box-shadow:0 18px 34px #293b3224,inset 0 1px #fff;
+ outline:0;
+}
+body[data-app="museum"] .hero img{object-position:52% 50%;filter:contrast(1.04) saturate(.93)}
+body[data-app="museum"] .hero:after{
+ inset:40% 0 0;background:linear-gradient(transparent,#0a211c88 58%,#0a211ce8);
+}
+body[data-app="museum"] .hero-label{
+ left:23px;top:22px;border:1px solid #d5bf8e;background:#fffdf2ed;
+ color:#325542;padding:8px 13px;border-radius:30px;font-size:11px;
+}
+body[data-app="museum"] .hero-caption{left:29px;right:29px;bottom:27px;gap:7px;font-weight:660}
+body[data-app="museum"] .hero-caption small{
+ color:#e4d2ad;letter-spacing:1.55px;font-size:10px;opacity:1;
+}
+body[data-app="museum"] .hero-cta{
+ background:#f5e7cb;color:#204b37;border:1px solid #e8d0a6;border-radius:11px;
+ min-height:46px;font-size:13px;font-weight:770;
+ box-shadow:0 8px 20px #061e1b65;
+}
+body[data-app="museum"] .hero-cta:hover{background:#fff0d3}
+body[data-app="museum"] .form-panel{
+ padding:0 26px 24px;min-width:0;border-radius:22px;overflow:hidden;
+ background:#fffefa;
+ border:1px solid #d8cbb4;
+ box-shadow:0 15px 33px #233c3020,0 2px 0 #e6dccc;
+}
+body[data-app="museum"] .form-panel::before{display:none}
+body[data-app="museum"] .form-intro{
+ margin:0 -26px 21px;padding:26px 26px 23px;
+ min-height:179px;gap:15px;position:relative;
+ background:
+  radial-gradient(circle at 86% 31%,#4b856b98 0%,transparent 42%),
+  radial-gradient(circle at 10% 112%,#65aa7c37 0%,transparent 47%),
+  linear-gradient(135deg,#133d31 0%,#205a45 59%,#11382f);
+ border-bottom:3px solid #b6955f;
+}
+body[data-app="museum"] .form-intro::before{
+ content:"";position:absolute;inset:0;
+ background:linear-gradient(110deg,transparent 0%,#ffffff08 25%,transparent 55%);
+ opacity:1;pointer-events:none;
+}
+body[data-app="museum"] .form-intro-copy{min-width:0;position:relative;z-index:2}
+body[data-app="museum"] .form-overline{
+ font-family:Georgia,serif;color:#f1d69e;font-size:10px;
+ letter-spacing:1.8px;font-weight:800;margin:0 0 12px;
+}
+body[data-app="museum"] .form-intro h2{
+ font-family:var(--museum-font);font-weight:850;color:#fff7e5;
+ font-size:clamp(24px,2.2vw,30px);letter-spacing:-1.4px;line-height:1.31;
+}
+body[data-app="museum"] .form-intro .sub{
+ color:#e2f0e6;font-size:12px;font-weight:560;
+ line-height:1.65;margin:11px 0 0;
+}
+body[data-app="museum"] .form-art-preview{
+ position:relative;z-index:2;
+ flex:0 0 150px;height:155px;min-width:0;
+ border:2px solid #d6b777;border-radius:78px 78px 12px 12px;
+ background:
+  radial-gradient(ellipse at 47% 20%,#fffffb 0%,#faefd9 44%,#d8d8c8 100%);
+ box-shadow:inset 0 4px 20px #a1966844,inset 0 -9px 18px #9d956858,
+ 0 0 0 4px #f7df9a18,0 12px 20px #071a1759;
+}
+body[data-app="museum"] .form-art-preview::before{
+ left:11px;right:11px;top:8px;height:106px;
+ opacity:.8;background:linear-gradient(90deg,transparent,#fffdfab9,transparent);
+}
+body[data-app="museum"] .form-art-stage{
+ width:138px;height:121px;filter:drop-shadow(0 9px 5px #2d39325b);
+}
+body[data-app="museum"] .form-art-stage svg{filter:none}
+body[data-app="museum"] .form-art-caption{
+ background:linear-gradient(98deg,#eee2c7,#fff9e7 45%,#e5d2a8);
+ border-top:1px solid #c0a273;
+ color:#614a2c;font-size:11px;font-weight:830;
+ min-height:30px;padding:6px 3px;
+}
+body[data-app="museum"] #entry-form .field{margin-bottom:16px}
+body[data-app="museum"] #entry-form .field>span{
+ color:#243d33;font-size:13px;font-weight:780;
+ letter-spacing:-.1px;margin:0 0 7px;
+}
+body[data-app="museum"] #entry-form .field input,
+body[data-app="museum"] #entry-form .field select{
+ color:#1c4234;background:#fbfaf5;border:1px solid #dad9ce;
+ border-radius:12px;min-height:52px;padding:12px 13px;
+ font-size:15px;font-weight:630;
+ box-shadow:0 1px 2px #1a362709;
+}
+body[data-app="museum"] #entry-form .field input::placeholder{color:#8a9489;opacity:1}
+body[data-app="museum"] #entry-form .field input:focus,
+body[data-app="museum"] #entry-form .field select:focus{
+ outline:2px solid #447a62;outline-offset:1px;
+ border-color:#497b63;background:#fffefa;
+ box-shadow:0 0 0 5px #71a78d2b;
+}
+body[data-app="museum"] #entry-form .museum-group-hint{
+ font-size:11px;line-height:1.55;min-height:21px;
+ margin:6px 0 0;color:#597668;font-weight:690;
+}
+body[data-app="museum"] #entry-form .check{
+ background:#f4f5ef;border:1px solid #dde3d8;border-radius:12px;
+ padding:13px 12px;line-height:1.55;font-size:12px;font-weight:710;
+ color:#365548;gap:10px;align-items:center;margin:1px 0 15px;
+}
+body[data-app="museum"] #entry-form .check input{width:19px;height:19px;flex-basis:19px;accent-color:#286447}
+body[data-app="museum"] #entry-form .primary.wide{
+ min-height:56px;border-radius:12px;border:0;position:relative;
+ background:linear-gradient(115deg,#143f32,#206a4c 60%,#16543e);
+ color:#fff9e9;box-shadow:0 10px 22px #1b513a4c;
+ font-size:16px;font-weight:820;letter-spacing:-.25px;
+}
+body[data-app="museum"] #entry-form .primary.wide::after{display:none}
+body[data-app="museum"] #entry-form .primary.wide svg{color:#e6c98d}
+body[data-app="museum"] #entry-form .primary.wide:hover{
+ background:linear-gradient(115deg,#1b563e,#2c805c 60%,#185f42);
+ box-shadow:0 11px 23px #1646304e;filter:none;
+}
+body[data-app="museum"] .gallery-room{
+ border:1px solid #d4c6ab;background:radial-gradient(ellipse at 8% -12%,#fffef3 0%,transparent 58%),linear-gradient(120deg,#f5f0e6,#e9e8df);
+ box-shadow:0 14px 35px #22382c20;
+}
+body[data-app="museum"] .gallery-head h2{
+ font-family:var(--museum-font);font-size:clamp(24px,2.7vw,34px);
+ letter-spacing:-1.15px;font-weight:840;
+}
+body[data-app="museum"] .gallery-head .eyebrow{font-size:11px;color:#966d3f;letter-spacing:1.4px}
+body[data-app="museum"] .gallery-head p{font-size:13px}
+body[data-app="museum"] .gallery-counter{font-size:12px;font-weight:800}
+body[data-app="museum"] .gallery-slot{
+ border-color:#d0c0a3;box-shadow:inset 0 1px #fff,0 9px 21px #33443517;
+}
+body[data-app="museum"] .gallery-item-name{font-size:14px;font-weight:790;letter-spacing:-.3px}
+body[data-app="museum"] .gallery-item-price{font-size:14px;font-weight:790;color:#68512b}
+body[data-app="museum"] .gallery-item-date{font-size:11px}
+body[data-app="museum"] .metrics{
+ border:1px solid #d4d2c4;background:#fffcf5;border-radius:18px;
+ box-shadow:0 8px 25px #273b2d10;
+}
+body[data-app="museum"] .metric strong{font-family:var(--museum-font);font-size:28px;font-weight:840;color:#1e563f}
+body[data-app="museum"] .metric-label{font-size:12px;color:#687265;font-weight:700}
+body[data-app="museum"] .section-head h2,body[data-app="museum"] .archive-top h1{
+ font-size:23px;font-weight:850;letter-spacing:-.8px;color:#1e4c3a;
+}
+body[data-app="museum"] .record{
+ border:1px solid #d8d8cc;border-radius:18px;background:#fffdf7;
+ box-shadow:0 9px 24px #243e3116;
+}
+body[data-app="museum"] .record-body{padding:18px}
+body[data-app="museum"] .record h3{font-size:15px;font-weight:780}
+body[data-app="museum"] .record .record-meta{font-size:11px}
+body[data-app="museum"] .money{font-family:var(--museum-font);font-weight:830;color:#3b6146}
+body[data-app="museum"] .pill{border:1px solid #cfd8c9;background:#fffdf7;min-height:40px;font-weight:700}
+body[data-app="museum"] .pill.active{background:#1b5a41;border-color:#1b5a41;color:#fff}
+body[data-app="museum"] .secondary{border:1px solid #d0d2c5;background:#fffcf5;font-weight:710}
+body[data-app="museum"] .modal{
+ border:1px solid #d3c4a7;background:#fffcf5;
+ box-shadow:0 23px 90px #0d2a2080;
+}
+body[data-app="museum"] .modal-head h2{font-size:22px;font-weight:830}
+body[data-app="museum"] .expansion-teaser{border-color:#d3c7b4}
+body[data-app="museum"] .expansion-teaser h2{font-size:24px;font-weight:830}
+body[data-app="museum"] .footer{border-color:#d6d4c4}
+body[data-app="museum"][data-theme="alternate"] .form-panel{background:#fffefa}
+body[data-app="museum"][data-theme="alternate"] .form-intro{background:linear-gradient(120deg,#244c3e,#4c7960)}
+@media(max-width:1180px){
+ body[data-app="museum"] .workbench{grid-template-columns:minmax(0,1fr) minmax(320px,.98fr);gap:17px}
+ body[data-app="museum"] .hero{min-height:520px}
+}
+@media(max-width:950px){
+ body[data-app="museum"] .workbench{grid-template-columns:1fr}
+ body[data-app="museum"] .hero{min-height:320px;max-height:420px}
+}
+@media(max-width:640px){
+ body[data-app="museum"] .shell{padding:16px 16px calc(112px + env(safe-area-inset-bottom))}
+ body[data-app="museum"] .topbar{margin-bottom:15px;padding:3px 0 13px}
+ body[data-app="museum"] .mobile-brand{
+  display:flex;font-size:16px;font-weight:830;letter-spacing:-.6px;color:#163c2f;
+ }
+ body[data-app="museum"] .mobile-brand svg{color:#a27a44}
+ body[data-app="museum"] .badge{font-size:10px;padding:5px 9px}
+ body[data-app="museum"] .intro{margin-bottom:15px}
+ body[data-app="museum"] .intro .eyebrow{font-size:10px;margin:0 0 6px}
+ body[data-app="museum"] .intro h1{font-size:clamp(26px,7.35vw,33px);line-height:1.27;letter-spacing:-1.6px}
+ body[data-app="museum"] .intro .lead{margin-top:8px;font-size:11px;line-height:1.55}
+ body[data-app="museum"] .workbench{display:flex;flex-direction:column;gap:15px}
+ body[data-app="museum"] .form-panel{
+  order:0;padding:0 18px 18px;border-radius:19px;box-shadow:0 13px 25px #1a443221;
+ }
+ body[data-app="museum"] .form-intro{
+  margin:0 -18px 16px;padding:20px 17px 17px;gap:11px;min-height:143px;
+ }
+ body[data-app="museum"] .form-intro h2{font-size:clamp(20px,5.4vw,23px);letter-spacing:-.9px}
+ body[data-app="museum"] .form-overline{font-size:9px;margin-bottom:9px;letter-spacing:1.1px}
+ body[data-app="museum"] .form-intro .sub{font-size:11px;margin-top:7px;line-height:1.45;max-width:18em}
+ body[data-app="museum"] .form-art-preview{
+  flex:0 0 108px;height:115px;border-radius:57px 57px 10px 10px;
+ }
+ body[data-app="museum"] .form-art-stage{height:84px;width:96px}
+ body[data-app="museum"] .form-art-caption{min-height:25px;font-size:9px;padding:5px 2px}
+ body[data-app="museum"] #entry-form .field{margin-bottom:13px}
+ body[data-app="museum"] #entry-form .field>span{font-size:12px;margin-bottom:5px}
+ body[data-app="museum"] #entry-form .field input,
+ body[data-app="museum"] #entry-form .field select{min-height:48px;font-size:14px;padding:10px 11px}
+ body[data-app="museum"] #entry-form input[name="text"]{font-size:16px}
+ body[data-app="museum"] #entry-form .museum-group-hint{font-size:10px;min-height:19px;line-height:1.4}
+ body[data-app="museum"] #entry-form .check{padding:10px;font-size:11px;margin-bottom:11px}
+ body[data-app="museum"] #entry-form .primary.wide{min-height:53px;font-size:15px}
+ body[data-app="museum"] .hero{
+  order:1;min-height:188px;max-height:218px;aspect-ratio:1.75;border-radius:17px;
+ }
+ body[data-app="museum"] .hero-label{left:13px;top:13px;font-size:9px;padding:5px 10px}
+ body[data-app="museum"] .hero-caption{bottom:16px;left:16px;right:15px;gap:2px}
+ body[data-app="museum"] .hero-caption>span{font-size:11px}
+ body[data-app="museum"] .hero-cta{min-height:46px;font-size:11px;padding:9px 12px;margin-top:5px}
+ body[data-app="museum"] .gallery-room{margin-top:17px;padding:23px 14px}
+ body[data-app="museum"] .gallery-head h2{font-size:24px}
+ body[data-app="museum"] .gallery-head p{font-size:11px}
+ body[data-app="museum"] .gallery-item-name{font-size:12px}
+ body[data-app="museum"] .gallery-item-price{font-size:12px}
+ body[data-app="museum"] .metrics{padding:16px 14px;margin:20px 0 27px}
+ body[data-app="museum"] .metric strong{font-size:23px}
+ body[data-app="museum"] .section-head h2{font-size:20px}
+ body[data-app="museum"] .sidebar{
+  height:calc(66px + env(safe-area-inset-bottom));
+  border:0;border-top:1px solid #b5aa85;
+  background:linear-gradient(105deg,#143c30,#246148 56%,#10362e);
+  box-shadow:0 -7px 19px #143a3051;
+ }
+ body[data-app="museum"] .nav{margin:0;gap:0}
+ body[data-app="museum"] .nav button{
+  border:0;min-height:64px;border-radius:0;padding:7px 2px;font-size:10px;
+  color:#d2e4d6;box-shadow:none;
+ }
+ body[data-app="museum"] .nav button.active{
+  color:#f7dfa4;border-top:3px solid #ebc87f;
+  background:linear-gradient(#ffffff13,transparent 90%);
+  box-shadow:none;
+ }
+ body[data-app="museum"] .nav button svg{width:22px;height:22px}
+ body[data-app="museum"] .toast{bottom:calc(82px + env(safe-area-inset-bottom))}
+}
+@media(max-width:380px){
+ body[data-app="museum"] .shell{padding-inline:12px;padding-top:12px}
+ body[data-app="museum"] .intro{margin-bottom:11px}
+ body[data-app="museum"] .intro h1{font-size:25px}
+ body[data-app="museum"] .form-intro{gap:7px}
+ body[data-app="museum"] .form-art-preview{flex-basis:94px;height:110px}
+ body[data-app="museum"] .form-art-stage{width:83px;height:78px}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-app="museum"] .hero-cta,
+ body[data-app="museum"] .nav button,
+ body[data-app="museum"] .form-art-preview{transition:none!important}
+}
+
+/* Mobile first-fold audit: keep the primary save action clear of fixed tabs. */
+@media(max-width:640px){
+ body[data-app="museum"] .topbar{margin-bottom:12px}
+ body[data-app="museum"] .intro{margin-bottom:11px}
+ body[data-app="museum"] .form-intro{min-height:133px;padding-top:15px;padding-bottom:13px}
+}

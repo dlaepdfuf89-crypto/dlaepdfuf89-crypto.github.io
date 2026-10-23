@@ -1,0 +1,107 @@
+/* The value comes from the collection, not from interruption or fake scarcity. */
+body[data-app="museum"] .expansion-offer{
+ display:block;position:relative;isolation:isolate;overflow:hidden;
+ padding:0;border:1px solid #c2a36e;border-radius:24px;
+ background:linear-gradient(116deg,#112f29 0%,#1c4939 64%,#36634b 100%);
+ box-shadow:0 18px 34px #203b3133,inset 0 1px #d0bc8f4d;
+ color:#fff4da;
+}
+body[data-app="museum"] .expansion-offer::before{
+ content:"";position:absolute;inset:0;opacity:.36;pointer-events:none;
+ background:radial-gradient(ellipse at 90% 5%,#eed9a860,transparent 56%),
+ repeating-linear-gradient(90deg,transparent 0 34px,#f5ead80a 35px,#f5ead80a 36px,transparent 37px 74px);
+}
+body[data-app="museum"] .premium-offer-root{
+ display:block;width:100%;min-width:0;position:relative;z-index:1;
+ padding:25px 28px 24px;
+}
+body[data-app="museum"] .premium-value-eyebrow{
+ font:700 10px Georgia,serif;letter-spacing:2px;
+ color:#dfc68c;margin:0 0 9px;
+}
+body[data-app="museum"] .premium-value-copy h2{
+ margin:0;font:700 clamp(22px,2.5vw,31px)/1.4 Georgia,"Nanum Myeongjo",serif;
+ color:#fff8e6;letter-spacing:-.8px;
+}
+body[data-app="museum"] .premium-value-copy>p:not(.premium-value-eyebrow):not(.premium-offer-note){
+ color:#dce6d9;font-size:13px;line-height:1.75;margin:11px 0 0;
+}
+body[data-app="museum"] .premium-offer-actions{
+ display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 0;align-items:center;
+}
+body[data-app="museum"] .premium-create-button,
+body[data-app="museum"] .premium-preview-button{
+ border-radius:12px;padding:12px 17px;min-height:49px;
+ font-size:12px;font-weight:800;letter-spacing:-.1px;
+}
+body[data-app="museum"] .premium-create-button{
+ color:#274637;background:linear-gradient(124deg,#fff9e8,#e6cb8a);
+ border:1px solid #fff0b9;box-shadow:0 7px 12px #102a2240;
+}
+body[data-app="museum"] .premium-preview-button{
+ background:#ffffff12;color:#faf2d9;border:1px solid #d9c69878;
+}
+body[data-app="museum"] .premium-create-button:hover{filter:brightness(1.08)}
+body[data-app="museum"] .premium-preview-button:hover{background:#ffffff24}
+body[data-app="museum"] .premium-offer-note{
+ font-size:11px!important;color:#e7dfcb!important;opacity:.86;margin:15px 0 0!important;
+}
+body[data-app="museum"] .postcard-modal-body{display:grid;gap:12px;min-width:0}
+body[data-app="museum"] .postcard-overline{
+ font:750 10px Georgia,serif;letter-spacing:1.8px;color:#a2804d;margin:0;
+}
+body[data-app="museum"] .postcard-intro,
+body[data-app="museum"] .postcard-terms,
+body[data-app="museum"] .purchase-info p{font-size:12px;line-height:1.72;color:#53665a;margin:0}
+body[data-app="museum"] .postcard-theme-list{display:flex;gap:7px;flex-wrap:wrap}
+body[data-app="museum"] .postcard-theme{
+ display:flex;gap:7px;align-items:center;justify-content:center;flex:1 1 140px;
+ background:#f5eedf;color:#385343;
+ border:1px solid #cbbb9b;border-radius:11px;min-height:46px;padding:8px;
+ font-size:11px;font-weight:740;
+}
+body[data-app="museum"] .postcard-theme.selected{background:#254e3d;color:#fff9e5;border-color:#bba26b;box-shadow:inset 0 0 0 1px #e9cea055}
+body[data-app="museum"] .postcard-theme-dot{width:16px;height:23px;flex:0 0 16px;border-radius:8px 8px 2px 2px;border:1px solid #d6b883}
+body[data-app="museum"] .postcard-theme-dot-atelier{background:linear-gradient(120deg,#fff4dc,#c6ab74)}
+body[data-app="museum"] .postcard-theme-dot-midnight{background:linear-gradient(120deg,#34767d,#0c2d35)}
+body[data-app="museum"] .postcard-theme-dot-amber{background:linear-gradient(120deg,#d29b60,#5b3c2f)}
+body[data-app="museum"] .postcard-preview-host{
+ display:flex;align-items:center;justify-content:center;min-height:140px;
+ margin:2px 0 0;background:#e5dcc7;border:1px solid #c7b087;border-radius:13px;
+ padding:14px;color:#475d50;font-size:12px;text-align:center;overflow:hidden;
+}
+body[data-app="museum"] .postcard-preview-host canvas{
+ display:block;height:auto;width:min(100%,310px);max-height:48dvh;object-fit:contain;
+ border-radius:4px;box-shadow:0 10px 21px #213e3160;
+}
+body[data-app="museum"] .postcard-terms{font-size:11px}
+body[data-app="museum"] .purchase-info{display:grid;gap:12px}
+body[data-app="museum"] .purchase-info h3{
+ font:750 21px/1.4 Georgia,"Nanum Myeongjo",serif;color:#214d38;margin:0;
+}
+body[data-app="museum"] .purchase-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+body[data-app="museum"] .purchase-compare>div{
+ background:#f9f4e8;border:1px solid #d8c49e;border-radius:12px;
+ padding:16px 14px;
+}
+body[data-app="museum"] .purchase-compare strong{color:#365a45;font-size:13px}
+body[data-app="museum"] .purchase-compare p{font-size:11px;margin-top:8px}
+body[data-app="museum"] .purchase-info .purchase-caveat{color:#84694d;font-size:11px}
+body[data-app="museum"] .purchase-info button[disabled]{opacity:.67;cursor:not-allowed;box-shadow:none}
+body[data-app="museum"] .modal:has(.postcard-modal-body){width:min(750px,calc(100vw - 20px));max-height:92dvh;overflow-y:auto}
+@media(max-width:640px){
+ body[data-app="museum"] .premium-offer-root{padding:20px 17px}
+ body[data-app="museum"] .premium-value-copy h2{font-size:21px}
+ body[data-app="museum"] .premium-value-copy>p:not(.premium-value-eyebrow):not(.premium-offer-note){font-size:12px}
+ body[data-app="museum"] .premium-offer-actions{gap:8px}
+ body[data-app="museum"] .premium-create-button,
+ body[data-app="museum"] .premium-preview-button{flex:1 1 100%;min-height:48px}
+ body[data-app="museum"] .modal:has(.postcard-modal-body){padding:18px 15px}
+ body[data-app="museum"] .purchase-compare{grid-template-columns:1fr}
+ body[data-app="museum"] .postcard-theme{flex-basis:calc(33.33% - 7px);padding:5px 4px;min-height:50px;flex-direction:column;font-size:9px;text-align:center}
+ body[data-app="museum"] .postcard-theme-dot{height:14px;width:30px;flex-basis:14px}
+ body[data-app="museum"] .postcard-preview-host canvas{width:min(100%,238px);max-height:43dvh}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-app="museum"] .premium-create-button,body[data-app="museum"] .premium-preview-button{transition:none}
+}

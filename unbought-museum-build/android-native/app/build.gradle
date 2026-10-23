@@ -1,0 +1,43 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'com.example.unboughtmuseum'
+ compileSdk 36
+ defaultConfig {
+  applicationId 'com.example.unboughtmuseum'
+  minSdk 26
+  targetSdk 36
+  versionCode 1
+  versionName '0.1.0-internal'
+ }
+ // Both Android storefronts share the package identity intentionally; the
+ // final upload/app-signing certificates MUST be aligned before publication.
+ // No variant is ready for release until the real package ID is approved.
+ flavorDimensions 'store'
+ productFlavors {
+  play { dimension 'store' }
+  onestore { dimension 'store' }
+ }
+ buildTypes {
+  debug { debuggable true }
+  release { minifyEnabled false }
+ }
+ compileOptions {
+  sourceCompatibility JavaVersion.VERSION_17
+  targetCompatibility JavaVersion.VERSION_17
+ }
+}
+dependencies {
+ // OFFICIAL SDK DEPENDENCIES ONLY. Neither storefront purchase flow is wired
+ // into MainActivity until store-owned IDs + receipt validator are configured.
+ playImplementation 'com.android.billingclient:billing:9.1.0'
+ onestoreImplementation 'com.onestorecorp.sdk:sdk-iap:21.04.00'
+}
+// Keep the existing first-party source and offline privacy boundary.
+// No network permission, no analytics SDK, no secret, no signing credentials.
+tasks.register('syncMuseumWeb', Copy) {
+ from('../../dist')
+ into('src/main/assets/site')
+ exclude('sw.js')
+ exclude('manifest.webmanifest')
+}
+tasks.named('preBuild').configure { dependsOn('syncMuseumWeb') }

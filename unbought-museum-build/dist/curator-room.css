@@ -1,0 +1,223 @@
+/*
+ * THE UNBOUGHT MUSEUM — curator room, original architectural CSS
+ * Scene no longer pretends that its generic backdrop is a real user exhibit.
+ * Real item sculpture/name/registered price render only from actual records.
+ */
+body[data-app="museum"] .hero{
+ position:relative;isolation:isolate;background:#d7d0bb;
+ min-height:560px;border-radius:24px;border:1px solid #b9a27b;
+ overflow:hidden;box-shadow:0 22px 42px #2a413027,0 3px 0 #d3bc8b;
+}
+body[data-app="museum"] .hero>img{display:none}
+body[data-app="museum"] .hero::after{display:none}
+body[data-app="museum"] .curator-hero-room{
+ position:absolute;inset:0;overflow:hidden;isolation:isolate;
+ background:
+  radial-gradient(ellipse at 50% 4%,#fffbec 0%,#f7f0dd8c 26%,transparent 64%),
+  repeating-linear-gradient(90deg,#fffffd15 0px,#fffffd15 1px,transparent 1px,transparent 9px),
+  linear-gradient(123deg,#e4d8c0 0%,#f2e9d6 43%,#d7d1bd 100%);
+ color:#28493c;
+}
+body[data-app="museum"] .curator-hero-room::before{
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:
+ linear-gradient(98deg,transparent 2%,#fff9e5c4 17%,transparent 27%),
+ radial-gradient(ellipse at 51% 70%,#1b3f2c19 0%,transparent 56%),
+ repeating-linear-gradient(0deg,transparent 0px,transparent 61px,#7a714f06 62px,#7a714f06 63px);
+}
+body[data-app="museum"] .curator-hero-room::after{
+ content:"";position:absolute;z-index:1;left:0;right:0;bottom:0;height:33%;
+ background:linear-gradient(0deg,#a3906e69,transparent);
+ pointer-events:none;
+}
+body[data-app="museum"] .curator-ceiling{
+ position:absolute;inset:0 0 auto;height:39px;z-index:3;
+ background:linear-gradient(180deg,#fdf6e5 0%,#dccaa9 26%,#fff9e8 38%,#c4b393 48%,#e3d6bd 100%);
+ border-bottom:2px solid #b4a181;box-shadow:0 11px 16px #655b462e;
+}
+body[data-app="museum"] .curator-ceiling::after{
+ content:"";position:absolute;left:12%;right:12%;bottom:7px;height:2px;
+ background:linear-gradient(90deg,transparent,#b99961,#f5e5be,#b99961,transparent);
+}
+body[data-app="museum"] .curator-ceiling span{
+ display:block;position:absolute;top:7px;width:46px;height:19px;border-radius:100%;
+ background:radial-gradient(ellipse at 50% 45%,#fffbdf,#e2c68c 35%,#a78962 62%,transparent 67%);
+ box-shadow:0 0 23px #fff6d97d;
+}
+body[data-app="museum"] .curator-ceiling span:nth-child(1){left:17%}
+body[data-app="museum"] .curator-ceiling span:nth-child(2){left:calc(50% - 23px)}
+body[data-app="museum"] .curator-ceiling span:nth-child(3){right:17%}
+body[data-app="museum"] .curator-architecture{
+ position:absolute;inset:40px 0 0;z-index:1;pointer-events:none;
+ background:
+  linear-gradient(90deg,#aa9c845e 0%,#f3e7c924 9%,transparent 21%,transparent 79%,#f3e7c924 91%,#a493785e 100%);
+}
+body[data-app="museum"] .curator-architecture::before{
+ content:"";position:absolute;top:0;left:15%;right:15%;height:62%;
+ border-radius:50% 50% 8px 8px / 35% 35% 8px 8px;
+ border:9px solid #e5d9c1;
+ box-shadow:0 0 0 2px #b9a480,inset 0 0 0 4px #fff3db,
+ inset 0 22px 31px #4d5b443c,0 12px 22px #7465442b;
+ background:
+ radial-gradient(ellipse at 50% 11%,#fdfdf2 0%,#d3dcca 49%,#aebda6 100%);
+}
+body[data-app="museum"] .curator-architecture::after{
+ content:"";position:absolute;left:12%;right:12%;top:61%;height:17px;
+ background:linear-gradient(#fdf4df 0%,#c0ad88 38%,#9e8d71 63%,#ddcba5 100%);
+ border-radius:2px 2px 7px 7px;box-shadow:0 9px 10px #535a4433;
+}
+body[data-app="museum"] .curator-pillar{
+ position:absolute;top:0;bottom:0;width:11%;
+ background:
+ linear-gradient(90deg,#aea38c 0%,#f3e7ce 18%,#fff8e8 48%,#d2c2a4 78%,#a3967d);
+ box-shadow:inset 0 0 0 1px #e2d3b7;
+}
+body[data-app="museum"] .curator-pillar-left{left:0}
+body[data-app="museum"] .curator-pillar-right{right:0}
+body[data-app="museum"] .curator-niche{
+ position:absolute;z-index:2;
+ left:18%;right:18%;top:63px;bottom:153px;
+ display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+ pointer-events:none;isolation:isolate;
+}
+body[data-app="museum"] .curator-halo{
+ position:absolute;left:0;right:0;top:-22px;height:100%;z-index:-1;
+ background:
+  linear-gradient(91deg,transparent 12%,#fffbe891 44%,#fffef2a3 52%,transparent 87%),
+  radial-gradient(ellipse at 50% 26%,#fffef4,transparent 70%);
+ clip-path:polygon(35% 0%,65% 0%,100% 100%,0% 100%);
+ opacity:.76;filter:blur(8px);
+}
+body[data-app="museum"] .curator-figure{
+ width:min(91%,290px);height:65%;max-height:265px;min-height:150px;
+ position:relative;z-index:3;display:grid;place-items:end center;
+ filter:drop-shadow(0 21px 12px #2a36293f);
+ transform:translateY(4px);
+}
+body[data-app="museum"] .curator-figure svg{
+ display:block;width:100%;height:100%;max-width:100%;max-height:100%;
+ object-fit:contain;
+}
+body[data-app="museum"] .curator-ledge{
+ position:relative;z-index:2;width:90%;height:21px;border-radius:50% 50% 7px 7px / 30% 30% 7px 7px;
+ background:linear-gradient(180deg,#fffcee 0%,#e4d4b5 25%,#b8a281 65%,#988369 100%);
+ border:2px solid #f5e7cf;box-shadow:0 9px 10px #36483e5a;
+}
+body[data-app="museum"] .curator-ledge span{
+ position:absolute;inset:5px 11px 6px;border-radius:60%;
+ background:linear-gradient(90deg,transparent,#9c7f6030,transparent);
+}
+body[data-app="museum"] .curator-base{
+ width:69%;height:27%;min-height:28px;z-index:1;margin-top:-3px;
+ background:linear-gradient(90deg,#ad9b7c,#f3e7cd 20%,#d5c09c 60%,#96866f);
+ clip-path:polygon(8% 0%,92% 0%,100% 100%,0% 100%);
+ box-shadow:inset 0 8px 8px #534b3830;
+}
+body[data-app="museum"] .curator-museum-plaque{
+ position:absolute;z-index:4;bottom:19px;left:21px;right:21px;
+ display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;row-gap:5px;
+ padding:17px 18px 15px;
+ border:1px solid #c6ac78;border-radius:12px;
+ background:
+  linear-gradient(120deg,#fffef6f7 0%,#f5e9cff4 100%);
+ box-shadow:0 12px 19px #36403449,0 0 0 4px #f9f0dd6b,inset 0 1px #fffef9;
+}
+body[data-app="museum"] .curator-plaque-kicker{
+ grid-column:1;display:block;
+ color:#8b6a37;font:750 9px Georgia,serif;letter-spacing:1.35px;
+}
+body[data-app="museum"] .curator-plaque-title{
+ grid-column:1;min-width:0;color:#214a37;
+ font-size:clamp(17px,1.7vw,23px);font-weight:840;
+ letter-spacing:-.6px;line-height:1.3;overflow-wrap:anywhere;
+}
+body[data-app="museum"] .curator-plaque-note{
+ grid-column:1;color:#52675b;font-size:11px;font-weight:680;line-height:1.5;
+}
+body[data-app="museum"] .curator-plaque-action{
+ grid-column:2;grid-row:1/4;align-self:center;
+ min-height:48px;max-width:156px;
+ padding:11px 14px;border:1px solid #24523c;border-radius:10px;
+ color:#fff9e9;background:linear-gradient(120deg,#164d37,#267052);
+ box-shadow:0 5px 12px #24463335;font-size:12px;font-weight:790;line-height:1.35;
+ white-space:normal;
+}
+body[data-app="museum"] .curator-plaque-action:hover{background:linear-gradient(120deg,#1e6546,#368664)}
+body[data-app="museum"] .curator-plaque-action:focus-visible{outline:3px solid #a47a41;outline-offset:3px}
+body[data-app="museum"] .hero .hero-caption{
+ position:absolute;z-index:6;top:51px;bottom:auto;right:16px;left:auto;
+ display:block;pointer-events:none;
+}
+body[data-app="museum"] .hero .hero-caption small,
+body[data-app="museum"] .hero .hero-caption>span{display:none}
+body[data-app="museum"] .hero .hero-cta{
+ pointer-events:auto;min-height:46px;margin:0;padding:8px 13px;
+ background:#fffdf3ee;box-shadow:0 3px 12px #36463344;
+ color:#305241;border:1px solid #c6ae7e;font-size:11px;
+}
+body[data-app="museum"] .hero .hero-label{
+ z-index:6;left:15px;top:50px;padding:9px 12px;
+ background:#fffcf2e8;box-shadow:0 3px 12px #5c503244;
+ border-color:#c2a26b;font-size:10px;
+}
+body[data-app="museum"] .curator-hero-room[data-state="real"] .curator-niche{
+ filter:saturate(1.08);
+}
+@media(max-width:950px){
+ body[data-app="museum"] .hero{min-height:420px;max-height:none}
+ body[data-app="museum"] .curator-niche{top:48px;bottom:135px}
+ body[data-app="museum"] .curator-architecture::before{height:77%}
+ body[data-app="museum"] .curator-architecture::after{top:76%}
+ body[data-app="museum"] .curator-figure{min-height:120px}
+}
+@media(max-width:640px){
+ body[data-app="museum"] .hero{
+  order:1;min-height:330px;max-height:none;aspect-ratio:auto;
+  border-radius:20px;box-shadow:0 11px 25px #2a413035;
+ }
+ body[data-app="museum"] .curator-ceiling{height:27px}
+ body[data-app="museum"] .curator-ceiling span{height:14px;top:4px;width:30px}
+ body[data-app="museum"] .curator-ceiling span:nth-child(2){left:calc(50% - 15px)}
+ body[data-app="museum"] .curator-architecture{top:28px}
+ body[data-app="museum"] .curator-architecture::before{
+  left:14%;right:14%;height:72%;border-width:6px;
+ }
+ body[data-app="museum"] .curator-architecture::after{top:71%;height:12px}
+ body[data-app="museum"] .curator-niche{
+  top:35px;bottom:130px;left:17%;right:17%;
+ }
+ body[data-app="museum"] .curator-figure{min-height:100px;height:73%;max-height:155px;width:80%}
+ body[data-app="museum"] .curator-ledge{height:13px}
+ body[data-app="museum"] .curator-base{height:20%;min-height:17px}
+ body[data-app="museum"] .curator-halo{filter:blur(6px)}
+ body[data-app="museum"] .curator-museum-plaque{
+  bottom:12px;left:13px;right:13px;
+  padding:11px 12px;column-gap:7px;row-gap:3px;
+  border-radius:11px;
+ }
+ body[data-app="museum"] .curator-plaque-kicker{font-size:8px;letter-spacing:.9px}
+ body[data-app="museum"] .curator-plaque-title{font-size:16px}
+ body[data-app="museum"] .curator-plaque-note{font-size:10px}
+ body[data-app="museum"] .curator-plaque-action{
+  min-height:46px;max-width:110px;padding:8px 9px;
+  font-size:10px;border-radius:9px;
+ }
+ body[data-app="museum"] .hero .hero-label{top:34px;left:11px;font-size:9px;padding:6px 9px}
+ body[data-app="museum"] .hero .hero-caption{top:34px;right:9px}
+ body[data-app="museum"] .hero .hero-cta{min-height:46px;font-size:10px;padding:6px 9px}
+}
+@media(max-width:380px){
+ body[data-app="museum"] .curator-plaque-action{max-width:97px}
+ body[data-app="museum"] .curator-plaque-title{font-size:15px}
+ body[data-app="museum"] .hero .hero-cta{font-size:9px;padding-inline:7px}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-app="museum"] .curator-figure,
+ body[data-app="museum"] .curator-plaque-action{animation:none;transition:none}
+}
+
+/* A record can have a long private product description. The frame stays calm. */
+body[data-app="museum"] .curator-plaque-title{
+ display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+ overflow:hidden;max-height:2.6em;line-clamp:2;
+}
