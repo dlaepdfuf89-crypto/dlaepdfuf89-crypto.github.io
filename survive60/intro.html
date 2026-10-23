@@ -39,7 +39,11 @@ section{padding-top:36px;padding-bottom:58px}.section-title{font-size:clamp(24px
 .video-caption p{font-size:13px;color:#bad4e9;line-height:1.7;margin:0 0 15px}
 .video-caption .play-link{display:block;border-radius:12px;padding:13px 12px;text-align:center;color:#0f1d2d;background:linear-gradient(100deg,#ffe1a6,#ff9b60);font-weight:900;text-decoration:none}
 .video-helper{margin-top:15px;color:#acc5de;font-size:12px;line-height:1.6}.video-helper a{color:#9bdfff}
-@media(max-width:780px){.video-grid{grid-auto-flow:column;grid-auto-columns:minmax(225px,74vw);grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 4px 16px;scrollbar-color:#537fa0 transparent}.video-tile{scroll-snap-align:center}.video-media{max-width:260px}}</style>
+@media(max-width:780px){.video-grid{grid-auto-flow:column;grid-auto-columns:minmax(225px,74vw);grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 4px 16px;scrollbar-color:#537fa0 transparent}.video-tile{scroll-snap-align:center}.video-media{max-width:260px}}
+.challenge-wrap{padding-top:38px;padding-bottom:44px}.challenge-box{position:relative;isolation:isolate;overflow:hidden;border:1px solid #5486a7;border-radius:26px;background:radial-gradient(circle at 85% 10%,#2c6b87 0,transparent 45%),linear-gradient(115deg,#142d49,#10203a 65%,#241d37);box-shadow:0 18px 48px #0007,inset 0 1px #ffffff30;padding:28px 30px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:25px}
+.challenge-box:after{content:"";position:absolute;inset:auto -9% -45% auto;width:245px;aspect-ratio:1;border-radius:100%;border:40px solid #ffcb8635;pointer-events:none;z-index:-1}
+.challenge-eyebrow{font-size:12px;color:#8de8ff;letter-spacing:2.6px;font-weight:950;margin:0 0 10px}.challenge-box h2{font-size:clamp(25px,3.7vw,38px);letter-spacing:-1.5px;line-height:1.21;margin:0 0 12px;color:#fff}.challenge-box h2 strong{color:#ffd28e}.challenge-box p.challenge-desc{margin:0;color:#c4d9e9;font-size:14px;line-height:1.85;max-width:570px;word-break:keep-all}.challenge-actions{display:flex;flex-direction:column;align-items:stretch;gap:10px;min-width:227px}.challenge-share{border:1px solid #ffeaad;color:#16243a;background:linear-gradient(120deg,#ffe2a2,#ffac6f);border-radius:13px;font:900 16px/1.3 system-ui,-apple-system,'Malgun Gothic',sans-serif;padding:17px 18px;cursor:pointer;box-shadow:0 7px 24px #0005}.challenge-share:hover{filter:brightness(1.06);transform:translateY(-1px)}.challenge-share:focus-visible{outline:3px solid #8de8ff;outline-offset:3px}.challenge-direct{text-align:center;color:#b6dcf4;font-weight:700;text-decoration:underline;text-underline-offset:3px;font-size:12px;padding:5px}.challenge-status{font-size:12px;color:#a6f0ff;min-height:1.6em;margin:3px 0 0;text-align:center}@media(max-width:780px){.challenge-wrap{padding-top:23px;padding-bottom:25px}.challenge-box{grid-template-columns:1fr;gap:22px;padding:26px 21px;border-radius:21px}.challenge-actions{min-width:0;width:100%}}
+</style>
 </head>
 <body>
 <header class="top wrap"><div class="brand">60초만 <span>버텨봐</span></div><div class="topnote">ONEplay · 설치 없는 우주 슈팅</div></header>
@@ -52,7 +56,13 @@ section{padding-top:36px;padding-bottom:58px}.section-title{font-size:clamp(24px
 </div>
 <section class="video-sample" aria-labelledby="video-sample-title"><div class="wrap"><h2 id="video-sample-title" class="section-title">실제 게임 화면으로 먼저 확인하세요</h2><p class="sub">합성 홍보 영상이 아닌 실제 전투를 녹화한 짧은 미리보기입니다. 직접 확인한 다음 바로 도전하세요.</p><div class="video-grid"><article class="video-tile"><div class="video-media"><video controls preload="none" muted playsinline poster="./promo/20261023/SURVIVE60_SURVIVAL_PREVIEW_540x960.png" aria-label="60초 생존 실제 플레이 미리보기"><source src="./promo/20261023/SURVIVE60_SURVIVAL_GAMEPLAY_20261023_HQ1080.mp4" type="video/mp4">동영상 재생을 지원하지 않는 브라우저입니다.</video></div><div class="video-caption"><span class="tag">01 / SURVIVAL</span><h3>60초 생존</h3><p>쏟아지는 탄막을 피하고 무기를 성장시키세요.</p><a class="play-link" href="https://onesto.re/oneplay/0001010330">ONEplay에서 무료 플레이 →</a></div></article>
 <article class="video-tile"><div class="video-media"><video controls preload="none" muted playsinline poster="./promo/20261023/SURVIVE60_BOSS_PREVIEW_540x960.png" aria-label="보스전 실제 플레이 미리보기"><source src="./promo/20261023/SURVIVE60_BOSS_GAMEPLAY_20261023_HQ1080.mp4" type="video/mp4">동영상 재생을 지원하지 않는 브라우저입니다.</video></div><div class="video-caption"><span class="tag">02 / BOSS RAID</span><h3>보스전</h3><p>강력한 보스의 공격을 보고 직접 도전하세요.</p><a class="play-link" href="https://onesto.re/oneplay/0001010330">ONEplay에서 무료 플레이 →</a></div></article>
-<article class="video-tile"><div class="video-media"><video controls preload="none" muted playsinline poster="./promo/20261023/SURVIVE60_ENDLESS_PREVIEW_540x960.png" aria-label="무제한 생존 실제 플레이 미리보기"><source src="./promo/20261023/SURVIVE60_ENDLESS_GAMEPLAY_20261023_HQ1080.mp4" type="video/mp4">동영상 재생을 지원하지 않는 브라우저입니다.</video></div><div class="video-caption"><span class="tag">03 / ENDLESS</span><h3>무제한 생존</h3><p>제한 시간 없이 최고 기록에 도전하세요.</p><a class="play-link" href="https://onesto.re/oneplay/0001010330">ONEplay에서 무료 플레이 →</a></div></article></div><p class="video-helper">휴대전화에서는 옆으로 넘겨 세 가지 모드를 확인할 수 있습니다. 동영상 재생은 선택 사항이며 데이터 사용량이 발생할 수 있습니다. <a href="./">게임 웹 체험</a></p></div></section><section class="wrap"><h2 class="section-title">한 판만 더 하게 되는 네 가지 도전</h2><p class="sub">일반 전투와 보스, 요일별 변형 규칙, 무제한 도전까지 골라 즐겨보세요.</p><div class="features">
+<article class="video-tile"><div class="video-media"><video controls preload="none" muted playsinline poster="./promo/20261023/SURVIVE60_ENDLESS_PREVIEW_540x960.png" aria-label="무제한 생존 실제 플레이 미리보기"><source src="./promo/20261023/SURVIVE60_ENDLESS_GAMEPLAY_20261023_HQ1080.mp4" type="video/mp4">동영상 재생을 지원하지 않는 브라우저입니다.</video></div><div class="video-caption"><span class="tag">03 / ENDLESS</span><h3>무제한 생존</h3><p>제한 시간 없이 최고 기록에 도전하세요.</p><a class="play-link" href="https://onesto.re/oneplay/0001010330">ONEplay에서 무료 플레이 →</a></div></article></div><p class="video-helper">휴대전화에서는 옆으로 넘겨 세 가지 모드를 확인할 수 있습니다. 동영상 재생은 선택 사항이며 데이터 사용량이 발생할 수 있습니다. <a href="./">게임 웹 체험</a></p></div></section>
+<section class="wrap challenge-wrap" aria-labelledby="friend-challenge-title">
+<div class="challenge-box"><div>
+<p class="challenge-eyebrow">CHALLENGE / 60 SECONDS</p>
+<h2 id="friend-challenge-title">친구도 <strong>60초</strong> 버틸 수 있을까요?</h2>
+<p class="challenge-desc">혼자 살아남았다면, 다음은 친구 차례입니다. 무료 게임 링크를 도전장으로 보내고 누가 더 오래 버티는지 겨뤄보세요. 초대 보상이나 광고 시청은 필요하지 않습니다.</p>
+</div><div class="challenge-actions"><button id="s60-challenge-share" class="challenge-share" type="button">↗ 친구에게 도전장 보내기</button><a class="challenge-direct" href="https://onesto.re/oneplay/0001010330">먼저 60초 도전 시작하기 →</a><p class="challenge-status" id="s60-share-status" role="status" aria-live="polite"></p></div></div></section><section class="wrap"><h2 class="section-title">한 판만 더 하게 되는 네 가지 도전</h2><p class="sub">일반 전투와 보스, 요일별 변형 규칙, 무제한 도전까지 골라 즐겨보세요.</p><div class="features">
 <article class="feature"><div class="num">01 / SURVIVAL</div><h3>60초 생존 전투</h3><p>몰려오는 탄막 사이를 피하며 무기 업그레이드를 선택하세요.</p></article>
 <article class="feature"><div class="num">02 / BOSS RAID</div><h3>보스 레이드</h3><p>강해지는 보스 공격을 버티고 누적 피해량에 도전하세요.</p></article>
 <article class="feature"><div class="num">03 / DAILY DUNGEON</div><h3>요일 던전</h3><p>요일마다 달라지는 규칙과 첫 클리어 보상을 노려보세요.</p></article>
@@ -63,5 +73,34 @@ section{padding-top:36px;padding-bottom:58px}.section-title{font-size:clamp(24px
 </main>
 <footer class="footer wrap">© SongiSongi · <a href="https://onesto.re/oneplay/0001010330">ONEplay 공식 상품 링크</a> · <a href="./">게임 체험</a></footer>
 <a class="mobile-cta" href="https://onesto.re/oneplay/0001010330">▶ 원스토어에서 60초 도전 시작</a>
-</body>
+
+<script>
+(()=>{'use strict';
+ const button=document.getElementById('s60-challenge-share');
+ const status=document.getElementById('s60-share-status');
+ if(!button||!status)return;
+ const url='https://dlaepdfuf89-crypto.github.io/survive60/intro.html?utm_source=friend&utm_medium=share&utm_campaign=survive60_challenge';
+ const title='60초만 버텨봐 | 생존 도전';
+ const message='60초 동안 살아남을 수 있어? 한 손 조작으로 도전해봐! 무료 플레이 ▶';
+ let busy=false;
+ button.addEventListener('click',async()=>{
+  if(busy)return;busy=true;button.disabled=true;
+  try{
+   if(typeof navigator.share==='function'){
+    try{await navigator.share({title,text:message,url});status.textContent='공유창에서 도전장을 보낼 수 있습니다.';return}
+    catch(e){if(e&&e.name==='AbortError'){status.textContent='공유를 취소했습니다.';return}}
+   }
+   const body=message+' '+url;
+   if(navigator.clipboard&&typeof navigator.clipboard.writeText==='function'){
+    await navigator.clipboard.writeText(body);status.textContent='도전장 링크를 복사했습니다. 원하는 곳에 붙여넣으세요.';return;
+   }
+   const t=document.createElement('textarea');t.value=body;t.setAttribute('readonly','');t.style.position='fixed';t.style.left='-200vw';document.body.appendChild(t);t.select();
+   const ok=document.execCommand('copy');t.remove();
+   if(ok){status.textContent='도전장 링크를 복사했습니다.';return}
+   status.textContent='복사가 안 되면 위 게임 링크를 길게 눌러 공유해주세요.';
+  }catch(e){status.textContent='공유가 제한되어 있습니다. 위 게임 링크를 복사해 전달해주세요.'}
+  finally{busy=false;button.disabled=false}
+ });
+})();
+</script></body>
 </html>
