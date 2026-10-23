@@ -28,7 +28,18 @@ section{padding-top:36px;padding-bottom:58px}.section-title{font-size:clamp(24px
 @media(max-width:420px){.wrap{padding-left:16px;padding-right:16px}.hero h1{font-size:47px}.features{grid-template-columns:1fr 1fr}.feature{padding:14px;min-height:175px}.feature h3{font-size:17px}.feature p{font-size:12px}.btn{font-size:16px}.poster{padding:7px;border-radius:19px}.poster img{border-radius:14px}}
 .mobile-cta{display:none}
 @media(max-width:780px){body{padding-bottom:94px}.mobile-cta{display:block;position:fixed;left:14px;right:14px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:100;padding:16px 12px;text-align:center;text-decoration:none;font-size:17px;font-weight:950;color:#17191f;border:2px solid #fff1b6;border-radius:15px;background:linear-gradient(100deg,#ffdc88,#ff7550);box-shadow:0 8px 22px #000a,0 0 15px #ff92594a}.mobile-cta:focus-visible{outline:3px solid #8ef3ff;outline-offset:2px}}
-</style>
+.video-sample{border-top:1px solid #264565;border-bottom:1px solid #203856;background:linear-gradient(180deg,#10243acc,#08152822)}
+.video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.video-tile{min-width:0;padding:12px;border:1px solid #3d6688;border-radius:23px;background:linear-gradient(155deg,#193250,#0a172a);box-shadow:0 16px 38px #0005}
+.video-media{max-width:285px;margin:0 auto;overflow:hidden;border-radius:14px;border:1px solid #3b5b77;background:#0b1729}
+.video-media video{display:block;width:100%;aspect-ratio:9/16;height:auto;object-fit:cover}
+.video-caption{padding:17px 5px 5px}
+.video-caption .tag{font-size:11px;font-weight:900;color:#80dbff;letter-spacing:1.7px}
+.video-caption h3{font-size:20px;letter-spacing:-.6px;margin:8px 0}
+.video-caption p{font-size:13px;color:#bad4e9;line-height:1.7;margin:0 0 15px}
+.video-caption .play-link{display:block;border-radius:12px;padding:13px 12px;text-align:center;color:#0f1d2d;background:linear-gradient(100deg,#ffe1a6,#ff9b60);font-weight:900;text-decoration:none}
+.video-helper{margin-top:15px;color:#acc5de;font-size:12px;line-height:1.6}.video-helper a{color:#9bdfff}
+@media(max-width:780px){.video-grid{grid-auto-flow:column;grid-auto-columns:minmax(225px,74vw);grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 4px 16px;scrollbar-color:#537fa0 transparent}.video-tile{scroll-snap-align:center}.video-media{max-width:260px}}</style>
 </head>
 <body>
 <header class="top wrap"><div class="brand">60초만 <span>버텨봐</span></div><div class="topnote">ONEplay · 설치 없는 우주 슈팅</div></header>
@@ -39,7 +50,9 @@ section{padding-top:36px;padding-bottom:58px}.section-title{font-size:clamp(24px
 <p class="fine">원스토어 앱에서는 광고·상품 등 ONEplay 전용 기능이 제공될 수 있습니다. 일반 웹브라우저에서는 일부 기능이 지원되지 않을 수 있습니다.</p></div>
 <div class="poster"><img src="./og-card.png" alt="우주 함대와 거대한 보스가 맞서는 60초만 버텨봐 탄막 슈팅 게임 대표 이미지" width="1000" height="1000" fetchpriority="high"><span class="posterLabel">60초 · 생존 · 보스전</span></div>
 </div>
-<section class="wrap"><h2 class="section-title">한 판만 더 하게 되는 네 가지 도전</h2><p class="sub">일반 전투와 보스, 요일별 변형 규칙, 무제한 도전까지 골라 즐겨보세요.</p><div class="features">
+<section class="video-sample" aria-labelledby="video-sample-title"><div class="wrap"><h2 id="video-sample-title" class="section-title">실제 게임 화면으로 먼저 확인하세요</h2><p class="sub">합성 홍보 영상이 아닌 실제 전투를 녹화한 짧은 미리보기입니다. 직접 확인한 다음 바로 도전하세요.</p><div class="video-grid"><article class="video-tile"><div class="video-media"><video controls preload="none" muted playsinline poster="./promo/20261023/SURVIVE60_SURVIVAL_PREVIEW_540x960.png" aria-label="60초 생존 실제 플레이 미리보기"><source src="./promo/20261023/SURVIVE60_SURVIVAL_GAMEPLAY_20261023_HQ1080.mp4" type="video/mp4">동영상 재생을 지원하지 않는 브라우저입니다.</video></div><div class="video-caption"><span class="tag">01 / SURVIVAL</span><h3>60초 생존</h3><p>쏟아지는 탄막을 피하고 무기를 성장시키세요.</p><a class="play-link" href="https://onesto.re/oneplay/0001010330">ONEplay에서 무료 플레이 →</a></div></article>
+<article class="video-tile"><div class="video-media"><video controls preload="none" muted playsinline poster="./promo/20261023/SURVIVE60_BOSS_PREVIEW_540x960.png" aria-label="보스전 실제 플레이 미리보기"><source src="./promo/20261023/SURVIVE60_BOSS_GAMEPLAY_20261023_HQ1080.mp4" type="video/mp4">동영상 재생을 지원하지 않는 브라우저입니다.</video></div><div class="video-caption"><span class="tag">02 / BOSS RAID</span><h3>보스전</h3><p>강력한 보스의 공격을 보고 직접 도전하세요.</p><a class="play-link" href="https://onesto.re/oneplay/0001010330">ONEplay에서 무료 플레이 →</a></div></article>
+<article class="video-tile"><div class="video-media"><video controls preload="none" muted playsinline poster="./promo/20261023/SURVIVE60_ENDLESS_PREVIEW_540x960.png" aria-label="무제한 생존 실제 플레이 미리보기"><source src="./promo/20261023/SURVIVE60_ENDLESS_GAMEPLAY_20261023_HQ1080.mp4" type="video/mp4">동영상 재생을 지원하지 않는 브라우저입니다.</video></div><div class="video-caption"><span class="tag">03 / ENDLESS</span><h3>무제한 생존</h3><p>제한 시간 없이 최고 기록에 도전하세요.</p><a class="play-link" href="https://onesto.re/oneplay/0001010330">ONEplay에서 무료 플레이 →</a></div></article></div><p class="video-helper">휴대전화에서는 옆으로 넘겨 세 가지 모드를 확인할 수 있습니다. 동영상 재생은 선택 사항이며 데이터 사용량이 발생할 수 있습니다. <a href="./">게임 웹 체험</a></p></div></section><section class="wrap"><h2 class="section-title">한 판만 더 하게 되는 네 가지 도전</h2><p class="sub">일반 전투와 보스, 요일별 변형 규칙, 무제한 도전까지 골라 즐겨보세요.</p><div class="features">
 <article class="feature"><div class="num">01 / SURVIVAL</div><h3>60초 생존 전투</h3><p>몰려오는 탄막 사이를 피하며 무기 업그레이드를 선택하세요.</p></article>
 <article class="feature"><div class="num">02 / BOSS RAID</div><h3>보스 레이드</h3><p>강해지는 보스 공격을 버티고 누적 피해량에 도전하세요.</p></article>
 <article class="feature"><div class="num">03 / DAILY DUNGEON</div><h3>요일 던전</h3><p>요일마다 달라지는 규칙과 첫 클리어 보상을 노려보세요.</p></article>
