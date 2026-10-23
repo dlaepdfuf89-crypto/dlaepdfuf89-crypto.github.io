@@ -1,0 +1,1 @@
+{"name":"WORKFLOW PACK CSV 검수","short_name":"WORKFLOW PACK","id":"./","start_url":"./index.html","scope":"./","display":"standalone","lang":"ko-KR","background_color":"#f4f7fa","theme_color":"#091829","description":"기기 안에서 거래 CSV를 검수하고 정상/오류 내역을 나누는 로컬 데이터 유틸리티.","icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
