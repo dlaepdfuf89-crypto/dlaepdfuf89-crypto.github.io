@@ -1,0 +1,115 @@
+(function(){
+'use strict';
+const byId=id=>document.getElementById(id);
+const api=window.WorkflowPackCore;
+const demoCsv=[['거래일','거래처코드','거래처','상품코드','상품명','수량','단가'],['2026-10-21','001','가상상사','0007','샘플상품',2,10000],['2026-10-22','001','가상상사','0007','샘플상품',3,5000],['2026-10-22','002','샘플마트','0008','체험상품',4,5000],['2026-02-30','002','샘플마트','0008','체험상품',1,2000],['2026-10-23','001','가상상사','0007','샘플상품','',10000]].map(row=>row.join(',')).join('\r\n')+'\r\n';
+let encoding='auto',files=[],last=null,lastIsDemo=false;
+const fmt=n=>Number(n||0).toLocaleString('ko-KR');
+function announce(msg){byId('live-announcement').textContent=msg;}
+function status(txt,cls){let x=byId('task-status');x.textContent=txt;x.className='status-chip'+(cls?' '+cls:'');}
+function setFiles(input){
+ files=[...input];last=null;lastIsDemo=false;byId('results').classList.add('hidden');
+ const host=byId('file-list');host.replaceChildren();
+ if(!files.length){const p=document.createElement('p');p.className='empty-files';p.textContent='선택한 파일이 없습니다.';host.append(p);}
+ for(const f of files){const p=document.createElement('div');p.className='file-pill';const n=document.createElement('strong');n.textContent=f.name;const s=document.createElement('span');s.textContent=(f.size/1024).toFixed(1)+' KB';p.append(n,s);host.append(p);}
+ byId('run-button').disabled=files.length===0;status(files.length?files.length+'개 선택':'대기 중');
+}
+function decode(buffer){
+ if(encoding==='auto'){
+  try{return new TextDecoder('utf-8',{fatal:true}).decode(buffer);}catch(e){return new TextDecoder('euc-kr',{fatal:true}).decode(buffer);}
+ }
+ return new TextDecoder(encoding,{fatal:true}).decode(buffer);
+}
+async function inspect(){
+ if(!files.length)return;
+ const b=byId('run-button');b.disabled=true;b.querySelector('span').textContent='검수 진행 중…';status('검수 중');
+ try{
+  if(files.length>api.MAX_FILES)throw Error('한 번에 CSV '+api.MAX_FILES+'개까지 선택해 주세요.');
+  const total=files.reduce((sum,f)=>sum+f.size,0);
+  if(total>api.MAX_TOTAL_BYTES)throw Error('전체 파일이 20MB를 초과합니다.');
+  let input=[];
+  for(const f of files){
+   if(!/\.csv$/i.test(f.name))throw Error('CSV 확장자가 아닙니다: '+f.name);
+   if(f.size>api.MAX_FILE_BYTES)throw Error('파일당 10MB 초과: '+f.name);
+   let txt;
+   try{txt=decode(await f.arrayBuffer());}catch(e){throw Error('인코딩 판독 실패: '+f.name+'. UTF-8 또는 CP949인지 확인해 주세요.');}
+   input.push({name:f.name,text:txt,bytes:f.size});
+  }
+  const result=api.processFiles(input);render(result,false);
+ }catch(e){status('확인 필요','error');announce(e.message);window.alert(e.message);}
+ finally{b.querySelector('span').textContent='CSV 검수 실행';b.disabled=files.length===0;}
+}
+function render(result,demo){
+ last=result;lastIsDemo=demo;
+ const stats=result.stats||{};
+ byId('results').classList.remove('hidden');
+ byId('metric-all').textContent=fmt(stats.totalRows);byId('metric-ok').textContent=fmt(stats.includedRows);
+ byId('metric-errors').textContent=fmt(stats.excludedRows);byId('metric-amount').textContent='₩'+fmt(stats.totalAmount);
+ const partial=stats.partial||stats.fileErrors||stats.excludedRows>0;
+ byId('partial-label').textContent=partial?'오류·제외행을 뺀 부분 합계':'기본 검증 행의 합계';
+ const tbody=byId('summary-body');tbody.replaceChildren();
+ if(!result.summary.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=4;td.className='table-empty';td.textContent='집계에 포함된 정상 거래가 없습니다.';tr.append(td);tbody.append(tr);}
+ for(const row of result.summary.slice(0,60)){
+  const tr=document.createElement('tr');
+  for(const [key,numeric] of [['거래처',false],['상품명',false],['총수량',true],['총금액',true]]){
+   const td=document.createElement('td');td.textContent=numeric?fmt(row[key]):row[key];tr.append(td);
+  }
+  tbody.append(tr);
+ }
+ const errors=byId('error-items');errors.replaceChildren();
+ if(result.errors.length){for(const err of result.errors.slice(0,12)){
+  const item=document.createElement('div');item.className='error-item';
+  const strong=document.createElement('b');strong.textContent=err.reason;
+  const detail=document.createElement('span');detail.textContent=err.file+' · 원본 '+err.line+'행';
+  item.append(strong,detail);errors.append(item);
+ }
+ if(result.errors.length>12){const p=document.createElement('p');p.className='empty-files';p.textContent='나머지 '+fmt(result.errors.length-12)+'건은 오류 CSV에서 확인하세요.';errors.append(p);}
+ }else{const p=document.createElement('div');p.className='no-error';p.textContent='기본 구조 오류가 발견되지 않았습니다. 실제 거래의 진위는 별도 검토해야 합니다.';errors.append(p);}
+ byId('result-subtitle').textContent=demo?'가상 데이터 예시입니다. 실제 고객 거래가 아닙니다.':fmt(stats.fileCount)+'개 파일의 거래값을 점검했습니다.';
+ byId('result-status').textContent=partial?'일부 제외 · 확인 필요':'기본 검수 완료';
+ byId('result-status').className='status-chip '+(partial?'error':'completed');
+ status(demo?'체험 완료':'검수 완료','completed');
+ byId('result-warning').textContent=(demo?'가상 데이터로 작성한 체험 화면입니다. 실거래가 아닙니다. ':'')+(partial?'제외된 행이 있어 정상행 합계는 모든 거래의 확정 매출이 아닙니다. ':'')+'취소·환불·세금 규칙과 거래의 실제 진위는 별도 확인이 필요합니다.';
+ announce('정상 '+fmt(stats.includedRows)+'행, 오류 '+fmt(stats.excludedRows)+'행 검수 완료');
+ byId('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toBase64(content){
+ const bytes=new TextEncoder().encode(content);let binary='';
+ for(let pos=0;pos<bytes.length;pos+=8192){binary+=String.fromCharCode(...bytes.subarray(pos,pos+8192));}
+ return btoa(binary);
+}
+function saveText(name,content,mime){
+ if(window.WFPAndroid&&typeof window.WFPAndroid.saveCsv==='function'){
+  window.WFPAndroid.saveCsv(name,toBase64(content),mime);return;
+ }
+ if(window.WFPToss&&typeof window.WFPToss.saveCsv==='function'){
+  Promise.resolve().then(()=>window.WFPToss.saveCsv(name,toBase64(content),mime))
+    .then(()=>announce(name+' 저장이 완료되었습니다.'))
+    .catch(()=>{announce('CSV 저장을 완료하지 못했습니다.');window.alert('파일을 저장하지 못했습니다. 토스 앱을 업데이트한 뒤 다시 시도해 주세요.');});
+  return;
+ }
+ const url=URL.createObjectURL(new Blob([content],{type:mime}));
+ const a=document.createElement('a');a.download=name;a.href=url;document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),30000);
+}
+function saveResult(kind,name){if(!last)return;saveText(name,'\ufeff'+api.exportCSV(last,kind),'text/csv;charset=utf-8');}
+byId('csv-files').addEventListener('change',e=>setFiles(e.target.files||[]));
+const zone=byId('dropzone');
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag');});
+zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag');setFiles(e.dataTransfer.files||[]);});
+for(const b of document.querySelectorAll('.encoding'))b.addEventListener('click',()=>{
+ encoding=b.dataset.encoding;
+ for(const other of document.querySelectorAll('.encoding')){let selected=other===b;other.classList.toggle('active',selected);other.setAttribute('aria-pressed',selected?'true':'false');}
+});
+byId('run-button').addEventListener('click',inspect);
+byId('demo-button').addEventListener('click',()=>{
+ try{const r=api.processFiles([{name:'가상거래_체험.csv',text:demoCsv,bytes:new TextEncoder().encode(demoCsv).length}]);render(r,true);}
+ catch(e){announce(e.message);window.alert(e.message);}
+});
+byId('sample-download').addEventListener('click',()=>{saveText('WORKFLOW_PACK_가상거래_5행.csv','\ufeff'+demoCsv,'text/csv;charset=utf-8');announce('가상 CSV 샘플을 저장했습니다.');});
+byId('save-normal').addEventListener('click',()=>saveResult('normalized','WORKFLOW_PACK_정상거래.csv'));
+byId('save-summary').addEventListener('click',()=>saveResult('summary','WORKFLOW_PACK_거래처상품집계.csv'));
+byId('save-errors').addEventListener('click',()=>saveResult('errors','WORKFLOW_PACK_오류제외.csv'));
+window.WFPApp={getState:()=>({hasResult:!!last,demo:lastIsDemo,encoding,stats:last?.stats||null}),runSample:()=>byId('demo-button').click()};
+})();
