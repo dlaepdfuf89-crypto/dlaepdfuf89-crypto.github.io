@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#091829">
+<meta name="description" content="인터넷 전송 없이 CSV 거래 데이터를 검수·분리·집계하는 무료 WORKFLOW PACK 앱">
+<title>WORKFLOW PACK | CSV 거래 검수</title>
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./app.css"></head>
+<body><div class="app-shell">
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="WORKFLOW PACK 홈"><span class="brand-icon" aria-hidden="true">W<span>↗</span></span><span class="brand-name">WORKFLOW <b>PACK</b><small>CSV CONTROL STUDIO</small></span></a>
+  <span class="secure"><span class="secure-dot"></span> 기기 내 처리</span>
+</header>
+<main id="top">
+<section class="hero">
+ <div class="hero-eyebrow"><span class="tinyline"></span> CSV REVIEW · v0.1.0</div>
+ <h1>데이터는 정돈하고.<br><span>숫자는 명확하게.</span></h1>
+ <p>거래 CSV를 열어 정상 거래와 오류 내역을 분리하고 거래처·상품별 결과를 직접 확인하세요. 파일은 서버로 전송하지 않습니다.</p>
+ <div class="trust"><span><i>✓</i> 로그인 없음</span><span><i>✓</i> 로컬 처리</span><span><i>✓</i> CSV 결과 저장</span></div>
+ <div class="orbit orbit-a" aria-hidden="true"></div><div class="orbit orbit-b" aria-hidden="true"></div>
+</section>
+<section class="workspace" aria-labelledby="worktitle">
+ <div class="sec-intro"><div><span class="overline">01 / WORKSPACE</span><h2 id="worktitle">새 검수 작업</h2><p>필수 7개 열이 있는 거래 CSV 최대 5개 · 총 10,000행</p></div><span class="status-chip" id="task-status">대기 중</span></div>
+ <div class="work-grid">
+  <div class="panel drop-panel">
+   <div class="panel-heading"><div class="panel-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0L8 8m4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></div><div><h3>거래 파일 불러오기</h3><p>UTF-8 · CP949 CSV 지원</p></div></div>
+   <label for="csv-files" id="dropzone" class="dropzone"><div class="upload-art" aria-hidden="true"><div class="upload-lines">▤</div><span>+</span></div><strong>파일을 선택하거나 이곳에 놓으세요</strong><span>CSV만 가능 · 각 10MB 이내 · 전체 20MB</span><span class="choose-file">CSV 파일 선택 <span aria-hidden="true">↗</span></span></label>
+   <input id="csv-files" class="sr-only" type="file" accept=".csv,text/csv" multiple>
+   <div id="file-list" class="file-list" aria-live="polite"><p class="empty-files">선택한 파일이 없습니다.</p></div>
+  </div>
+  <div class="panel options-panel"><div class="panel-heading"><div class="panel-icon cog">⚙</div><div><h3>검수 설정</h3><p>정확한 집계를 위한 기본 기준</p></div></div>
+   <div class="opt-label">파일 인코딩 <span class="opt-info">파일 읽기 방식</span></div>
+   <div class="encoding-control" role="group" aria-label="파일 인코딩">
+    <button type="button" class="encoding active" data-encoding="auto" aria-pressed="true">자동 감지</button>
+    <button type="button" class="encoding" data-encoding="utf-8" aria-pressed="false">UTF-8</button>
+    <button type="button" class="encoding" data-encoding="euc-kr" aria-pressed="false">CP949</button>
+   </div>
+   <div class="rules"><div class="rule"><span class="rule-icon">01</span><span>실제로 존재하는 날짜 검증</span><span class="rule-check">✓</span></div><div class="rule"><span class="rule-icon">02</span><span>수량·단가·금액 검산</span><span class="rule-check">✓</span></div><div class="rule"><span class="rule-icon">03</span><span>제외행 사유와 출처 기록</span><span class="rule-check">✓</span></div></div>
+   <button type="button" id="run-button" class="primary-action" disabled><span>CSV 검수 실행</span><span aria-hidden="true">→</span></button>
+   <button type="button" id="demo-button" class="secondary-action">가상 데이터로 체험하기 <span aria-hidden="true">↗</span></button>
+  </div>
+ </div>
+</section>
+<section class="results hidden" id="results" aria-labelledby="restitle">
+ <div class="sec-intro"><div><span class="overline">02 / REVIEW REPORT</span><h2 id="restitle">검수 결과</h2><p id="result-subtitle">데이터를 검증했습니다.</p></div><span class="status-chip completed" id="result-status">검수 완료</span></div>
+ <div class="metric-grid">
+  <article class="metric"><div class="metric-name">원본 데이터 행 <span>↗</span></div><div class="metric-value" id="metric-all">0</div><p>헤더 제외 · 전체 파일</p></article>
+  <article class="metric"><div class="metric-name">정상 거래 <span>✓</span></div><div class="metric-value positive" id="metric-ok">0</div><p>검증 후 포함한 행</p></article>
+  <article class="metric"><div class="metric-name">확인 필요 <span>!</span></div><div class="metric-value warning" id="metric-errors">0</div><p>원본을 유지한 제외 행</p></article>
+  <article class="metric"><div class="metric-name">정상행 합계 <span>₩</span></div><div class="metric-value" id="metric-amount">₩0</div><p id="partial-label">오류행 여부에 따라 부분 합계</p></article>
+ </div>
+ <div class="result-grid"><article class="panel preview-panel"><div class="table-title"><div><h3>거래처·상품별 집계</h3><p>정상으로 판정된 행만 계산합니다.</p></div></div><div class="table-scroll"><table><thead><tr><th>거래처</th><th>상품</th><th>총수량</th><th>총금액</th></tr></thead><tbody id="summary-body"></tbody></table></div></article>
+ <article class="panel review-panel"><div class="table-title"><div><h3>오류·제외 사유</h3><p>확인이 필요한 항목을 분리했습니다.</p></div></div><div id="error-items" class="error-items"></div></article></div>
+ <div class="download-panel"><div><span class="overline">03 / EXPORT</span><h3>결과 파일 저장</h3><p>정상 거래 · 거래처/상품 집계 · 오류 목록을 각각 CSV로 보관하세요.</p></div><div class="download-actions"><button id="save-normal" type="button">정상 거래 CSV <span>↓</span></button><button id="save-summary" type="button">집계 CSV <span>↓</span></button><button id="save-errors" type="button">오류 목록 CSV <span>↓</span></button></div></div>
+ <div id="result-warning" class="result-warning" role="note">이 도구의 결과는 거래 형식과 계산을 검토하기 위한 참고자료입니다. 취소·환불·세금 규칙 및 거래의 실제 진위는 별도 검토가 필요합니다.</div>
+</section>
+<section class="knowledge" aria-labelledby="knowtitle"><div class="sec-intro"><div><span class="overline">APP GUIDE</span><h2 id="knowtitle">파일을 준비하는 방법</h2><p>첫 번째 행에 아래 7개 열이 있어야 합니다.</p></div></div><div class="column-tags"><code>거래일</code><code>거래처코드</code><code>거래처</code><code>상품코드</code><code>상품명</code><code>수량</code><code>단가</code></div>
+ <p>날짜는 <strong>YYYY-MM-DD</strong>, 수량은 양의 정수, 단가는 0 이상의 정수 원 단위로 입력하세요. 취소·반품과 음수 수량은 기본 집계에서 제외되어 확인이 필요합니다.</p><button class="sample-link" id="sample-download" type="button">가상 CSV 샘플 저장 <span>↓</span></button>
+</section>
+</main>
+<footer><div>WORKFLOW PACK <span>·</span> CSV CONTROL STUDIO</div><p>파일은 이 기기에서만 읽고 처리합니다. 별도의 분석 서버나 광고 SDK를 사용하지 않습니다.</p><small>v0.1.0 · 실거래·세금 신고용 확정 보고서가 아닌 데이터 검수 보조 도구</small><p><a href="./privacy.html" style="color:#8cdfee;font-weight:750">개인정보처리방침 확인 →</a></p></footer>
+<div id="live-announcement" class="sr-only" role="status" aria-live="polite"></div>
+</div><script src="./core.js"></script><script src="./app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script></body></html>
