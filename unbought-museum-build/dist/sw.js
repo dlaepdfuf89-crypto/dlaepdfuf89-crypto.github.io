@@ -1,12 +1,12 @@
 // Museum offline shell. Intentionally never handles cross-origin requests,
 // dynamic user records, JSON imports/exports, payments, or unrelated apps.
 const CACHE_PREFIX='unbought-museum-shell-';
-const CACHE_NAME=CACHE_PREFIX+'20261024-public-v1';
+const CACHE_NAME=CACHE_PREFIX+'20261024-public-v2';
 const APP_SHELL=[
   './','./index.html','./style.css','./gallery.css','./gallery-daylight.css','./form-atelier.css','./showroom.css','./premium-atelier.css','./curator-room.css','./monetization.css',
   './app.js','./model.js','./gallery.js','./artwork.js','./artwork-shapes.js','./artwork-finish.js','./museum-categories.js','./showroom.js','./hero-curator.js','./premium-offer.js','./postcard.js','./premium-entitlement.js','./postcard-ui.js',
   './icon.svg','./icon-192.png','./icon-512.png','./icon-maskable-512.png',
-  './manifest.webmanifest'
+  './manifest.webmanifest','./privacy.html'
 ];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)));
