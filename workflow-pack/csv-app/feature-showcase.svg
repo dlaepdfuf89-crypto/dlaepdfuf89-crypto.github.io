@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="560" viewBox="0 0 680 560" fill="none" role="img" aria-labelledby="title desc">
+<title id="title">CSV 거래내역 오류검사 및 자동집계 시각화</title>
+<desc id="desc">CSV 문서가 검수 과정을 거쳐 정상 거래와 오류 행, 집계 결과로 나뉘는 연출 이미지</desc>
+<defs>
+<linearGradient id="panel" x1="0" y1="0" x2="680" y2="560" gradientUnits="userSpaceOnUse"><stop stop-color="#153F6B"/><stop offset="1" stop-color="#081D37"/></linearGradient>
+<linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#82FFF2"/><stop offset="1" stop-color="#45BDF7"/></linearGradient>
+<linearGradient id="glow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#155C9C"/><stop offset="1" stop-color="#032543"/></linearGradient>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="18" stdDeviation="17" flood-color="#000717" flood-opacity=".4"/></filter>
+<filter id="halo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="27"/></filter>
+</defs>
+<ellipse cx="380" cy="290" rx="254" ry="197" fill="#12CBED" opacity=".11" filter="url(#halo)"/>
+<circle cx="390" cy="278" r="229" stroke="#64D5F5" stroke-opacity=".12" stroke-width="1.5"/>
+<circle cx="390" cy="278" r="180" stroke="#64D5F5" stroke-opacity=".10" stroke-width="1.5" stroke-dasharray="7 15"/>
+<rect x="174" y="42" width="447" height="477" rx="30" fill="url(#panel)" stroke="#6BD9F2" stroke-opacity=".42" stroke-width="2" filter="url(#shadow)"/>
+<rect x="174" y="42" width="447" height="68" rx="30" fill="#24547A" opacity=".62"/>
+<path d="M175 94H620" stroke="#80D4F7" stroke-opacity=".26"/>
+<circle cx="205" cy="76" r="7" fill="#42ECD1"/><circle cx="228" cy="76" r="7" fill="#5AA7EF" opacity=".65"/><circle cx="251" cy="76" r="7" fill="#90ABDB" opacity=".45"/>
+<text x="289" y="83" fill="#E6F7FF" font-family="Arial,'Malgun Gothic',sans-serif" font-size="19" font-weight="700">CSV REVIEW</text>
+<rect x="202" y="135" width="179" height="103" rx="16" fill="#1A4264" stroke="#65DFFB" stroke-opacity=".25"/>
+<text x="222" y="169" fill="#AECDE2" font-family="Arial,'Malgun Gothic',sans-serif" font-size="16">형식·필수열 검사</text>
+<circle cx="239" cy="204" r="14" fill="#0F7169"/><path d="M231 204L238 210L248 197" stroke="#8BFFE5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="260" y="211" fill="#E7FFF9" font-family="Arial,'Malgun Gothic',sans-serif" font-size="18" font-weight="700">검수 준비</text>
+<rect x="397" y="135" width="196" height="103" rx="16" fill="#1A4264" stroke="#65DFFB" stroke-opacity=".25"/>
+<text x="418" y="169" fill="#AECDE2" font-family="Arial,'Malgun Gothic',sans-serif" font-size="16">거래처·상품별 집계</text>
+<path d="M422 213H569" stroke="#4ACAE6" stroke-opacity=".3" stroke-width="5" stroke-linecap="round"/>
+<path d="M423 209V196M459 209V183M495 209V191M531 209V176M567 209V165" stroke="url(#cyan)" stroke-width="10" stroke-linecap="round"/>
+<rect x="202" y="255" width="390" height="175" rx="15" fill="#0B263F" stroke="#7CDBEF" stroke-opacity=".20"/>
+<rect x="219" y="269" width="356" height="38" rx="8" fill="#214B6C"/>
+<text x="233" y="294" fill="#D2F6FF" font-family="Arial,'Malgun Gothic',sans-serif" font-size="14" font-weight="700">거래일</text>
+<text x="333" y="294" fill="#D2F6FF" font-family="Arial,'Malgun Gothic',sans-serif" font-size="14" font-weight="700">거래처</text>
+<text x="454" y="294" fill="#D2F6FF" font-family="Arial,'Malgun Gothic',sans-serif" font-size="14" font-weight="700">수량</text>
+<text x="524" y="294" fill="#D2F6FF" font-family="Arial,'Malgun Gothic',sans-serif" font-size="14" font-weight="700">상태</text>
+<path d="M219 336H574M219 366H574M219 396H574" stroke="#689FC2" stroke-opacity=".22"/>
+<g font-family="Arial,'Malgun Gothic',sans-serif" font-size="13" fill="#C3E0F1"><text x="233" y="326">10-24</text><text x="333" y="326">거래처 A</text><text x="459" y="326">12</text><text x="233" y="356">10-24</text><text x="333" y="356">거래처 B</text><text x="459" y="356">6</text><text x="233" y="386">10-24</text><text x="333" y="386">거래처 C</text><text x="459" y="386">—</text><text x="233" y="417">10-24</text><text x="333" y="417">거래처 D</text><text x="459" y="417">9</text></g>
+<rect x="518" y="313" width="53" height="20" rx="10" fill="#176D64"/><text x="529" y="327" fill="#C2FFF1" font-family="Arial,'Malgun Gothic',sans-serif" font-size="12">정상</text>
+<rect x="518" y="344" width="53" height="20" rx="10" fill="#176D64"/><text x="529" y="358" fill="#C2FFF1" font-family="Arial,'Malgun Gothic',sans-serif" font-size="12">정상</text>
+<rect x="518" y="373" width="53" height="20" rx="10" fill="#7B3D59"/><text x="529" y="387" fill="#FFE1E6" font-family="Arial,'Malgun Gothic',sans-serif" font-size="12">오류</text>
+<rect x="518" y="401" width="53" height="20" rx="10" fill="#176D64"/><text x="529" y="415" fill="#C2FFF1" font-family="Arial,'Malgun Gothic',sans-serif" font-size="12">정상</text>
+<rect x="214" y="449" width="173" height="44" rx="13" fill="#1E6088" stroke="#83DBFF" stroke-opacity=".55"/>
+<text x="244" y="477" fill="#ECFAFF" font-family="Arial,'Malgun Gothic',sans-serif" font-size="16" font-weight="700">오류 목록 CSV</text>
+<rect x="397" y="449" width="192" height="44" rx="13" fill="#0D766D" stroke="#68FFE9" stroke-opacity=".38"/>
+<text x="427" y="477" fill="#E5FFF6" font-family="Arial,'Malgun Gothic',sans-serif" font-size="16" font-weight="700">집계 결과 CSV</text>
+<g transform="translate(35 191)" filter="url(#shadow)">
+<path d="M17 2H103L145 44V221Q145 235 131 235H17Q3 235 3 221V16Q3 2 17 2Z" fill="#E9F9FF" stroke="#B3E8F2" stroke-width="2"/>
+<path d="M103 2V44H145" fill="#B9E8F4"/>
+<path d="M103 2V44H145" stroke="#9AD4E8" stroke-width="2"/>
+<rect x="-12" y="71" width="172" height="72" rx="15" fill="#00BFA8"/>
+<text x="29" y="117" fill="white" font-family="Arial,sans-serif" font-size="36" font-weight="800">CSV</text>
+<path d="M22 173H120M22 190H120M22 207H89" stroke="#94BDCD" stroke-width="5" stroke-linecap="round"/>
+</g>
+<path d="M153 310H187" stroke="#68F2E6" stroke-width="6" stroke-linecap="round"/>
+<path d="M178 298L192 310L178 322" stroke="#68F2E6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
