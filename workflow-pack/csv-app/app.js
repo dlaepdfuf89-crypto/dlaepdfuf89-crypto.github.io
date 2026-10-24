@@ -8,7 +8,7 @@ const fmt=n=>Number(n||0).toLocaleString('ko-KR');
 function announce(msg){byId('live-announcement').textContent=msg;}
 function status(txt,cls){let x=byId('task-status');x.textContent=txt;x.className='status-chip'+(cls?' '+cls:'');}
 function setFiles(input){
- files=[...input];last=null;lastIsDemo=false;byId('results').classList.add('hidden');
+ files=[...input];last=null;lastIsDemo=false;byId('results').classList.add('hidden');byId('input-error').classList.add('hidden');
  const host=byId('file-list');host.replaceChildren();
  if(!files.length){const p=document.createElement('p');p.className='empty-files';p.textContent='선택한 파일이 없습니다.';host.append(p);}
  for(const f of files){const p=document.createElement('div');p.className='file-pill';const n=document.createElement('strong');n.textContent=f.name;const s=document.createElement('span');s.textContent=(f.size/1024).toFixed(1)+' KB';p.append(n,s);host.append(p);}
@@ -22,6 +22,7 @@ function decode(buffer){
 }
 async function inspect(){
  if(!files.length)return;
+ byId('input-error').classList.add('hidden');
  const b=byId('run-button');b.disabled=true;b.querySelector('span').textContent='검수 진행 중…';status('검수 중');
  try{
   if(files.length>api.MAX_FILES)throw Error('한 번에 CSV '+api.MAX_FILES+'개까지 선택해 주세요.');
@@ -36,7 +37,18 @@ async function inspect(){
    input.push({name:f.name,text:txt,bytes:f.size});
   }
   const result=api.processFiles(input);render(result,false);
- }catch(e){status('확인 필요','error');announce(e.message);window.alert(e.message);}
+ }catch(e){
+  const msg=String(e.message||'파일 검수 중 문제가 발생했습니다.');
+  let tip='파일이 CSV 형식인지와 첫 줄의 필수 열 7개를 확인해 주세요.';
+  if(/파일.*5개|최대 5개/.test(msg))tip='한 번에 파일을 5개 이하로 선택해 주세요.';
+  else if(/10MB|20MB|10,000행|10000행/.test(msg))tip='파일 개수·크기·행 수가 사용 한도를 넘었는지 확인하고 파일을 나눠 다시 실행해 주세요.';
+  else if(/인코딩|NUL/.test(msg))tip='엑셀에서 CSV UTF-8로 다시 저장하거나 파일 인코딩을 CP949로 변경해 보세요.';
+  else if(/\.csv|확장자/.test(msg))tip='엑셀(.xlsx) 파일은 열 수 없습니다. 엑셀에서 CSV UTF-8(.csv)로 저장한 파일을 선택하세요.';
+  else if(/따옴표|CSV가 아닙니다/.test(msg))tip='CSV 표 안의 쉼표와 따옴표를 확인하고 파일을 CSV UTF-8 형식으로 다시 저장해 주세요.';
+  byId('input-error-message').textContent=msg+' '+tip;
+  byId('input-error').classList.remove('hidden');
+  status('확인 필요','error');announce(msg);window.alert(msg+'\n\n'+tip);
+ }
  finally{b.querySelector('span').textContent='CSV 검수 실행';b.disabled=files.length===0;}
 }
 function render(result,demo){
@@ -103,6 +115,7 @@ for(const b of document.querySelectorAll('.encoding'))b.addEventListener('click'
  for(const other of document.querySelectorAll('.encoding')){let selected=other===b;other.classList.toggle('active',selected);other.setAttribute('aria-pressed',selected?'true':'false');}
 });
 byId('run-button').addEventListener('click',inspect);
+byId('guide-demo').addEventListener('click',()=>byId('demo-button').click());
 byId('demo-button').addEventListener('click',()=>{
  try{const r=api.processFiles([{name:'가상거래_체험.csv',text:demoCsv,bytes:new TextEncoder().encode(demoCsv).length}]);render(r,true);}
  catch(e){announce(e.message);window.alert(e.message);}
