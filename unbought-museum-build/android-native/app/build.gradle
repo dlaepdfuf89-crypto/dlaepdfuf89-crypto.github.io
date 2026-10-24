@@ -1,13 +1,13 @@
 plugins { id 'com.android.application' }
 android {
- namespace 'com.example.unboughtmuseum'
+ namespace 'com.deokseolstudio.unboughtmuseum'
  compileSdk 36
  defaultConfig {
-  applicationId 'com.example.unboughtmuseum'
+  applicationId 'com.deokseolstudio.unboughtmuseum'
   minSdk 26
   targetSdk 36
   versionCode 1
-  versionName '0.1.0-internal'
+  versionName '1.0.0'
  }
  // Both Android storefronts share the package identity intentionally; the
  // final upload/app-signing certificates MUST be aligned before publication.

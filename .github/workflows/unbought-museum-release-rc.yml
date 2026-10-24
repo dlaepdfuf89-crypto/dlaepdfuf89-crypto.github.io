@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/unbought-museum-release-rc.yml'
+      - 'unbought-museum-build/**'
 permissions:
   contents: read
 concurrency:
@@ -25,29 +26,29 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
-      - name: Build unsigned Play AAB and ONE store APK
+      - name: Build independent Google Play and ONE store AAB release candidates
         shell: bash
         run: |
           set -euo pipefail
           test -f "$ANDROID_HOME/platforms/android-36/android.jar"
-          gradle -p unbought-museum-build/android-native :app:bundlePlayRelease :app:assembleOnestoreRelease --no-daemon --console=plain
+          gradle -p unbought-museum-build/android-native :app:bundlePlayRelease :app:bundleOnestoreRelease --no-daemon --console=plain
           find unbought-museum-build/android-native/app/build/outputs -type f \( -name '*.aab' -o -name '*.apk' \) -print -exec sha256sum {} \;
       - name: Confirm release artifacts are NOT signed or ready to upload
         shell: bash
         run: |
           set -euo pipefail
           bundle=unbought-museum-build/android-native/app/build/outputs/bundle/playRelease/app-play-release.aab
-          apk=unbought-museum-build/android-native/app/build/outputs/apk/onestore/release/app-onestore-release-unsigned.apk
+          onestore_bundle=unbought-museum-build/android-native/app/build/outputs/bundle/onestoreRelease/app-onestore-release.aab
           test -s "$bundle"
-          test -s "$apk"
-          printf 'UNSIGNED RELEASE CANDIDATE ONLY. Must set approved applicationId, real signing credentials and integrate live payment verification before any store upload.\n' > RELEASE_NOTES_UNSAFE_FOR_UPLOAD.txt
+          test -s "$onestore_bundle"
+          printf 'UNSIGNED RELEASE CANDIDATE ONLY. App ID is a proposed identifier, not yet claimed in a store console. Must add the correct signing key and live payment validation before any production upload.\n' > RELEASE_NOTES_UNSAFE_FOR_UPLOAD.txt
       - uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: museum-unsigned-release-candidates
+          name: museum-unsigned-two-store-aab-candidates
           path: |
             unbought-museum-build/android-native/app/build/outputs/bundle/playRelease/app-play-release.aab
-            unbought-museum-build/android-native/app/build/outputs/apk/onestore/release/app-onestore-release-unsigned.apk
+            unbought-museum-build/android-native/app/build/outputs/bundle/onestoreRelease/app-onestore-release.aab
             RELEASE_NOTES_UNSAFE_FOR_UPLOAD.txt
           retention-days: 14
           if-no-files-found: error

@@ -1,4 +1,4 @@
-package com.example.unboughtmuseum;
+package com.deokseolstudio.unboughtmuseum;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

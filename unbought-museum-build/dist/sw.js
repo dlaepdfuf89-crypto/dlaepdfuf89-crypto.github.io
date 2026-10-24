@@ -1,7 +1,7 @@
 // Museum offline shell. Intentionally never handles cross-origin requests,
 // dynamic user records, JSON imports/exports, payments, or unrelated apps.
 const CACHE_PREFIX='unbought-museum-shell-';
-const CACHE_NAME=CACHE_PREFIX+'20261024-public-v2';
+const CACHE_NAME=CACHE_PREFIX+'20261024-v24';
 const APP_SHELL=[
   './','./index.html','./style.css','./gallery.css','./gallery-daylight.css','./form-atelier.css','./showroom.css','./premium-atelier.css','./curator-room.css','./monetization.css',
   './app.js','./model.js','./gallery.js','./artwork.js','./artwork-shapes.js','./artwork-finish.js','./museum-categories.js','./showroom.js','./hero-curator.js','./premium-offer.js','./postcard.js','./premium-entitlement.js','./postcard-ui.js',
