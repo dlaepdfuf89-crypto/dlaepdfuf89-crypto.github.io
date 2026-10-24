@@ -1,10 +1,11 @@
 /* WORKFLOW PACK CSV installable web app: cache only static shell, never user CSV data. */
 'use strict';
-const CACHE = 'wfp-csv-shell-20261025-v4';
+const CACHE = 'wfp-csv-shell-20261025-v5';
 const SHELL = [
   './',
   './index.html',
   './app.css',
+  './guide.css',
   './app.js',
   './core.js',
   './icon.svg',
