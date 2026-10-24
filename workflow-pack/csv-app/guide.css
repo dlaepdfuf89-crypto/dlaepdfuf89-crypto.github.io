@@ -1,0 +1,67 @@
+/* WORKFLOW PACK — beginner guidance, designed for clarity on small screens. */
+.hero-help{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:2;max-width:56%}
+.hero-help-main,.hero-help-sub{font-weight:800;text-decoration:none;font-size:13px}
+.hero-help-main{border-radius:11px;padding:13px 17px;color:#062839;background:linear-gradient(135deg,#a3fdeb,#69d7fa);box-shadow:0 8px 24px #0009}
+.hero-help-main:hover{background:#d2fff5}.hero-help-main span{margin-left:10px}
+.hero-help-sub{padding:12px 3px;color:#d0ecff;text-decoration:underline;text-underline-offset:4px}
+.hero-help a:focus-visible,.guide-actions a:focus-visible,.guide-actions button:focus-visible,details summary:focus-visible{outline:3px solid #4cbaf0;outline-offset:3px}
+
+.quickstart{margin:0 0 43px;border-radius:25px;border:1px solid #cfdfee;background:linear-gradient(155deg,#ffffff 30%,#f0f9fd 100%);padding:30px clamp(19px,3.4vw,40px) 24px;box-shadow:0 12px 35px #153e7110}
+.guide-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.guide-top h2{font-size:clamp(25px,3.3vw,34px);letter-spacing:-.06em;line-height:1.25;margin:9px 0 9px}
+.guide-top p{font-size:14px;color:#506d81;line-height:1.75;margin:0;max-width:690px}
+.guide-duration{flex-shrink:0;border:1px solid #c4e8ec;color:#086b84;background:#eaf9fb;padding:10px 14px;border-radius:100px;font-size:12px;font-weight:850}
+.guide-steps{list-style:none;margin:24px 0 17px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.guide-steps li{background:#fff;border:1px solid #dfeaf2;box-shadow:0 4px 14px #224f7410;border-radius:17px;padding:19px;display:flex;gap:14px;min-width:0}
+.guide-step-no{display:inline-flex;align-items:center;justify-content:center;flex:none;background:#0d3a61;color:#9ceff8;height:42px;width:42px;border-radius:12px;font-size:13px;font-weight:900;letter-spacing:.04em}
+.guide-steps strong{font-size:15px;font-weight:900;color:#123753;line-height:1.4}
+.guide-steps p{font-size:13px;color:#526e83;line-height:1.85;margin:8px 0 0}
+.guide-steps a{display:inline-block;color:#0e6dac;font-size:12px;font-weight:850;margin-top:8px;text-underline-offset:3px}
+.guide-actions{display:flex;gap:11px;flex-wrap:wrap;align-items:center}
+.guide-actions button,.guide-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:47px;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:880;text-decoration:none}
+.guide-try{background:#0966ae;color:#fff;border:1px solid #0966ae;box-shadow:0 5px 14px #0875b232}
+.guide-try:hover{background:#054a83}.guide-try span{margin-left:12px}
+.guide-secondary{background:white;color:#135682;border:1px solid #bfd4e7}
+.guide-safe-note{font-size:12px;line-height:1.7;color:#5b7f82;background:#ebf9f5;padding:12px 15px;border-left:3px solid #3fba9b;border-radius:9px;margin:17px 0 0}
+
+.context-help{font-size:12px;line-height:1.7;color:#2a668c;margin:0}
+.context-help a{text-decoration:underline;text-underline-offset:3px}
+.encoding-helper{font-size:12px;line-height:1.75;color:#537187;background:#f6f9fc;border-radius:9px;padding:11px 13px;margin:-11px 0 20px}
+.input-error{background:#fff2e8;border:1px solid #f2c7a9;color:#884f27;padding:13px;border-radius:11px;margin-top:9px}
+.input-error strong{display:block;font-size:13px}.input-error p{font-size:12px;line-height:1.7;margin:6px 0}.input-error a{font-size:12px;color:#92522b;font-weight:850}
+.result-reading{background:linear-gradient(105deg,#f0f9fc,#ecf9f2);border:1px solid #cde6e4;border-radius:15px;padding:21px 24px;margin:20px 0}
+.result-reading>strong{font-size:17px;color:#144b64}
+.result-reading p{font-size:13px;line-height:1.8;color:#375e6f;margin:8px 0 0}
+.result-reading-tip{border-top:1px solid #c4dee1;padding-top:10px}
+.download-explain{background:#fff;border:1px solid #dae7ee;border-radius:15px;padding:19px 22px;margin-top:20px}
+.download-explain>strong{font-size:15px;color:#14466b}
+.download-explain>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:13px}
+.download-explain>div span{background:#f5f9fc;border-radius:10px;padding:12px;font-size:12px;color:#526d7e;line-height:1.8}
+.download-explain>div b{display:block;color:#185d86;font-size:13px}
+.download-explain p{color:#678296;line-height:1.8;font-size:12px;margin:13px 0 0}
+
+.guide-example{background:#f7fbff;border:1px solid #dbe7f2;border-radius:14px;padding:20px;margin:18px 0}
+.guide-example strong{display:block;color:#1c536f;font-size:14px}
+.guide-example p{font-size:12px;line-height:1.8;color:#5d7587;margin:9px 0}
+.guide-table-scroll{overflow-x:auto;border:1px solid #d7e6ec;border-radius:9px}
+.guide-table-scroll table{min-width:620px;white-space:nowrap;background:#fff;font-size:12px}
+.guide-table-scroll th{background:#eaf3f8;color:#205b76}
+.guide-table-scroll th,.guide-table-scroll td{padding:10px 13px;text-align:left!important}
+.guide-example small{display:block;margin-top:10px;font-size:11px;line-height:1.6;color:#557486}
+.subguide-title{font-size:17px;color:#214f6b;margin:25px 0 10px}
+.simple-instructions{margin:0 0 14px;padding-left:23px;color:#52697a;font-size:13px;line-height:2}
+.simple-instructions li{padding-left:3px}
+.knowledge .file-limits{background:#f5f9fc;border-left:3px solid #398ac4;padding:12px 15px;color:#4a647a;font-size:12px;line-height:1.9;margin:14px 0}
+.knowledge .sample-link{background:#e8f5fd;border-radius:10px;border:1px solid #b9daef;padding:12px 17px;color:#085a92;margin:2px 0 5px}
+
+.faq-section details{border:1px solid #e0e8ee;background:#fbfdff;border-radius:12px;margin:9px 0;overflow:hidden}
+.faq-section summary{list-style:none;cursor:pointer;color:#183c5c;font-size:14px;font-weight:850;line-height:1.55;padding:17px 45px 17px 18px;position:relative}
+.faq-section summary::-webkit-details-marker{display:none}
+.faq-section summary:after{content:"+";position:absolute;right:20px;top:15px;font-size:21px;font-weight:500;color:#1476ac}
+.faq-section details[open] summary:after{content:"−"}
+.faq-section details[open]{background:#f4fafd;border-color:#bcdce9}
+.faq-section details p{font-size:13px;line-height:1.95;color:#536f82;padding:0 20px 18px;margin:0}
+.faq-section .faq-footer{background:#fff6ed;color:#855a3e;padding:12px 15px;border-radius:10px;font-size:12px;line-height:1.7;margin:16px 0 0}
+@media(max-width:900px){.download-explain>div{grid-template-columns:1fr}.guide-steps{gap:10px}}
+@media(max-width:700px){.hero-help{max-width:100%;gap:9px}.hero-help-main{font-size:12px}.guide-top{flex-direction:column;gap:11px}.guide-steps{grid-template-columns:1fr}.guide-steps li{padding:15px}.guide-step-no{height:37px;width:37px}.quickstart{padding:23px 16px;border-radius:18px}.guide-top h2{font-size:25px}.guide-top p{font-size:13px}.guide-safe-note{font-size:11px}.guide-actions>*{flex:1}.result-reading,.download-explain{padding:16px}.faq-section summary{font-size:13px;padding:14px 41px 14px 15px}.faq-section details p{padding:0 15px 15px}.guide-example{padding:15px}.guide-duration{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.hero-help-main,.guide-actions>*{transition:none!important}}
