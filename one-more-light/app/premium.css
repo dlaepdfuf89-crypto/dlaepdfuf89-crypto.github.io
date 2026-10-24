@@ -1,0 +1,444 @@
+
+/* ONE MORE LIGHT — CINEMATIC NAVY & CHAMPAGNE GOLD
+   Product-grade UI: all controls remain real HTML buttons/inputs, not a poster. */
+body[data-app=market]{
+ --bg:#080e1a;--paper:#101c30;--ink:#fff4da;
+ --muted:#b8c4d6;--accent:#f3c67e;--soft:#1d3047;
+ --line:#a18e744e;--gold:#f9d89d;
+ --shadow:0 28px 60px #03070fc9;
+ color-scheme:dark;
+ background-color:var(--bg);
+ background-image:
+ radial-gradient(ellipse at 18% -15%,#435a8945,transparent 48%),
+ radial-gradient(ellipse at 92% 25%,#edac5131,transparent 44%),
+ radial-gradient(circle at 12% 6%,#ffe3ae65 0 1px,transparent 2px),
+ radial-gradient(circle at 83% 13%,#fff3cd5a 0 1px,transparent 2px),
+ radial-gradient(circle at 47% 24%,#d7e0ff6d 0 1px,transparent 2px),
+ linear-gradient(155deg,#0b1629,#09101c 55%,#12162a);
+ background-attachment:fixed;
+ font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+ letter-spacing:-.16px;
+}
+body[data-app=market] .sidebar{
+ background:linear-gradient(170deg,#13213af7,#0a1223fb);
+ border-right:1px solid #dbc18b31;
+ box-shadow:6px 0 35px #0308129c;
+}
+body[data-app=market] .brand-mark{
+ background:radial-gradient(circle at 48% 25%,#f9e3a97d,#d59b4b25 54%,#19243a);
+ border:1px solid #f9dfa88a;
+ box-shadow:0 0 24px #e9ad5744,inset 0 1px 0 #fff4cf84;
+ color:#ffdc97;
+}
+body[data-app=market] .brand strong,
+body[data-app=market] .mobile-brand{
+ font-family:"Noto Serif KR","Nanum Myeongjo","Batang",serif;
+ color:#ffdda6;font-weight:800;letter-spacing:-.55px;
+ text-shadow:0 1px 12px #e9ab6c38;
+}
+body[data-app=market] .brand small{color:#e7bd80;letter-spacing:2.2px}
+body[data-app=market] .nav button{
+ border:1px solid transparent;transition:background .2s,border .2s,color .2s;
+}
+body[data-app=market] .nav button.active{
+ color:#ffe2ad;
+ border:1px solid #efd3a74c;
+ background:linear-gradient(105deg,#82614552,#1c2f4a);
+ box-shadow:inset 0 1px 0 #ffe2ae26,0 8px 24px #00000030;
+}
+body[data-app=market] .nav button.active svg{filter:drop-shadow(0 0 7px #ffc8759c)}
+body[data-app=market] .side-bottom{color:#b7a992}
+body[data-app=market] .side-bottom .seed{color:#f7d58f}
+body[data-app=market] .shell{max-width:1700px}
+body[data-app=market] .topbar{
+ padding:9px 3px 13px;border-bottom:1px solid #d1b17c24;color:#d5c1a3;
+}
+body[data-app=market] .topbar .hello{color:#dbc28d;font-weight:800;letter-spacing:2.6px}
+body[data-app=market] .badge{
+ background:linear-gradient(130deg,#8c653d36,#b3885220);
+ border:1px solid #e9c58976;
+ color:#ffe0a6;box-shadow:inset 0 1px 0 #f9e4ae2b;
+ font-weight:750;
+}
+body[data-app=market] .intro{margin-bottom:22px}
+body[data-app=market] .eyebrow{
+ font-size:11px;letter-spacing:1.5px;font-weight:800;color:#f4cd8c;
+ text-transform:uppercase;
+}
+body[data-app=market] h1,
+body[data-app=market] .archive-top h1{
+ font-family:"Noto Serif KR","Nanum Myeongjo","Batang",serif;
+ color:#fff0d0;
+ font-weight:750;
+ letter-spacing:-1.8px;
+ line-height:1.35;
+ text-shadow:0 3px 22px #f4bb7531,0 2px 2px #090f1e;
+}
+body[data-app=market] .lead{color:#d4d0c5;font-size:13px}
+body[data-app=market] .intro-seal{
+ color:#fbd8a1;border:1px solid #d3ac705e;
+ background:radial-gradient(circle,#e0a7642b,#09172c 76%);
+ box-shadow:0 0 30px #dba86233;
+}
+body[data-app=market] .workbench{grid-template-columns:minmax(0,1.45fr) minmax(325px,.75fr);gap:23px}
+body[data-app=market] .hero{
+ min-height:465px;border-radius:27px;isolation:isolate;
+ border:1px solid #f0cd9382;background:#091c32;
+ box-shadow:0 30px 80px #000a,0 0 50px #e9ad4528,inset 0 0 0 1px #fff2cd1a;
+}
+body[data-app=market] .hero>img:first-child{
+ filter:brightness(.66) saturate(.99) contrast(1.06)!important;
+ object-position:center center;
+}
+body[data-app=market] .hero:after{
+ inset:0;
+ background:linear-gradient(180deg,#061121b8 0%,#06112126 27%,transparent 42%,#050e1d99 70%,#050c1cf0 100%);
+ z-index:0;
+}
+body[data-app=market] .hero-label{
+ top:18px;left:18px;right:auto;transform:none;
+ max-width:calc(100% - 36px);
+ display:flex;padding:10px 15px;border-radius:100px;
+ border:1px solid #ffdfab93;
+ background:linear-gradient(140deg,#15223ced,#22202cef);
+ color:#ffe6b6;font-size:11px;font-weight:800;
+ box-shadow:0 12px 30px #060b18b5,0 0 18px #f6c16e2a;
+ backdrop-filter:blur(14px);
+}
+body[data-app=market] .hero-label svg{color:#ffcb72}
+body[data-app=market] .hero-caption{display:none}
+body[data-app=market] .shop-pin{filter:none;opacity:1;z-index:2}
+body[data-app=market] .pin-sign{
+ background:linear-gradient(135deg,#16233ce8,#172336e8);
+ border:1px solid #f0c987b8;border-radius:8px;padding:6px 7px;
+ box-shadow:0 4px 13px #010814d9,inset 0 1px 0 #fff1d538;
+}
+body[data-app=market] .pin-name{font-weight:850;color:#ffebb9;text-shadow:0 2px 5px #050b14}
+body[data-app=market] .pin-icon{color:#ffcd76}
+body[data-app=market] .shop-pin.lit .pin-sign{
+ border-color:#ffe6b1;
+ background:linear-gradient(130deg,#916135ec,#483025e9);
+ box-shadow:0 0 22px #ffc9769b,0 0 42px #ffbf6961,inset 0 1px 0 #fff3cd8d;
+}
+body[data-app=market] .opening-banner{
+ top:69px;left:50%;right:auto;max-width:88%;width:max-content;
+ transform:translate(-50%,-10px);
+ font-family:"Noto Serif KR","Batang",serif;
+ font-size:16px;line-height:1.5;text-align:center;
+ font-weight:800;padding:15px 21px;border-radius:16px;
+ border:1px solid #ffe4b7;
+ color:#fff6da;
+ background:linear-gradient(155deg,#6d4b30f5,#19253beb);
+ box-shadow:0 10px 33px #030916eb,0 0 32px #ffcb6d8a;
+}
+body[data-app=market] .opening-banner.show{transform:translate(-50%,0)}
+body[data-app=market] .premium-hero-controls{
+ position:absolute;bottom:17px;left:17px;right:17px;
+ z-index:7;
+ display:flex;flex-direction:column;gap:10px;
+ pointer-events:auto;
+}
+body[data-app=market] .premium-counter{
+ display:flex;align-items:center;gap:12px;
+ min-height:68px;padding:11px 13px;
+ border-radius:15px;border:1px solid #e4bb835e;
+ background:linear-gradient(120deg,#151d2dde,#5d442d9e,#0d1b31e7);
+ backdrop-filter:blur(18px);
+ box-shadow:0 8px 28px #02060ec4,inset 0 1px 0 #fbd6a94a;
+}
+body[data-app=market] .premium-counter-mark{
+ width:42px;height:42px;display:grid;place-items:center;
+ flex:0 0 auto;border-radius:12px;
+ color:#ffe5aa;
+ background:linear-gradient(135deg,#f3c57060,#76533055);
+ border:1px solid #fcd8a58a;
+ box-shadow:0 0 20px #ffd48445;
+}
+body[data-app=market] .premium-counter-mark svg{width:22px;height:22px}
+body[data-app=market] .premium-counter-text{min-width:0;flex:1}
+body[data-app=market] .premium-counter-title{display:block;font-size:10px;color:#e9d1ab;letter-spacing:1.1px}
+body[data-app=market] .premium-counter-text strong{display:block;font-size:14px;line-height:1.45;color:#fff0cb}
+body[data-app=market] .premium-counter-chevron{color:#ffdc9d;font-size:17px}
+body[data-app=market] .premium-track{
+ display:block;width:100%;height:4px;overflow:hidden;
+ margin-top:6px;border-radius:99px;background:#f4d5a72a;
+}
+body[data-app=market] #premium-track-fill{
+ display:block;width:0;height:100%;border-radius:99px;
+ background:linear-gradient(90deg,#d99a4b,#fff1be);
+ box-shadow:0 0 10px #ffd28d80;transition:width .6s ease;
+}
+body[data-app=market] .premium-quick-start{
+ width:100%;height:58px;border-radius:16px;
+ display:flex;align-items:center;justify-content:center;gap:11px;
+ background:linear-gradient(115deg,#fbe5ba 0%,#f5cc88 34%,#e6a951 75%,#ffd899 100%);
+ border:1px solid #ffe8b8;color:#3d2714;font-size:15px;font-weight:900;
+ text-shadow:0 1px 0 #fff6de63;
+ box-shadow:inset 0 2px 0 #fff4d0b9,inset 0 -3px 8px #a16a3749,0 8px 26px #bf8b4d4d,0 0 18px #ffc47030;
+ transition:filter .2s,transform .2s,box-shadow .2s;
+}
+body[data-app=market] .premium-quick-start:hover{filter:brightness(1.1);transform:translateY(-2px)}
+body[data-app=market] .premium-quick-start:active{transform:translateY(1px)}
+body[data-app=market] .premium-quick-start svg{width:17px;height:17px}
+body[data-app=market] .form-panel{
+ padding:26px;border-radius:23px;
+ background:linear-gradient(155deg,#243047 0%,#172439 63%,#121c2e 100%);
+ border:1px solid #ba9b6c78;
+ box-shadow:inset 0 1px 0 #fff3d324,0 25px 50px #020812aa;
+}
+body[data-app=market] .form-panel h2,
+body[data-app=market] .section-head h2{
+ font-family:"Noto Serif KR","Batang",serif;
+ font-size:20px;letter-spacing:-.9px;color:#ffe0a8;font-weight:800;
+}
+body[data-app=market] .form-panel>.sub{color:#c7c8c9}
+body[data-app=market] .field>span{color:#eee1c8;font-size:12px}
+body[data-app=market] .field input,
+body[data-app=market] .field select{
+ color:#ffefd7;background:linear-gradient(155deg,#0a1729,#13243b);
+ border:1px solid #d3b6826c;border-radius:13px;
+ min-height:47px;box-shadow:inset 0 2px 6px #01091599;
+}
+body[data-app=market] .field input:focus,
+body[data-app=market] .field select:focus{
+ outline:2px solid #f7cb86;outline-offset:2px;
+ box-shadow:0 0 25px #e5ad574b;
+}
+body[data-app=market] .starter-panel{
+ background:linear-gradient(135deg,#4b392cc4,#1f3047);
+ border:1px solid #e9be8077;border-radius:16px;
+ box-shadow:inset 0 1px 0 #ffdfa835;
+}
+body[data-app=market] .starter-panel .starter-title{color:#ffe2ae}
+body[data-app=market] .starter-ideas button{
+ border:1px solid #dec18b8c;background:#1b3048;
+ border-radius:10px;color:#fff0d4;min-height:44px;
+}
+body[data-app=market] #entry-form>.primary{
+ border-radius:14px;min-height:52px;
+ color:#352410;background:linear-gradient(130deg,#fbe4ae,#ecaf61);
+ box-shadow:inset 0 1px 0 #fff4cbcb,0 6px 22px #ebb26038;
+ font-size:15px;font-weight:900;
+}
+body[data-app=market] .metrics{
+ border-radius:18px;margin:24px 0;
+ border:1px solid #c9a57061;
+ background:linear-gradient(130deg,#1e3046dc,#152439e3);
+ box-shadow:inset 0 1px 0 #ffebc122,0 15px 32px #0208126e;
+}
+body[data-app=market] .metric{border-right:1px solid #d4b27b35}
+body[data-app=market] .metric strong{
+ font-family:"Noto Serif KR","Batang",serif;
+ font-weight:850;color:#ffe4aa;text-shadow:0 0 15px #f3ba565c;
+}
+body[data-app=market] .metric-label{color:#c3cbd5}
+body[data-app=market] .market-lights{gap:9px}
+body[data-app=market] .market-lights .shop{
+ border-radius:14px;border:1px solid #b9a07962;
+ background:linear-gradient(155deg,#1b3046,#122037);
+ box-shadow:inset 0 1px 0 #f6e4bc17;
+}
+body[data-app=market] .market-lights .shop.lit{
+ background:linear-gradient(135deg,#795436,#1f3146);
+ border:1px solid #ffdc9b;
+ box-shadow:0 0 22px #f5b76e63,inset 0 1px 0 #ffe6a47d;
+}
+body[data-app=market] .market-lights .shop span{color:#f4d8a5}
+body[data-app=market] .pills .pill{
+ border-radius:999px;border:1px solid #ceb08272;
+ color:#d3c9b7;background:#1b293c;
+ font-weight:800;min-height:44px;
+}
+body[data-app=market] .pills .pill.active{
+ background:linear-gradient(140deg,#ffe3af,#edb874);
+ color:#332410;box-shadow:0 3px 16px #ddad6a6e;
+ border-color:#ffe9c3;
+}
+body[data-app=market] .records.market-records{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+}
+body[data-app=market] .record{
+ display:flex;align-items:stretch;
+ border:1px solid #b79f785c;
+ border-radius:19px;min-height:118px;
+ background:linear-gradient(135deg,#1c2c43,#111e31);
+ box-shadow:inset 0 1px 0 #ffffff14,0 9px 25px #0308176a;
+ overflow:hidden;
+}
+body[data-app=market] .record.task-done{
+ border-color:#ebbd758c;
+ background:linear-gradient(125deg,#42382e,#18273d);
+}
+body[data-app=market] .journal-shop-art{
+ display:block;width:104px;min-width:104px;object-fit:cover;
+ border-right:1px solid #f0cc9a40;filter:saturate(.93);
+}
+body[data-app=market] .record-body{padding:16px;flex:1;min-width:0}
+body[data-app=market] .task-line{gap:10px}
+body[data-app=market] .task-check{background:#172b43;border:2px solid #f0c67c;width:44px;height:44px}
+body[data-app=market] .task-check.done{
+ background:linear-gradient(140deg,#fbe7b9,#e7a955);
+ border-color:#ffe5b2;color:#3d2c18;
+ box-shadow:0 0 18px #edbe7b68;
+}
+body[data-app=market] .task-done h3{
+ text-decoration:none;color:#fee0a0;
+}
+body[data-app=market] .record h3{color:#f5f0e7;font-size:14px}
+body[data-app=market] .shop-tag{font-weight:800;color:#f2c983}
+body[data-app=market] .record-meta{color:#aebccf}
+body[data-app=market] .record-actions .quiet{
+ color:#ffe0aa;background:#493624;border:1px solid #cfaa78a6;
+}
+body[data-app=market] .record-actions .secondary{
+ background:#1e3048;border:1px solid #9d8e7b;color:#f1d9b7;
+}
+body[data-app=market] .empty{
+ border:1px dashed #c4a77888;background:linear-gradient(145deg,#1b2a3e,#132137);
+}
+body[data-app=market] .empty-icon{background:#4c3b2b;color:#ffd78a}
+body[data-app=market] .archive-top h1{color:#fbd6a0}
+body[data-app=market] .footer{border-color:#f4d59a37}
+body[data-app=market] .toast{
+ border:1px solid #d5ae70c2;
+ background:linear-gradient(130deg,#43301e,#1a2739);
+ color:#ffebc7;
+ box-shadow:0 10px 33px #030711c9,0 0 22px #f8bc5e4f;
+}
+body[data-app=market] .modal{
+ background:linear-gradient(145deg,#263750,#101e32);
+ border:1px solid #ecc58f;color:#fff1d2;
+ box-shadow:0 30px 100px #030713e3;
+}
+body[data-app=market] .modal h2{font-family:"Noto Serif KR","Batang",serif;color:#ffe1a7}
+body[data-app=market] .icon-button{background:#4b392b;color:#ffe1ab}
+body[data-app=market] .opening-bloom.show{filter:brightness(1.27) saturate(1.2)}
+@media(max-width:1180px){
+ body[data-app=market] .workbench{grid-template-columns:minmax(0,1.1fr) minmax(290px,1fr)}
+ body[data-app=market] .hero{min-height:430px}
+}
+@media(max-width:950px){
+ body[data-app=market] .workbench{grid-template-columns:1fr}
+ body[data-app=market] .hero{min-height:400px}
+ body[data-app=market] .records.market-records{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+ body[data-app=market] .sidebar{
+  height:calc(70px + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  border-top:1px solid #cfaa704f;border-right:0;
+  background:linear-gradient(180deg,#111b2fe8,#091223f5);
+  backdrop-filter:blur(24px);
+  box-shadow:0 -12px 30px #030714a6;
+ }
+ body[data-app=market] .nav{height:70px}
+ body[data-app=market] .nav button{
+  min-height:56px;font-size:10px;color:#aaafc0;
+  border:none;background:none;border-radius:0;
+ }
+ body[data-app=market] .nav button.active{
+  background:none;border:none;box-shadow:none;color:#ffe0a0;
+ }
+ body[data-app=market] .nav button.active svg{filter:drop-shadow(0 0 9px #ffcf77ad)}
+ body[data-app=market] .shell{padding:12px 14px calc(100px + env(safe-area-inset-bottom))}
+ body[data-app=market] .topbar{margin-bottom:13px;padding:3px 1px 11px;min-height:42px}
+ body[data-app=market] .mobile-brand{
+  font-size:14px;font-weight:800;
+  text-shadow:0 2px 16px #edb2605e;
+ }
+ body[data-app=market] .mobile-brand svg{color:#f4d29b}
+ body[data-app=market] .intro{margin-bottom:13px;display:block}
+ body[data-app=market] .eyebrow{font-size:10px;letter-spacing:.8px;margin-bottom:5px}
+ body[data-app=market] .intro h1{
+  font-size:clamp(24px,6.4vw,30px);
+  line-height:1.38;letter-spacing:-1.35px;color:#ffdfaa;
+ }
+ body[data-app=market] .intro .lead{
+  display:block;font-size:11px;line-height:1.65;margin-top:5px;color:#dbd2c5;
+ }
+ body[data-app=market] .workbench{gap:17px}
+ body[data-app=market] .hero{
+  aspect-ratio:auto;height:360px;min-height:0;
+  border-radius:24px;
+  border:1px solid #f4cf949c;
+  box-shadow:0 20px 50px #010612d9,0 0 22px #ffc86c37;
+ }
+ body[data-app=market] .hero>img:first-child{
+  object-position:center center;
+  filter:brightness(.65) saturate(1.05) contrast(1.03)!important;
+ }
+ body[data-app=market] .hero:after{background:linear-gradient(180deg,#071325a1 0%,transparent 35%,#050e19c9 77%,#040a14f6 100%)}
+ body[data-app=market] .hero-label{
+  top:13px;left:13px;right:auto;max-width:calc(100% - 26px);
+  font-size:10px;padding:8px 12px;border-radius:15px;
+ }
+ body[data-app=market] .hero-label svg{width:15px;height:15px}
+ body[data-app=market] .pin-sign{
+  padding:4px 5px;border-radius:7px;
+  box-shadow:0 2px 8px #030913d1;
+ }
+ body[data-app=market] .pin-icon svg{width:14px;height:14px}
+ body[data-app=market] .pin-name{font-size:10px}
+ body[data-app=market] .opening-banner{
+  left:50%;right:auto;top:54px;
+  transform:translate(-50%,-10px);
+  max-width:88%;font-size:13px;
+  padding:13px 16px;border-radius:13px;
+ }
+ body[data-app=market] .opening-banner.show{transform:translate(-50%,0)}
+ body[data-app=market] .premium-hero-controls{
+  left:12px;right:12px;bottom:12px;gap:8px;
+ }
+ body[data-app=market] .premium-counter{
+  min-height:58px;padding:8px 12px;border-radius:13px;gap:9px;
+ }
+ body[data-app=market] .premium-counter-mark{width:38px;height:38px;border-radius:10px}
+ body[data-app=market] .premium-counter-title{font-size:9px}
+ body[data-app=market] .premium-counter-text strong{font-size:12px}
+ body[data-app=market] .premium-quick-start{height:52px;border-radius:13px;font-size:14px}
+ body[data-app=market] .form-panel{padding:18px;border-radius:18px}
+ body[data-app=market] .form-panel h2{font-size:19px}
+ body[data-app=market] .starter-panel{margin-bottom:12px;padding:11px}
+ body[data-app=market] .starter-ideas{gap:6px}
+ body[data-app=market] .starter-ideas button{min-height:44px}
+ body[data-app=market] .metrics{
+  margin:20px 0 24px;padding:13px 10px;gap:8px;border-radius:14px;
+ }
+ body[data-app=market] .metric strong{font-size:19px}
+ body[data-app=market] .metric-label{font-size:10px}
+ body[data-app=market] .market-lights{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ body[data-app=market] .shop{border-radius:13px;padding:12px 4px}
+ body[data-app=market] .shop span{font-size:11px}
+ body[data-app=market] .records.market-records{grid-template-columns:1fr;gap:10px}
+ body[data-app=market] .record{min-height:110px;border-radius:15px}
+ body[data-app=market] .journal-shop-art{width:78px;min-width:78px}
+ body[data-app=market] .record-body{padding:11px 10px}
+ body[data-app=market] .record h3{font-size:13px}
+ body[data-app=market] .task-check{width:44px;height:44px}
+ body[data-app=market] .record-actions button{min-height:44px}
+ body[data-app=market] .record-actions{gap:5px;margin-top:8px}
+ body[data-app=market] .record-meta{font-size:10px}
+ body[data-app=market] .shop-tag{margin-bottom:3px}
+ body[data-app=market] .archive-top{margin-top:20px}
+ body[data-app=market] .archive-top h1{font-size:29px}
+}
+@media(max-width:640px) and (max-height:760px){
+ body[data-app=market] .topbar{margin-bottom:6px}
+ body[data-app=market] .intro{margin-bottom:7px}
+ body[data-app=market] .intro .lead{display:none}
+ body[data-app=market] .intro h1{font-size:21px;line-height:1.2}
+ body[data-app=market] .hero{height:280px}
+ body[data-app=market] .premium-hero-controls{bottom:8px;gap:6px}
+ body[data-app=market] .premium-counter{min-height:49px;padding:5px 9px}
+ body[data-app=market] .premium-counter-mark{height:31px;width:31px}
+ body[data-app=market] .premium-quick-start{height:48px}
+ body[data-app=market] .form-panel>.sub{margin-bottom:10px}
+}
+@media(max-width:370px){
+ body[data-app=market] .hero{height:305px}
+ body[data-app=market] .pin-name{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-app=market] .premium-quick-start{transition:none}
+ body[data-app=market] #premium-track-fill{transition:none}
+}

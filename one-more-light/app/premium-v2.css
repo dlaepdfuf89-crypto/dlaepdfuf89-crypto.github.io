@@ -1,0 +1,592 @@
+/* ONE MORE LIGHT / ART-DIRECTED V2
+   Editorial typography, genuine illuminated storefronts, tactile controls.
+   CSS-only presentation layer. Existing tasks/storage remain untouched. */
+body[data-app=market]{
+ --bg:#080e1c;--paper:#162238;--ink:#fff4e3;
+ --muted:#bbc8d9;--accent:#f4c981;--soft:#26354d;
+ --line:#bd987052;--gold:#ffe1a5;
+ background:
+ radial-gradient(ellipse 100% 48% at 48% -3%,#28426589,transparent 77%),
+ radial-gradient(ellipse 35% 45% at 95% 30%,#9e663033,transparent 80%),
+ linear-gradient(180deg,#0b182b 0%,#0b1222 39%,#080e1b 100%);
+ background-attachment:fixed;
+ color:var(--ink);
+ font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+ font-size:14px;letter-spacing:-.26px;
+}
+body[data-app=market] .intro h1,
+body[data-app=market] .form-panel h2,
+body[data-app=market] .section-head h2,
+body[data-app=market] .shop-section-label h2,
+body[data-app=market] .archive-top h1{
+ font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+ text-shadow:none;
+}
+body[data-app=market] .sidebar{
+ background:linear-gradient(172deg,#18283e,#0b1425);
+ border-right:1px solid #c3a4753b;
+}
+body[data-app=market] .brand strong{font-family:"Noto Sans KR","Malgun Gothic",sans-serif;font-weight:900;letter-spacing:-.85px;color:#fbe9c6}
+body[data-app=market] .brand-mark{
+ border-radius:15px;transform:rotate(-7deg);
+ background:linear-gradient(145deg,#ffe5a55c,#6d4a2677);
+ border:1px solid #f4cf9399;box-shadow:0 0 22px #e1ae6836,0 7px 19px #020915b0;
+}
+body[data-app=market] .nav button.active{
+ background:linear-gradient(120deg,#74532f70,#1a314b);
+ color:#fff1d4;border-color:#d6ab754f;
+}
+body[data-app=market] .shell{max-width:1600px}
+body[data-app=market] .topbar{
+ border-color:#d5ba8135;
+ padding-bottom:14px;margin-bottom:30px;
+}
+body[data-app=market] .mobile-brand{font-family:"Noto Sans KR","Malgun Gothic",sans-serif;font-weight:900;color:#fbe6bc}
+body[data-app=market] .intro{align-items:center;gap:14px;margin-bottom:28px}
+body[data-app=market] .intro .eyebrow{
+ display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+ margin:0 0 14px;letter-spacing:2.7px;
+ font-size:10px;color:#efd09d;font-weight:700;
+}
+body[data-app=market] .edition-star{font-size:17px;color:#ffd990;text-shadow:0 0 14px #f9bc69b3}
+body[data-app=market] .edition-korean{
+ display:inline-block;letter-spacing:-.2px;font-size:10px;color:#a8bacc;
+ border-left:1px solid #af96735c;padding-left:9px;
+}
+body[data-app=market] .intro h1{
+ font-size:clamp(37px,3.7vw,57px);font-weight:900;
+ letter-spacing:-2.4px;line-height:1.32;color:#f6f1e7;
+}
+body[data-app=market] .intro h1 em{
+ font-style:normal;
+ background:linear-gradient(120deg,#fff0cd 0%,#ffdaa0 48%,#e8ae6e 100%);
+ color:transparent;
+ background-clip:text;-webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ text-shadow:none;
+}
+body[data-app=market] .intro .lead{
+ font-size:14px;color:#c7d3df;margin:16px 0 0;font-weight:450;
+}
+body[data-app=market] .intro-ribbon{
+ display:flex;align-items:center;gap:13px;margin-top:22px;color:#dcb275;
+ font-size:11px;letter-spacing:1px;max-width:360px;
+}
+body[data-app=market] .intro-ribbon i{flex:1;height:1px;background:linear-gradient(90deg,transparent,#d2a76c8c,transparent)}
+body[data-app=market] .intro-ribbon b{font-size:9px;font-weight:700;white-space:nowrap;letter-spacing:1.4px}
+body[data-app=market] .intro-seal{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+ width:104px;height:104px;border-radius:50%;transform:rotate(8deg);
+ border:1px solid #f3d69c99;
+ box-shadow:0 0 0 5px #f7d29d0b,0 0 0 6px #f7d29d28,0 0 30px #e6b26835;
+ background:radial-gradient(circle at center,#ba844331,#152136);
+ color:#ffdb99;
+}
+body[data-app=market] .intro-seal span{font:700 9px/1.15 Georgia,serif;letter-spacing:1.5px}
+body[data-app=market] .intro-seal strong{font-size:27px;line-height:1}
+body[data-app=market] .workbench{
+ grid-template-columns:minmax(0,1.45fr) minmax(325px,.8fr);
+ gap:25px;
+}
+body[data-app=market] .hero{
+ min-height:492px;border-radius:27px;
+ border:1px solid #f0cd908c;
+ box-shadow:0 0 0 5px #e5b5760a,0 25px 65px #000b,0 0 32px #d89f5361;
+}
+body[data-app=market] .hero::before{
+ content:"";position:absolute;inset:7px;
+ border:1px solid #ffe6b223;border-radius:21px;
+ z-index:3;pointer-events:none;
+}
+body[data-app=market] .hero>img:first-child{
+ filter:brightness(.94) saturate(1.12) contrast(1.04)!important;
+ object-position:center 41%;
+}
+body[data-app=market] .hero:after{
+ inset:0;
+ background:linear-gradient(180deg,#0b1b30a0 0%,#0c1e3222 19%,transparent 51%,#0b152052 64%,#091121e6 100%);
+}
+body[data-app=market] .hero-label{
+ top:16px;left:16px;
+ border:1px solid #eac286cc;
+ background:linear-gradient(120deg,#0d1c30dc,#2d2a2ecb);
+ box-shadow:inset 0 1px 0 #fdf4e03e,0 9px 27px #05101ca9;
+ color:#ffebc5;letter-spacing:.05px;
+}
+body[data-app=market] .hero .shop-pin{
+ z-index:2;filter:drop-shadow(0 3px 5px #020a1a);
+}
+body[data-app=market] .hero .shop-pin .pin-sign{
+ border-radius:9px;border:1px solid #f3cb8bb8;
+ background:linear-gradient(140deg,#132339ee,#263045e8);
+ box-shadow:inset 0 1px 0 #fae1b92b,0 5px 13px #081324d1;
+}
+body[data-app=market] .hero .shop-pin .pin-name{
+ font-family:"Noto Sans KR","Malgun Gothic",sans-serif;
+ font-weight:900;color:#ffefc7;text-shadow:0 1px 3px #06101b;
+}
+body[data-app=market] .hero .shop-pin.lit .pin-sign{
+ background:linear-gradient(135deg,#e4b676ef,#6f4728ec);
+ color:#23170f;
+ border-color:#fff0c5;
+ box-shadow:0 0 14px #fff0aeab,0 0 35px #ffb64894,inset 0 1px 0 #fff8d5ab;
+}
+body[data-app=market] .hero .shop-pin.lit .pin-name{color:#271e18;text-shadow:0 1px 0 #ffe8b3}
+body[data-app=market] .hero .shop-pin.lit .pin-icon{color:#3b2414}
+body[data-app=market] .opening-banner{
+ top:66px;max-width:88%;font-size:15px;
+ border:1px solid #fff1c5;
+ background:linear-gradient(135deg,#704c2af5,#12253ff1);
+ box-shadow:0 0 35px #f9be64ad,0 20px 50px #030b18c7;
+}
+body[data-app=market] .premium-hero-controls{left:14px;right:14px;bottom:15px;gap:9px}
+body[data-app=market] .premium-counter{
+ min-height:76px;border-radius:16px;padding:12px 15px;gap:13px;
+ background:linear-gradient(111deg,#07172bf2 0%,#263c52ed 52%,#443323df 100%);
+ border:1px solid #e0bc8799;
+ box-shadow:inset 0 1px 0 #fff6d658,0 10px 28px #020911dd,0 0 24px #f4ae4d38;
+}
+body[data-app=market] .premium-counter-mark{
+ width:46px;height:46px;border-radius:13px;
+ background:linear-gradient(135deg,#fae1a0,#b9894e);
+ color:#443016;border:1px solid #fff1c2;
+ box-shadow:inset 0 1px 0 #fff8dc,0 5px 16px #dfa54f66;
+}
+body[data-app=market] .premium-counter-title{font-size:10px;letter-spacing:1.7px;color:#e1caa7}
+body[data-app=market] .premium-counter-text strong{font-size:16px;font-weight:850;color:#fff1d2}
+body[data-app=market] .premium-track{margin-top:8px;height:5px}
+body[data-app=market] .premium-quick-start{
+ min-height:61px;font-size:16px;letter-spacing:-.35px;
+ border-radius:14px;background:linear-gradient(105deg,#fff0c7,#e8b76b 48%,#d8994e 67%,#fbe2a0);
+ border-color:#ffefa9;
+ box-shadow:inset 0 2px 0 #fffce6,inset 0 -3px 0 #a36e305e,0 8px 30px #edab4d78,0 0 25px #f5cb9240;
+}
+body[data-app=market] .form-panel{
+ border-radius:22px;padding:29px;
+ background:linear-gradient(145deg,#1c304b,#14243b 66%,#101d32);
+ border:1px solid #d1aa7980;
+ box-shadow:inset 0 1px 0 #ffe9c02e,0 15px 43px #0000007e;
+}
+body[data-app=market] .form-panel:before{
+ content:"";display:block;width:38px;height:4px;margin-bottom:20px;
+ border-radius:20px;background:linear-gradient(90deg,#fff1c4,#b4773e);
+ box-shadow:0 0 13px #e1a86284;
+}
+body[data-app=market] .form-panel h2{
+ font-size:23px;font-weight:850;color:#ffdfa8;letter-spacing:-1.1px;
+}
+body[data-app=market] .form-panel>.sub{color:#c5d0d9;font-size:12px}
+body[data-app=market] .starter-panel{
+ background:linear-gradient(140deg,#6a503777,#1a324b);
+ border:1px solid #dbb07b7a;border-radius:16px;padding:17px;
+}
+body[data-app=market] .starter-panel .starter-title{font-size:15px}
+body[data-app=market] .starter-ideas button{
+ background:#203a54;color:#ffebca;border-radius:10px;
+ border:1px solid #e4c18c9c;
+}
+body[data-app=market] #entry-form>.primary{background:linear-gradient(110deg,#fdefc3,#d6a05b);color:#302013}
+body[data-app=market] .metrics{margin-top:28px;border-radius:20px;background:linear-gradient(120deg,#1d2e46,#122138)}
+body[data-app=market] .metric strong{font-family:"Noto Sans KR","Malgun Gothic",sans-serif;font-weight:900;font-size:29px}
+body[data-app=market] .shop-section-label{
+ margin:38px 0 16px;display:flex;justify-content:space-between;align-items:end;gap:16px;
+}
+body[data-app=market] .shop-section-label .eyebrow{margin:0 0 4px;font-size:10px;letter-spacing:2px;color:#e0b67c}
+body[data-app=market] .shop-section-label h2{
+ font-size:23px;color:#fff2d9;letter-spacing:-.8px;font-weight:850;
+}
+body[data-app=market] .shop-section-hint{font-size:11px;color:#c0b5a6;max-width:220px;text-align:right}
+body[data-app=market] .market-lights{
+ display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+ gap:13px;margin:0 0 18px;
+}
+body[data-app=market] .market-lights .shop{
+ padding:0;overflow:hidden;position:relative;
+ border-radius:17px;
+ background:linear-gradient(155deg,#1a2d45,#132033);
+ border:1px solid #b4a17e70;
+ box-shadow:inset 0 1px 0 #faf0da25,0 12px 21px #0006;
+}
+body[data-app=market] .market-lights .shop.lit{
+ border:1px solid #ffe7ae;
+ background:linear-gradient(120deg,#533b26,#1a2b42);
+ box-shadow:0 0 23px #f7bd686c,0 12px 21px #0005,inset 0 1px 0 #fff9d974;
+}
+body[data-app=market] .shop-art{
+ position:relative;width:100%;height:130px;overflow:hidden;
+ background:linear-gradient(140deg,#223a53,#0f192a);
+}
+body[data-app=market] .shop-art:after{
+ content:"";position:absolute;inset:0;
+ background:linear-gradient(180deg,#06102510 0%,#09172c46 65%,#10182a90);
+}
+body[data-app=market] .shop-art img{
+ width:100%;height:100%;object-fit:cover;
+ filter:brightness(.53) saturate(.72);
+ transform:scale(1.02);
+ transition:filter .45s ease,transform .6s ease;
+}
+body[data-app=market] .shop.lit .shop-art img{
+ filter:brightness(1.06) saturate(1.14);
+ transform:scale(1.05);
+}
+body[data-app=market] .shop-art-state{
+ position:absolute;z-index:2;left:8px;top:8px;
+ padding:4px 7px;background:#0a1b2cc9;color:#b4bdc9;
+ border:1px solid #ffffff22;border-radius:7px;
+ font:750 8px/1.25 Georgia,serif;letter-spacing:.65px;
+}
+body[data-app=market] .shop.lit .shop-art-state{
+ background:#76502ada;color:#fff0c8;border-color:#ffe2a3bb;
+ box-shadow:0 0 14px #f5c67593;
+}
+body[data-app=market] .shop-foot{
+ display:flex;align-items:center;gap:7px;text-align:left;padding:12px 10px;
+ color:#d1cfca;font-size:11px;font-weight:780;
+}
+body[data-app=market] .shop.lit .shop-foot{color:#ffdfa4}
+body[data-app=market] .shop-num{font-size:9px;color:#c1a27b;font-family:Georgia,serif;font-weight:700}
+body[data-app=market] .shop-title{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body[data-app=market] .shop-light-icon svg{width:16px;height:16px;color:#ddb475}
+body[data-app=market] .progress-copy{
+ color:#acb9c8;padding:4px 2px;
+}
+body[data-app=market] .section-head h2{font-size:24px;color:#fff1d5;font-weight:900}
+body[data-app=market] .record{border-color:#bb956a7e;border-radius:18px;min-height:142px}
+body[data-app=market] .journal-shop-art{
+ width:132px;min-width:132px;
+ border-right:1px solid #e8c1857a;
+ filter:brightness(.95) saturate(1.1);
+}
+body[data-app=market] .record-body{padding:20px}
+body[data-app=market] .record h3{font-size:15px;line-height:1.55;font-weight:800;color:#fff3e1}
+body[data-app=market] .record.task-done h3{color:#ffdda1}
+body[data-app=market] .record-meta{font-size:10px}
+body[data-app=market] .task-check{width:46px;height:46px}
+body[data-app=market] .task-copy{min-width:0}
+body[data-app=market] .shop-tag{font-size:11px}
+body[data-app=market] .record-actions{gap:9px}
+body[data-app=market] .record-actions button{border-radius:10px}
+body[data-app=market] .footer{border-color:#d1aa7640}
+@media(max-width:1180px){
+ body[data-app=market] .workbench{grid-template-columns:1fr}
+ body[data-app=market] .hero{min-height:430px}
+ body[data-app=market] .market-lights{grid-template-columns:repeat(3,minmax(0,1fr))}
+ body[data-app=market] .shop-art{height:120px}
+}
+@media(max-width:640px){
+ body[data-app=market] .shell{padding:12px 17px calc(100px + env(safe-area-inset-bottom))}
+ body[data-app=market] .topbar{margin:0 0 16px;padding:4px 0 11px}
+ body[data-app=market] .mobile-brand{font-size:14px}
+ body[data-app=market] .intro{margin-bottom:19px}
+ body[data-app=market] .intro .eyebrow{font-size:9px;gap:6px;letter-spacing:1.5px;margin-bottom:8px}
+ body[data-app=market] .edition-star{font-size:14px}
+ body[data-app=market] .edition-korean{font-size:9px;padding-left:7px}
+ body[data-app=market] .intro h1{font-size:clamp(25px,6.6vw,32px);letter-spacing:-1.6px;line-height:1.34}
+ body[data-app=market] .intro .lead{font-size:11px;margin-top:8px;line-height:1.5}
+ body[data-app=market] .intro-ribbon{margin-top:12px;max-width:310px;gap:9px}
+ body[data-app=market] .intro-ribbon b{font-size:8px;letter-spacing:1.2px}
+ body[data-app=market] .intro-seal{display:none}
+ body[data-app=market] .workbench{gap:20px}
+ body[data-app=market] .hero{
+  height:410px;min-height:0;border-radius:25px;
+  box-shadow:0 0 0 4px #e4b26d0c,0 22px 49px #000b,0 0 27px #c9934e58;
+ }
+ body[data-app=market] .hero:before{inset:6px;border-radius:19px}
+ body[data-app=market] .hero>img:first-child{
+  object-position:center 38%;
+  filter:brightness(.92) saturate(1.15) contrast(1.04)!important;
+ }
+ body[data-app=market] .hero-label{top:13px;left:13px;padding:7px 11px;font-size:10px}
+ body[data-app=market] .premium-hero-controls{left:13px;right:13px;bottom:13px}
+ body[data-app=market] .premium-counter{min-height:61px;padding:9px 11px}
+ body[data-app=market] .premium-counter-mark{width:39px;height:39px}
+ body[data-app=market] .premium-counter-text strong{font-size:13px}
+ body[data-app=market] .premium-quick-start{min-height:56px;height:56px;font-size:14px}
+ body[data-app=market] .hero .shop-pin .pin-sign{padding:4px 6px}
+ body[data-app=market] .hero .shop-pin .pin-name{font-size:10px}
+ body[data-app=market] .form-panel{padding:20px;border-radius:21px}
+ body[data-app=market] .form-panel:before{margin-bottom:14px}
+ body[data-app=market] .form-panel h2{font-size:21px}
+ body[data-app=market] .metrics{margin-top:22px}
+ body[data-app=market] .metric strong{font-size:19px}
+ body[data-app=market] .shop-section-label{margin:27px 0 13px}
+ body[data-app=market] .shop-section-label h2{font-size:19px}
+ body[data-app=market] .shop-section-hint{font-size:10px;max-width:145px}
+ body[data-app=market] .market-lights{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ body[data-app=market] .shop-art{height:98px}
+ body[data-app=market] .shop-foot{padding:9px 7px;gap:4px;font-size:10px}
+ body[data-app=market] .shop-light-icon svg{width:13px;height:13px}
+ body[data-app=market] .shop-art-state{top:5px;left:5px;padding:3px 5px;font-size:7px}
+ body[data-app=market] .section-head h2{font-size:20px}
+ body[data-app=market] .records.market-records{gap:12px}
+ body[data-app=market] .record{min-height:133px}
+ body[data-app=market] .journal-shop-art{width:99px;min-width:99px}
+ body[data-app=market] .record-body{padding:13px 10px}
+ body[data-app=market] .record h3{font-size:13px}
+ body[data-app=market] .task-check{width:44px;height:44px}
+ body[data-app=market] .shop-tag{font-size:10px}
+ body[data-app=market] .record-actions{gap:6px}
+}
+@media(max-width:640px) and (max-height:760px){
+ body[data-app=market] .topbar{margin-bottom:7px}
+ body[data-app=market] .intro{margin-bottom:11px}
+ body[data-app=market] .intro .lead{display:none}
+ body[data-app=market] .intro-ribbon{margin-top:6px}
+ body[data-app=market] .intro h1{font-size:23px;line-height:1.24}
+ body[data-app=market] .hero{height:334px}
+ body[data-app=market] .premium-hero-controls{bottom:9px;gap:6px}
+ body[data-app=market] .premium-counter{min-height:53px;padding:6px 9px}
+ body[data-app=market] .premium-counter-mark{width:34px;height:34px}
+ body[data-app=market] .premium-quick-start{height:50px;min-height:50px}
+}
+@media(max-width:370px){
+ body[data-app=market] .intro h1{font-size:23px}
+ body[data-app=market] .hero{height:330px}
+ body[data-app=market] .shop-art{height:83px}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-app=market] .shop-art img{transition:none}
+}
+
+
+/* V2.1 · Interactive collectible storefronts — the card is a real, keyboard
+   accessible action with live local status, not a decorative photograph. */
+body[data-app=market] .market-lights .shop{
+ appearance:none;-webkit-appearance:none;
+ display:flex;flex-direction:column;align-items:stretch;
+ width:100%;text-align:left;font:inherit;color:inherit;
+ cursor:pointer;padding:0;min-width:0;
+ transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+body[data-app=market] .market-lights .shop:hover{
+ transform:translateY(-5px);
+ border-color:#ffe2aa;
+ box-shadow:0 0 22px #efb66557,0 15px 35px #050916ad;
+}
+body[data-app=market] .market-lights .shop:active{
+ transform:translateY(-1px) scale(.992);
+}
+body[data-app=market] .market-lights .shop:focus-visible{
+ outline:3px solid #ffe6a8;outline-offset:4px;
+}
+body[data-app=market] .shop-art{display:block;flex:1 0 auto;}
+body[data-app=market] .shop-art img{display:block;}
+body[data-app=market] .shop-foot{width:100%;min-height:45px}
+body[data-app=market] .market-lights .shop:hover .shop-art img{
+ transform:scale(1.10);filter:brightness(1.08) saturate(1.11);
+}
+body[data-app=market] .modal:has(.shop-preview){
+ width:min(560px,calc(100vw - 26px));
+ padding:17px;background:linear-gradient(155deg,#243752,#111e31 77%);
+ border-color:#f1cc95b5;
+ box-shadow:0 40px 105px #020715ef,0 0 70px #e9a55134;
+}
+body[data-app=market] .modal:has(.shop-preview) .modal-head{
+ margin:0 0 14px;padding:0 4px 0 6px;
+}
+body[data-app=market] .modal:has(.shop-preview) #modal-title{
+ font-size:19px;letter-spacing:-.7px;
+ color:#ffe3af;
+}
+body[data-app=market] .modal:has(.shop-preview)::backdrop{
+ background:#050b18c9;backdrop-filter:blur(10px);
+}
+body[data-app=market] .shop-preview{
+ border:1px solid #efce9767;border-radius:19px;overflow:hidden;
+ background:linear-gradient(160deg,#15253d,#0e192b);
+}
+body[data-app=market] .shop-preview-picture{
+ height:260px;position:relative;overflow:hidden;
+ background:#26364a;
+}
+body[data-app=market] .shop-preview-picture img{
+ display:block;width:100%;height:100%;object-fit:cover;
+ transform:scale(1.02);filter:saturate(1.14) brightness(.99);
+}
+body[data-app=market] .shop-preview-picture:after{
+ content:"";position:absolute;inset:0;
+ background:linear-gradient(180deg,#07102210 35%,#091224aa 100%);
+ pointer-events:none;
+}
+body[data-app=market] .shop-preview-seal{
+ position:absolute;left:15px;top:15px;z-index:1;
+ padding:8px 12px;display:inline-flex;align-items:center;gap:8px;
+ border:1px solid #dcb48b9c;border-radius:10px;
+ color:#e6d8c1;background:#12233bdf;
+ box-shadow:0 4px 20px #080c16ad;
+ font:700 10px/1.3 Georgia,serif;letter-spacing:1.1px;
+}
+body[data-app=market] .shop-preview-seal.lit{
+ color:#fff4d0;border-color:#ffe8ac;
+ background:linear-gradient(120deg,#ad783eeb,#634123eb);
+ box-shadow:0 3px 22px #ffd486a2;
+}
+body[data-app=market] .shop-preview-body{padding:20px 22px 22px;}
+body[data-app=market] .shop-preview-eyebrow{
+ font-size:9px!important;letter-spacing:2px!important;
+ color:#e5c28f!important;font-weight:800!important;
+ margin:0 0 7px!important;
+}
+body[data-app=market] .shop-preview-body h3{
+ font-size:23px;color:#fff0d5;line-height:1.35;
+ font-weight:900;letter-spacing:-.9px;margin:0 0 11px;
+}
+body[data-app=market] .shop-preview-body>p:not(.shop-preview-eyebrow){
+ color:#becbd8;line-height:1.85;
+}
+body[data-app=market] .shop-preview-state{
+ margin:18px 0 12px;border:1px solid #dbb9845e;
+ border-radius:15px;padding:12px 15px;
+ display:flex;align-items:center;justify-content:space-between;gap:12px;
+ background:linear-gradient(120deg,#202e43,#1b2e44);
+}
+body[data-app=market] .shop-preview-status{
+ color:#bdc6d5;font-size:12px;font-weight:750;line-height:1.5;
+}
+body[data-app=market] .shop-preview-status.lit{color:#ffdda3}
+body[data-app=market] .shop-preview-state strong{
+ white-space:nowrap;font-size:26px;line-height:1.2;color:#ffe0a5;font-weight:900;
+}
+body[data-app=market] .shop-preview-state strong small{
+ margin-left:4px;font-size:10px;color:#b9c4d2;font-weight:600;
+}
+body[data-app=market] .shop-preview-body .shop-preview-note{
+ font-size:11px;color:#b0bdd0;line-height:1.65;margin:11px 0 15px;
+}
+body[data-app=market] .shop-preview-action{
+ display:flex;align-items:center;justify-content:center;gap:9px;
+ width:100%;min-height:54px;padding:12px 15px;
+ border:1px solid #fff0c2;border-radius:13px;
+ font-size:14px;font-weight:850;color:#3a2818;
+ background:linear-gradient(125deg,#fff0c5,#eabc77 64%,#e1a65f);
+ box-shadow:inset 0 2px 0 #fffae6,0 8px 22px #b886477a;
+}
+body[data-app=market] .shop-preview-action:hover{filter:brightness(1.06)}
+body[data-app=market] .shop-preview-action svg{
+ color:#442c15;width:18px;height:18px;
+}
+@media(max-width:640px){
+ body[data-app=market] .market-lights .shop:hover{transform:none}
+ body[data-app=market] .shop-foot{min-height:38px}
+ body[data-app=market] .modal:has(.shop-preview){
+  max-height:calc(100dvh - 28px);border-radius:19px;padding:12px;
+ }
+ body[data-app=market] .shop-preview-picture{height:min(35dvh,230px)}
+ body[data-app=market] .shop-preview-body{padding:15px 16px 16px}
+ body[data-app=market] .shop-preview-body h3{font-size:19px}
+ body[data-app=market] .shop-preview-state{margin:12px 0 8px;padding:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-app=market] .market-lights .shop{transition:none}
+ body[data-app=market] .shop-art img{transition:none}
+ body[data-app=market] .market-lights .shop:hover{transform:none}
+}
+
+/* Accessibility finish: readable shop labels on narrow screens, not 7px metadata. */
+body[data-app=market] .shop-preview-eyebrow{font-size:11px!important;letter-spacing:1.1px!important}
+body[data-app=market] .shop-preview-seal{font-size:11px}
+body[data-app=market] .shop-preview-body .shop-preview-note{font-size:12px}
+body[data-app=market] .shop-preview-state strong small{font-size:11px}
+@media(max-width:640px){
+ body[data-app=market] .shop-foot{min-height:50px;gap:5px}
+ body[data-app=market] .shop-title{
+  font-size:11px;line-height:1.35;white-space:normal;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+ }
+ body[data-app=market] .shop-num{font-size:10px}
+ body[data-app=market] .shop-art-state{font-size:9px}
+}
+
+/* V2.2 | Authentic opening reward: premium ticket appears only after a *new*
+   storefront is lit by a real completed task. Preserves original light effects. */
+body[data-app=market] .opening-ticket{
+ position:absolute;z-index:8;
+ top:68px;left:50%;width:min(415px,calc(100% - 26px));
+ display:flex;align-items:center;gap:14px;
+ padding:11px 12px 11px 11px;
+ border:1px solid #ffdfa8d9;border-radius:20px;
+ background:linear-gradient(124deg,#1e2b43f7 0%,#17263df8 58%,#4b3429f5 100%);
+ box-shadow:inset 0 1px 0 #fff6d36f,inset 0 -1px 0 #4e271d78,0 16px 50px #020917ea,0 0 44px #ffc5748c;
+ backdrop-filter:blur(19px);
+ opacity:0;visibility:hidden;pointer-events:none;
+ transform:translate(-50%,-11px) scale(.96);
+ transition:opacity .25s ease,transform .32s cubic-bezier(.14,.88,.25,1),visibility 0s linear .3s;
+}
+body[data-app=market] .opening-ticket.show{
+ opacity:1;visibility:visible;pointer-events:auto;
+ transform:translate(-50%,0) scale(1);
+ transition:opacity .23s ease,transform .34s cubic-bezier(.14,.88,.25,1),visibility 0s;
+}
+body[data-app=market] .opening-ticket::after{
+ content:"";position:absolute;inset:4px;pointer-events:none;
+ border:1px solid #ffe4b431;border-radius:16px;
+}
+body[data-app=market] .hero:has(.opening-ticket.show) .opening-banner{
+ opacity:0;pointer-events:none;
+}
+body[data-app=market] .ticket-art{
+ width:83px;height:92px;flex:0 0 auto;overflow:hidden;position:relative;
+ border-radius:13px;border:1px solid #fbe2b2bd;
+ background:#32291f;
+ box-shadow:0 0 0 3px #e6a85324,0 0 19px #ffc97e6b;
+}
+body[data-app=market] .ticket-art img{
+ display:block;width:100%;height:100%;object-fit:cover;
+ filter:brightness(1.15) saturate(1.14);
+}
+body[data-app=market] .ticket-art::after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,transparent 40%,#1b142a94);
+}
+body[data-app=market] .ticket-light{
+ position:absolute;z-index:1;right:4px;bottom:2px;
+ color:#fff8cb;font-size:22px;text-shadow:0 0 14px #ffd283,0 0 22px #ffe4a9;
+}
+body[data-app=market] .ticket-info{flex:1;min-width:0;display:grid;gap:3px;padding:3px 2px 3px 0}
+body[data-app=market] .ticket-eyebrow{
+ font:700 11px/1.4 Georgia,serif;letter-spacing:1.4px;color:#e4bb7a;
+ white-space:nowrap;
+}
+body[data-app=market] #ticket-shop{
+ font-size:21px;font-weight:900;letter-spacing:-.75px;
+ color:#fff2d4;line-height:1.4;text-shadow:0 0 22px #f9c6766c;
+}
+body[data-app=market] .ticket-message{
+ font-size:12px;line-height:1.55;color:#e7d7c4;
+ word-break:keep-all;
+}
+body[data-app=market] .ticket-dismiss{
+ width:44px;height:44px;min-width:44px;
+ flex:0 0 auto;align-self:flex-start;margin:-2px -3px 0 0;
+ border:1px solid #ffe4ae5d;border-radius:50%;
+ color:#ffedc8;background:#ffffff14;
+ display:grid;place-items:center;
+ font-size:24px;line-height:1;
+}
+body[data-app=market] .ticket-dismiss:hover{
+ border-color:#ffe4ae;background:#ffffff32;
+}
+@media(max-width:640px){
+ body[data-app=market] .opening-ticket{
+  top:54px;width:calc(100% - 26px);gap:10px;
+  padding:9px;border-radius:17px;
+ }
+ body[data-app=market] .ticket-art{width:73px;height:88px;border-radius:11px}
+ body[data-app=market] .ticket-info{gap:2px}
+ body[data-app=market] #ticket-shop{font-size:18px}
+ body[data-app=market] .ticket-eyebrow{font-size:10px;letter-spacing:.8px}
+ body[data-app=market] .ticket-message{font-size:11px}
+ body[data-app=market] .ticket-dismiss{width:44px;height:44px;min-width:44px}
+}
+@media(max-width:640px) and (max-height:760px){
+ body[data-app=market] .opening-ticket{top:48px}
+ body[data-app=market] .ticket-art{height:66px;width:62px}
+ body[data-app=market] #ticket-shop{font-size:16px}
+ body[data-app=market] .ticket-message{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ body[data-app=market] .opening-ticket,
+ body[data-app=market] .opening-ticket.show{transition:none;transform:translate(-50%,0)}
+}

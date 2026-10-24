@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "오늘도 문 열었습니다",
+  "short_name": "오늘도 문 열었습니다",
+  "description": "오늘 해낸 일 하나가 밤 골목의 가게 불빛 하나로. 작은 할 일을 기록하고 완료해 나만의 골목을 밝혀보세요.",
+  "lang": "ko-KR",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111B2A",
+  "theme_color": "#111B2A",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
