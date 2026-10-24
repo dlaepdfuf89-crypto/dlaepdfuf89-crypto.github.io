@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#091f34"/><rect x="74" y="78" width="364" height="357" rx="54" fill="#133956"/><path d="m119 180 52 173h39l46-108 46 108h39l52-173h-42l-35 117-44-103h-33l-44 103-35-117z" fill="#f2fbff"/><path d="m335 116 53 0-17 21h-36z" fill="#71ddf6"/><path d="m354 159 49-50" stroke="#71ddf6" stroke-width="19" stroke-linecap="round"/><path d="m366 111 42-2-2 42" fill="none" stroke="#71ddf6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none" role="img" aria-labelledby="appTitle">
+<title id="appTitle">거래내역 CSV 오류검사·자동집계 — WORKFLOW PACK</title>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse"><stop stop-color="#143862"/><stop offset=".52" stop-color="#0B2644"/><stop offset="1" stop-color="#081629"/></linearGradient>
+ <linearGradient id="metal" x1="82" y1="110" x2="401" y2="403" gradientUnits="userSpaceOnUse"><stop stop-color="#F5FEFF"/><stop offset=".55" stop-color="#CDEFFF"/><stop offset="1" stop-color="#80D9F0"/></linearGradient>
+ <linearGradient id="accent" x1="335" y1="120" x2="417" y2="224" gradientUnits="userSpaceOnUse"><stop stop-color="#92FFF0"/><stop offset="1" stop-color="#39BDEA"/></linearGradient>
+ <linearGradient id="glass" x1="80" y1="85" x2="422" y2="425" gradientUnits="userSpaceOnUse"><stop stop-color="#21537C" stop-opacity=".94"/><stop offset="1" stop-color="#0C3152" stop-opacity=".96"/></linearGradient>
+ <filter id="soft"><feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#021020" flood-opacity=".55"/></filter>
+</defs>
+<rect width="512" height="512" rx="113" fill="url(#bg)"/>
+<path d="M80 87C167 36 310 21 441 121" stroke="#71DFFF" stroke-opacity=".13" stroke-width="38" stroke-linecap="round"/>
+<rect x="72" y="77" width="368" height="366" rx="68" fill="url(#glass)" stroke="#78D7F5" stroke-opacity=".47" stroke-width="4" filter="url(#soft)"/>
+<rect x="88" y="92" width="336" height="335" rx="54" stroke="#79D6FC" stroke-opacity=".13" stroke-width="2"/>
+<path d="M124 179L168 339H213L258 246L304 339H348L391 179H344L322 272L279 189H236L193 272L172 179H124Z" fill="url(#metal)"/>
+<path d="M339 132H397V191" stroke="url(#accent)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M397 132L327 204" stroke="url(#accent)" stroke-width="22" stroke-linecap="round"/>
+<rect x="294" y="364" width="118" height="55" rx="22" fill="#083C50" stroke="#66F0DC" stroke-opacity=".63" stroke-width="3"/>
+<path d="M321 390L335 402L356 379" stroke="#72FEE6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M373 384H394M373 396H393" stroke="#B4E8F7" stroke-opacity=".8" stroke-width="4" stroke-linecap="round"/>
+</svg>
