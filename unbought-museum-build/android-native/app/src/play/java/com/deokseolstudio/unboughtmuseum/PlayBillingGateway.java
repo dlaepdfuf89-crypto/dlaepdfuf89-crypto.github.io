@@ -26,6 +26,52 @@ public final class PlayBillingGateway implements PurchasesUpdatedListener {
       @Override public void onBillingServiceDisconnected(){connected=false;}
     });
   }
+  /**
+   * Initiates the official purchase sheet only after the caller has supplied
+   * a real registered SKU and confirmed server-side fulfillment is available.
+   * Never grants premium; all resulting tokens must be verified on a server.
+   * The call must originate from an explicit user action.
+   */
+  public void startOneTimeCheckout(Activity activity, String registeredProductId,
+                                   boolean serverVerificationReady) {
+    if (!serverVerificationReady || registeredProductId == null ||
+        !registeredProductId.matches("[a-z0-9_]{3,100}")) {
+      sink.onBillingError(BillingClient.BillingResponseCode.DEVELOPER_ERROR);
+      return;
+    }
+    if (!connected || !client.isReady()) {
+      sink.onBillingError(BillingClient.BillingResponseCode.SERVICE_DISCONNECTED);
+      return;
+    }
+    QueryProductDetailsParams.Product product = QueryProductDetailsParams.Product.newBuilder()
+        .setProductId(registeredProductId)
+        .setProductType(BillingClient.ProductType.INAPP).build();
+    QueryProductDetailsParams query = QueryProductDetailsParams.newBuilder()
+        .setProductList(java.util.Collections.singletonList(product)).build();
+    client.queryProductDetailsAsync(query, (result, detailsResult) -> {
+      if (result.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+        sink.onBillingError(result.getResponseCode()); return;
+      }
+      for (ProductDetails details : detailsResult.getProductDetailsList()) {
+        if (!registeredProductId.equals(details.getProductId())) continue;
+        List<ProductDetails.OneTimePurchaseOfferDetails> offers =
+            details.getOneTimePurchaseOfferDetailsList();
+        if (offers == null || offers.isEmpty()) break;
+        BillingFlowParams.ProductDetailsParams params =
+            BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(details).setOfferToken(offers.get(0).getOfferToken()).build();
+        BillingFlowParams flow = BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(java.util.Collections.singletonList(params)).build();
+        activity.runOnUiThread(() -> {
+          BillingResult launched = client.launchBillingFlow(activity, flow);
+          if (launched.getResponseCode() != BillingClient.BillingResponseCode.OK)
+            sink.onBillingError(launched.getResponseCode());
+        });
+        return;
+      }
+      sink.onBillingError(BillingClient.BillingResponseCode.ITEM_UNAVAILABLE);
+    });
+  }
   public void queryUnverifiedPurchases(){
     if(!connected || !client.isReady()){
       sink.onBillingError(BillingClient.BillingResponseCode.SERVICE_DISCONNECTED);return;
