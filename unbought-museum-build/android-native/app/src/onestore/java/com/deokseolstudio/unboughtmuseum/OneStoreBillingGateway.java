@@ -60,7 +60,7 @@ public final class OneStoreBillingGateway {
     public void startOneTimeCheckout(Activity activity, String registeredProductId,
                                       boolean serverVerificationReady) {
         if (!serverVerificationReady || registeredProductId == null ||
-            !registeredProductId.matches("[a-z0-9_]{3,100}")) {
+            !"museum_gallery_pass_v1".equals(registeredProductId)) {
             sink.onStoreError(-1);
             return;
         }
