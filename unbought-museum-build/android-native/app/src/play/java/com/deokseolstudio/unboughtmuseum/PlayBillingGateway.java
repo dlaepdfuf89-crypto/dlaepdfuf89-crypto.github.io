@@ -35,7 +35,7 @@ public final class PlayBillingGateway implements PurchasesUpdatedListener {
   public void startOneTimeCheckout(Activity activity, String registeredProductId,
                                    boolean serverVerificationReady) {
     if (!serverVerificationReady || registeredProductId == null ||
-        !registeredProductId.matches("[a-z0-9_]{3,100}")) {
+        !"museum_gallery_pass_v1".equals(registeredProductId)) {
       sink.onBillingError(BillingClient.BillingResponseCode.DEVELOPER_ERROR);
       return;
     }
