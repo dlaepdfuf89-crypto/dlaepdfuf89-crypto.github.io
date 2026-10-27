@@ -1,6 +1,6 @@
 /* WORKFLOW PACK CSV installable web app: cache only static shell, never user CSV data. */
 'use strict';
-const CACHE = 'wfp-csv-shell-20261025-v5';
+const CACHE = 'wfp-csv-shell-20261027-v6';
 const SHELL = [
   './',
   './index.html',
@@ -30,5 +30,24 @@ self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
   if (requestUrl.origin !== self.location.origin ||
       !requestUrl.pathname.startsWith(new URL(self.registration.scope).pathname)) return;
+
+  // Use fresh HTML when online so deployed buyer guidance does not stay stale.
+  // Keep the offline shell working if the network is unavailable.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        if (response.ok) {
+          const copy = response.clone();
+          event.waitUntil(caches.open(CACHE).then(cache => cache.put(event.request, copy)));
+        }
+        return response;
+      }).catch(async () =>
+        (await caches.match(event.request)) ||
+        (await caches.match('./index.html')) ||
+        Response.error()
+      )
+    );
+    return;
+  }
   event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
 });
