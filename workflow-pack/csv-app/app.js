@@ -152,5 +152,15 @@ byId('sample-download').addEventListener('click',()=>{saveText('WORKFLOW_PACK_�
 byId('save-normal').addEventListener('click',()=>saveResult('normalized','WORKFLOW_PACK_정상거래.csv'));
 byId('save-summary').addEventListener('click',()=>saveResult('summary','WORKFLOW_PACK_거래처상품집계.csv'));
 byId('save-errors').addEventListener('click',()=>saveResult('errors','WORKFLOW_PACK_오류제외.csv'));
+byId('share-checker').addEventListener('click',async()=>{
+ const publicUrl='https://dlaepdfuf89-crypto.github.io/workflow-pack/excel-paste-checker.html';
+ const title='엑셀 거래내역 무료 오류검사 | WORKFLOW PACK';
+ const description='엑셀 표를 복사해 붙여넣으면 날짜·수량·단가 오류와 거래처별 집계를 무료로 확인할 수 있어요.';
+ try{
+  if(typeof navigator.share==='function')await navigator.share({title,text:description,url:publicUrl});
+  else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(publicUrl);announce('무료 검사기 링크를 복사했습니다. 필요한 동료에게 전달하세요.');}
+  else{window.prompt('무료 검사기 링크를 복사해 전달하세요.',publicUrl);}
+ }catch(e){if(e?.name!=='AbortError')announce('공유가 취소되거나 실패했습니다. 링크를 복사해 직접 전달해 주세요.');}
+});
 window.WFPApp={getState:()=>({hasResult:!!last,demo:lastIsDemo,encoding,stats:last?.stats||null}),runSample:()=>byId('demo-button').click()};
 })();
