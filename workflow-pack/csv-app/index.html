@@ -70,6 +70,16 @@
  <div class="download-explain"><strong>어느 파일을 저장하면 될까요?</strong><div><span><b>정상 거래 CSV</b> — 검사를 통과한 거래만 따로 보관</span><span><b>집계 CSV</b> — 거래처·상품별 수량과 금액 합계</span><span><b>오류 목록 CSV</b> — 원본 파일명·행 번호·제외 사유를 확인</span></div><p>필요한 버튼을 각각 누르세요. 휴대전화에서는 기기의 파일 저장 화면이 열릴 수 있으며, 저장한 파일은 기기 내 파일 관리 앱이나 다운로드 폴더에서 확인하세요.</p></div>
  <div class="download-panel"><div><span class="overline">03 / EXPORT</span><h3>결과 파일 저장</h3><p>정상 거래 · 거래처/상품 집계 · 오류 목록을 각각 CSV로 보관하세요.</p></div><div class="download-actions"><button id="save-normal" type="button">정상 거래 CSV <span>↓</span></button><button id="save-summary" type="button">집계 CSV <span>↓</span></button><button id="save-errors" type="button">오류 목록 CSV <span>↓</span></button></div></div>
  <div id="result-warning" class="result-warning" role="note">이 도구의 결과는 거래 형식과 계산을 검토하기 위한 참고자료입니다. 취소·환불·세금 규칙 및 거래의 실제 진위는 별도 검토가 필요합니다.</div>
+<aside aria-labelledby="review-service-title" style="margin-top:22px;padding:22px;border-radius:18px;border:1px solid #bddef6;background:#f0f7ff;color:#143858">
+  <span style="font-size:12px;font-weight:850;letter-spacing:.03em;color:#2865a4">OPTIONAL · 담당자 검수</span>
+  <h3 id="review-service-title" style="margin:7px 0 8px;font-size:clamp(19px,3vw,23px)">오류행을 직접 확인하기 어렵다면, 파일 검수를 맡기세요</h3>
+  <p style="margin:0 0 12px">이 무료 앱은 자동 검수 도구입니다. 아래 유료 서비스는 담당자가 합의된 CSV를 확인하고 정상행·오류행 파일과 검수 메모를 별도로 납품합니다. <b>구매 없이도 앱의 모든 무료 기능을 계속 사용할 수 있습니다.</b></p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+    <a href="https://4085873036611.gumroad.com/l/csv-error-review-500-rows" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#155aa1;color:#fff;text-decoration:none;border-radius:11px;padding:12px 15px;font-weight:850">CSV 1개·500행 이하 오류 검수 · US$19 →</a>
+    <a href="https://kmong.com/gig/843757" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#fff;color:#155aa1;text-decoration:none;border:1px solid #7ab0dc;border-radius:11px;padding:12px 15px;font-weight:800">최대 5개 파일 병합·집계 · 99,000원 →</a>
+  </div>
+  <p style="margin:11px 0 0;font-size:13px">결제는 외부 판매처에서 직접 결정합니다. 현재 검수 중인 파일은 자동 업로드되지 않으며, 구매 전에 7개 열 구성·작업 범위·납기와 개인정보 처리 조건을 확인하세요.</p>
+</aside>
 </section>
 <section class="knowledge" id="file-format" aria-labelledby="knowtitle"><div class="sec-intro"><div><span class="overline">APP GUIDE</span><h2 id="knowtitle">파일을 준비하는 방법</h2><p>첫 번째 행에 아래 7개 열이 있어야 합니다.</p></div></div><div class="column-tags"><code>거래일</code><code>거래처코드</code><code>거래처</code><code>상품코드</code><code>상품명</code><code>수량</code><code>단가</code></div>
  <p>날짜는 <strong>YYYY-MM-DD</strong>(예: 2026-10-24), 수량은 <strong>1 이상의 정수</strong>(1, 2, 3…), 단가는 <strong>0 이상의 정수 원 단위</strong>(0, 10000 등)로 입력하세요. 수량에 음수·소수를 넣거나 거래일에 없는 날짜를 적으면 해당 행은 집계에서 제외합니다.</p>
