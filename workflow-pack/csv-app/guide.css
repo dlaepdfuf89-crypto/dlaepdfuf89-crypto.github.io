@@ -65,3 +65,18 @@
 @media(max-width:900px){.download-explain>div{grid-template-columns:1fr}.guide-steps{gap:10px}}
 @media(max-width:700px){.hero-help{max-width:100%;gap:9px}.hero-help-main{font-size:12px}.guide-top{flex-direction:column;gap:11px}.guide-steps{grid-template-columns:1fr}.guide-steps li{padding:15px}.guide-step-no{height:37px;width:37px}.quickstart{padding:23px 16px;border-radius:18px}.guide-top h2{font-size:25px}.guide-top p{font-size:13px}.guide-safe-note{font-size:11px}.guide-actions>*{flex:1}.result-reading,.download-explain{padding:16px}.faq-section summary{font-size:13px;padding:14px 41px 14px 15px}.faq-section details p{padding:0 15px 15px}.guide-example{padding:15px}.guide-duration{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.hero-help-main,.guide-actions>*{transition:none!important}}
+
+
+/* Free Excel clipboard workflow: high-contrast, responsive, no external assets. */
+.excel-paste-card{border:1px solid #a8d9e4;background:linear-gradient(160deg,#f2fffc 0%,#eef7ff 100%);padding:18px;margin:15px 0 8px;border-radius:16px}
+.excel-paste-header{display:grid;gap:4px;margin-bottom:9px}
+.excel-paste-header span{font-size:11px;color:#0b827b;font-weight:900;letter-spacing:.05em}
+.excel-paste-header strong{font-size:17px;line-height:1.45;color:#113c59}
+.excel-paste-card p{font-size:12px;line-height:1.75;color:#3c6278;margin:8px 0 10px}
+.excel-paste-card label{display:block;font-size:12px;font-weight:850;color:#1c4d66;margin-bottom:7px}
+#excel-paste{display:block;width:100%;max-width:100%;min-height:102px;padding:13px;border:1px solid #94bdd2;border-radius:10px;resize:vertical;font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:#12344d;background:white;box-sizing:border-box}
+#excel-paste:focus-visible{outline:3px solid #59b8e1;outline-offset:2px}
+.paste-run{width:100%;margin-top:11px;padding:13px 15px;border-radius:10px;background:#0f706e;color:#fff;border:1px solid #0f706e;font-size:14px;font-weight:850;cursor:pointer}
+.paste-run:hover{background:#09595e}
+.paste-run:focus-visible{outline:3px solid #2ea8c4;outline-offset:3px}
+.excel-paste-card #paste-privacy{font-size:11px;color:#587781;margin:10px 0 0}
