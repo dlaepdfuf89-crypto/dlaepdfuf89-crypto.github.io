@@ -105,6 +105,34 @@ function saveText(name,content,mime){
  setTimeout(()=>URL.revokeObjectURL(url),30000);
 }
 function saveResult(kind,name){if(!last)return;saveText(name,'\ufeff'+api.exportCSV(last,kind),'text/csv;charset=utf-8');}
+// Allow paste directly from Excel: clipboard TSV → existing local CSV engine.
+// Never send spreadsheet text over the network or retain it in web storage.
+byId('paste-run').addEventListener('click',async()=>{
+ const box=byId('excel-paste');
+ const value=box.value.replace(/^\uFEFF/,'');
+ const failure=(message)=>{
+  byId('input-error-message').textContent=message;
+  byId('input-error').classList.remove('hidden');
+  status('확인 필요','error');announce(message);
+ };
+ try{
+  if(!value.trim())throw Error('엑셀에서 제목 행을 포함한 표를 복사한 뒤 붙여넣어 주세요.');
+  const sourceBytes=new TextEncoder().encode(value).byteLength;
+  if(sourceBytes>api.MAX_FILE_BYTES)throw Error('붙여넣기 최대 크기는 10MB입니다. 표를 나눠서 검사해 주세요.');
+  const isTsv=value.includes('\t');
+  const rows=isTsv?api.parseTSV(value):api.parseCSV(value);
+  if(rows.length<2)throw Error('제목 행과 거래 데이터가 최소 1행 이상 필요합니다.');
+  const keys=rows[0].cells.map(x=>x.trim());
+  const missing=api.HEADERS.filter(x=>!keys.includes(x));
+  if(missing.length)throw Error('첫 줄에 필요한 열이 없습니다: '+missing.join(', ')+'. 제공된 엑셀 표의 열 이름을 확인해 주세요.');
+  const csv=api.toCSV(rows[0].cells,rows.slice(1).map(row=>row.cells));
+  const staged=new File([csv],'엑셀_표_붙여넣기.csv',{type:'text/csv;charset=utf-8'});
+  if(staged.size>api.MAX_FILE_BYTES)throw Error('변환된 데이터가 10MB를 초과합니다. 일부 행씩 검사해 주세요.');
+  box.value='';
+  setFiles([staged]);
+  await inspect();
+ }catch(e){failure(String(e.message||e));}
+});
 byId('csv-files').addEventListener('change',e=>setFiles(e.target.files||[]));
 const zone=byId('dropzone');
 zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag');});
