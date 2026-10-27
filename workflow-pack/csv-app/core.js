@@ -8,7 +8,7 @@
   const HEADERS = ['거래일','거래처코드','거래처','상품코드','상품명','수량','단가'];
   const MAX_FILE_BYTES = 10 * 1024 * 1024, MAX_ROWS = 10000, MAX_FILES = 5, MAX_TOTAL_BYTES = 20 * 1024 * 1024;
 
-  function parseCSV(text) {
+  function parseDelimited(text, delimiter) {
     if (typeof text !== 'string') throw Error('문자열 CSV가 아닙니다.');
     if (text.startsWith('\uFEFF')) text = text.slice(1);
     if (text.includes('\0')) throw Error('NUL 바이트가 감지되었습니다. 파일 인코딩을 확인하세요.');
@@ -21,7 +21,7 @@
         if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else { quoted = false; closedQuote = true; } }
         else if (c === '\r') { if (text[i+1] === '\n') i++; field += '\n'; line++; }
         else { field += c; if (c === '\n') line++; }
-      } else if (c === ',') { pushField(); haveData = true; }
+      } else if (c === delimiter) { pushField(); haveData = true; }
       else if (c === '\r' || c === '\n') { if(c === '\r' && text[i+1] === '\n') i++; pushRow(); line++; startLine = line; }
       else if (c === '"') { if (field.length || closedQuote) throw Error(`${line}행: 따옴표 위치가 잘못되었습니다.`); quoted = true; haveData = true; }
       else { if (closedQuote) throw Error(`${line}행: 닫는 따옴표 뒤에 다른 문자가 있습니다.`); field += c; haveData = true; }
@@ -30,6 +30,8 @@
     if (haveData || field.length || row.length || closedQuote) pushRow();
     return rows;
   }
+  function parseCSV(text) { return parseDelimited(text, ','); }
+  function parseTSV(text) { return parseDelimited(text, '\t'); }
   function validDate(x) {
     if(!/^\d{4}-\d{2}-\d{2}$/.test(x)) return false;
     const [y,m,d]=x.split('-').map(Number);
@@ -119,5 +121,5 @@
     if(!['summary','normalized'].includes(kind))throw Error('알 수 없는 결과 형식');
     return toCSV(COLS[kind],result[kind].map(x=>COLS[kind].map(k=>x[k])));
   }
-  return {HEADERS,MAX_FILE_BYTES,MAX_ROWS,MAX_FILES,parseCSV,toCSV,safeCell,processFiles,exportCSV,COLS};
+  return {HEADERS,MAX_FILE_BYTES,MAX_ROWS,MAX_FILES,parseCSV,parseTSV,toCSV,safeCell,processFiles,exportCSV,COLS};
 });
