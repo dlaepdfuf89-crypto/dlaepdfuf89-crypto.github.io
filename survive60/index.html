@@ -21,10 +21,11 @@
 <meta name="twitter:image" content="https://dlaepdfuf89-crypto.github.io/survive60/og-card.png">
 <meta name="twitter:title" content="60초만 버텨봐 | Survive 60">
 <meta name="twitter:description" content="한 손으로 60초 생존! 보스전, 무기 진화, 코인 강화에 도전하세요.">
-<style>html,body{margin:0;background:#071321;color:#fff;font-family:system-ui,sans-serif}#boot{position:fixed;inset:0;display:grid;place-items:center;font-size:14px}</style>
+<style>html,body{margin:0;background:#071321;color:#fff;font-family:system-ui,sans-serif}#boot{position:fixed;inset:0;display:grid;place-items:center;font-size:14px}#s60-official-store-cta[hidden]{display:none!important}#s60-official-store-cta{box-sizing:border-box;width:100%;background:linear-gradient(105deg,#07182c 0%,#0c2c43 58%,#142847 100%);border-bottom:1px solid #27607b;box-shadow:0 2px 10px #0007}#s60-official-store-cta a{box-sizing:border-box;display:flex;max-width:990px;min-height:56px;margin:0 auto;padding:8px 12px;gap:11px;align-items:center;text-decoration:none;color:#fff}#s60-official-store-cta a:focus-visible{outline:2px solid #ffe3a4;outline-offset:-3px}#s60-official-store-cta .s60-official-tag{background:#173c50;color:#baeaff;border:1px solid #36768e;border-radius:8px;padding:6px 7px;font-size:11px;font-weight:800;white-space:nowrap}#s60-official-store-cta .s60-official-copy{display:flex;flex:1;min-width:0;gap:1px;flex-direction:column}#s60-official-store-cta .s60-official-copy b{font-size:14px;line-height:1.24}#s60-official-store-cta .s60-official-copy small{font-size:11px;color:#b7dcf1;line-height:1.24}#s60-official-store-cta .s60-official-arrow{font-size:30px;color:#e8d1a0;font-weight:800;line-height:1}@media(max-width:345px){#s60-official-store-cta a{gap:6px;padding:6px}#s60-official-store-cta .s60-official-tag{font-size:10px;padding:5px}#s60-official-store-cta .s60-official-copy b{font-size:12px}#s60-official-store-cta .s60-official-copy small{font-size:10px}}</style>
 <link rel="stylesheet" crossorigin href="/survive60/rc-next/assets/index-DSLvGMP4.css">
 </head>
 <body>
+<div id="s60-official-store-cta" hidden><a href="https://onesto.re/oneplay/0001010330" aria-label="원스토어 ONEplay 정식판 무료 플레이"><span class="s60-official-tag">ONEplay 정식판</span><span class="s60-official-copy"><b>원스토어에서 무료로 플레이</b><small>광고 보상 · 코인 상점 이용</small></span><span class="s60-official-arrow" aria-hidden="true">›</span></a></div>
 <div id="root"></div>
 <script type="module">
 // Load SDK inside try so a blocked native SDK cannot prevent free browser play.
@@ -32,6 +33,7 @@ const mark=(s)=>{try{sessionStorage.setItem("s60-oneplay-host-boot-diagnostic-v1
 window.__s60OneplaySdkReady=false;
 mark("initializing");
 try{const {createSDK}=await import("https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js");const sdk=createSDK();window.sdk=sdk;const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);const started=await sdk.startGameAsync();if(started?.err){mark("game_start_rejected");}else{window.__s60OneplaySdkReady=true;mark("native_sdk_ready");}}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
+if(window.__s60OneplaySdkReady!==true)document.getElementById("s60-official-store-cta")?.removeAttribute("hidden");
 await import("/survive60/rc-next/assets/index-4Tva4-GA.js");
 </script>
 </body>
