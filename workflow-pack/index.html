@@ -47,7 +47,7 @@ footer{padding-top:35px;padding-bottom:30px;font-size:12px;color:#67778b}
 <h1>거래 CSV 정리,<br>작게 시작하고<br>필요한 만큼 맡기세요.</h1>
 <p style="border:1px solid #9ee9e1;background:#ffffff13;border-radius:12px;padding:11px 14px;margin:0 0 15px"><strong>NEW · 엑셀 표 복사·붙여넣기 무료 검사</strong> — CSV로 다시 저장하지 않고 날짜·수량·단가 오류를 먼저 찾아보세요. <a href="./excel-paste-checker.html" style="color:#adfff0;font-weight:850">무료 사용법과 체험 바로가기 →</a></p>
 <p>거래 CSV에서 잘못된 날짜·빈칸·수량을 일일이 찾기 어려우신가요? 파일 1개·500행 이하의 정상/오류 행 분리는 BASIC으로 맡기세요. 여러 파일 병합·거래처/상품별 매출 집계는 STANDARD로 의뢰할 수 있습니다. 두 서비스 모두 합의된 7개 한국어 열 형식이 필요합니다.</p>
-<div class="hero-actions"><a class="cta" href="https://4085873036611.gumroad.com/l/csv-error-review-500-rows" target="_blank" rel="noopener noreferrer">BASIC · CSV 1개 오류 검수 US$19 상품 보기 →</a><a class="cta cta-outline" href="https://kmong.com/gig/843757" target="_blank" rel="noopener noreferrer">STANDARD · 병합·집계 99,000원 →</a><a class="cta cta-outline" href="#contact">구매 전 무료 범위 상담 →</a><a class="cta cta-outline" href="#domestic-basic" style="border-color:#f7dcb1;color:#ffe9c7">국내 BASIC 29,000원 · 작업 의뢰 문의 →</a><a class="cta cta-outline" href="./excel-paste-checker.html">엑셀 복사·붙여넣기 무료 체험 →</a></div>
+<div class="hero-actions"><a class="cta" href="https://4085873036611.gumroad.com/l/csv-error-review-500-rows" target="_blank" rel="noopener noreferrer">BASIC · CSV 1개 오류 검수 US$19 상품 보기 →</a><a class="cta cta-outline" href="https://kmong.com/gig/843757" target="_blank" rel="noopener noreferrer">STANDARD · 병합·집계 99,000원 →</a><a class="cta cta-outline" href="#contact">구매 전 무료 범위 상담 →</a><a class="cta cta-outline" href="#inquiry_email" data-request-basic style="border-color:#f7dcb1;color:#ffe9c7">국내 BASIC 29,000원 · 작업 의뢰 문의 →</a><a class="cta cta-outline" href="./excel-paste-checker.html">엑셀 복사·붙여넣기 무료 체험 →</a></div>
 <small>국내 STANDARD는 크몽에서 결제합니다. BASIC은 Gumroad에서만 판매 중이며 결제 통화·환율·세금에 따라 원화 표시가 달라집니다. Gumroad BASIC은 주문 확정 시 선금 50%, 납품 완료 시 잔금 50%를 청구합니다. 범위 확정·자료 수령 후 안내 납기는 약 2영업일이며, 구매 전에 파일의 7개 열과 작업 범위를 확인해 주세요. 가상 샘플은 실제 고객 실적이 아닙니다.</small>
 </section>
 <section class="section">
@@ -213,6 +213,7 @@ form.addEventListener('submit',function(event){
 <p style="margin:6px 0;font-size:26px;font-weight:900;color:#ffe5a6">29,000원 <span style="font-size:13px;font-weight:550;color:#e3eaf5">기준가 · 의뢰 전 확인</span></p>
 <p style="margin:0 0 7px">거래 CSV 1개·500행 이하·지정한 한국어 7개 열 기준. 담당자가 정상행·오류행을 나누고 검수 메모를 함께 전달합니다. 자료 형식과 범위가 합의된 뒤 약 2영업일 납품을 안내합니다.</p>
 <p style="margin:0;font-size:13px;color:#e5eaf1">이 상품은 크몽 국내 BASIC 등록 전 사전 의뢰 상담용입니다. 아래 문의는 결제·주문 확정이 아니며, 실제 수주 가능 여부·최종 금액(세금 포함 여부)·결제 방법·납기·취소/환불 조건은 계약 전 별도로 서면 안내합니다.</p>
+<a href="#inquiry_email" data-request-basic style="display:inline-block;margin-top:13px;padding:12px 18px;border-radius:10px;background:#ffe7b0;color:#16243a;font-weight:900;text-decoration:none">29,000원 오류 검수 · 의뢰 문의 작성하기 →</a>
 </div>
 <p>로그인이나 별도 이메일 프로그램 없이 아래에서 파일 수·열 형식·필요한 결과만 알려주세요. 영업 정보를 확인한 뒤 실제 의뢰 가능 여부와 결제 방법을 이메일로 안내합니다.</p>
 <style>
@@ -250,4 +251,5 @@ form.addEventListener('submit',function(event){
 </section>
 </main>
 <footer>WORKFLOW PACK · 소프트웨어 기반 거래 CSV 파일 정리 서비스 · 이 페이지의 수치와 거래처는 모두 가상 예시이며 실제 판매·고객 실적이 아닙니다.</footer>
+<script>document.querySelectorAll("[data-request-basic]").forEach(function(link){link.addEventListener("click",function(){var sel=document.getElementById("inquiry_product");if(sel){sel.value="국내 BASIC 29,000원 기준가 · 1개/500행 이하";sel.dispatchEvent(new Event("change",{bubbles:true}));}})});</script>
 </body></html>
