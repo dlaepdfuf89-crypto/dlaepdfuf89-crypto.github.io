@@ -32,6 +32,59 @@
   }
   function parseCSV(text) { return parseDelimited(text, ','); }
   function parseTSV(text) { return parseDelimited(text, '\t'); }
+  // Normalizes pasted Excel/TSV tables without guessing transaction identity or financial values.
+  // Generated IDs are temporary, name-based grouping keys for this single paste only.
+  function prepareExcelTable(rows) {
+    if (!Array.isArray(rows) || rows.length<2) throw Error('제목 행과 거래 데이터가 최소 1행 이상 필요합니다.');
+    const aliases={
+      '거래일':['거래일','거래일자','거래날짜','일자','날짜','주문일','주문일자','판매일'],
+      '거래처코드':['거래처코드','거래처ID','고객코드','업체코드','고객사코드'],
+      '거래처':['거래처','거래처명','거래처이름','업체','업체명','고객사','고객사명','고객명'],
+      '상품코드':['상품코드','상품ID','상품번호','품목코드','제품코드','SKU'],
+      '상품명':['상품명','상품','품목명','품목','제품명','제품'],
+      '수량':['수량','판매수량','주문수량','출고수량'],
+      '단가':['단가','판매단가','개당금액','개당가격','상품단가']
+    };
+    const tidy=x=>String(x??'').replace(/\uFEFF/g,'').replace(/[\s_-]+/g,'').toLowerCase();
+    const mapping=new Map();
+    for(const [name,words] of Object.entries(aliases))for(const word of words)mapping.set(tidy(word),name);
+    const first=rows[0].cells.map(x=>String(x??'').trim());
+    const seen=new Map(), source=new Map();
+    first.forEach((h,i)=>{
+      const canon=mapping.get(tidy(h));
+      if(!canon)return;
+      if(seen.has(canon))throw Error('같은 의미의 열 이름이 중복됩니다: '+first[seen.get(canon)]+' / '+h);
+      seen.set(canon,i);source.set(canon,h);
+    });
+    const required=['거래일','거래처','상품명','수량','단가'];
+    const missing=required.filter(x=>!seen.has(x));
+    if(missing.length)throw Error('필수 열을 찾지 못했습니다: '+missing.join(', ')+'. 날짜·거래처·상품명·수량·단가 열 제목을 확인해 주세요.');
+    const autoVendor=!seen.has('거래처코드'),autoProduct=!seen.has('상품코드');
+    const vendorIds=new Map(),productIds=new Map();
+    const getId=(store,label,prefix)=>{
+      const k=label.trim();
+      if(!k)return '';
+      if(!store.has(k))store.set(k,'WFP-'+prefix+String(store.size+1).padStart(5,'0'));
+      return store.get(k);
+    };
+    const normalized=rows.slice(1).map(r=>{
+      if(r.cells.length!==first.length)return r.cells; // Let the validator report a malformed row.
+      const field=name=>seen.has(name)?String(r.cells[seen.get(name)]??'').trim():'';
+      const v=Object.fromEntries(HEADERS.map(name=>[name,field(name)]));
+      if(autoVendor)v['거래처코드']=getId(vendorIds,v['거래처'],'C');
+      if(autoProduct)v['상품코드']=getId(productIds,v['상품명'],'P');
+      const date=v['거래일'].match(/^(\d{4})[./](\d{1,2})[./](\d{1,2})\.?$/);
+      if(date)v['거래일']=date[1]+'-'+date[2].padStart(2,'0')+'-'+date[3].padStart(2,'0');
+      for(const k of ['수량','단가']){
+        const value=v[k].replace(/^\s*₩\s*/,'').trim();
+        if(/^\d{1,3}(,\d{3})+$/.test(value))v[k]=value.replace(/,/g,'');
+        else if(/^\d+$/.test(value))v[k]=value;
+      }
+      return HEADERS.map(name=>v[name]);
+    });
+    const ignored=first.filter(x=>!mapping.has(tidy(x))).length;
+    return {headers:HEADERS,rows:normalized,autoVendor,autoProduct,ignored,mapped:source};
+  }
   function validDate(x) {
     if(!/^\d{4}-\d{2}-\d{2}$/.test(x)) return false;
     const [y,m,d]=x.split('-').map(Number);
@@ -121,5 +174,5 @@
     if(!['summary','normalized'].includes(kind))throw Error('알 수 없는 결과 형식');
     return toCSV(COLS[kind],result[kind].map(x=>COLS[kind].map(k=>x[k])));
   }
-  return {HEADERS,MAX_FILE_BYTES,MAX_ROWS,MAX_FILES,parseCSV,parseTSV,toCSV,safeCell,processFiles,exportCSV,COLS};
+  return {HEADERS,MAX_FILE_BYTES,MAX_ROWS,MAX_FILES,parseCSV,parseTSV,prepareExcelTable,toCSV,safeCell,processFiles,exportCSV,COLS};
 });
