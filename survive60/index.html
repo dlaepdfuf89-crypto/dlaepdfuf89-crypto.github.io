@@ -34,7 +34,7 @@ window.__s60OneplaySdkReady=false;
 mark("initializing");
 try{const {createSDK}=await import("https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js");const sdk=createSDK();window.sdk=sdk;const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);const started=await sdk.startGameAsync();if(started?.err){mark("game_start_rejected");}else{window.__s60OneplaySdkReady=true;mark("native_sdk_ready");}}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
 if(window.__s60OneplaySdkReady!==true)document.getElementById("s60-official-store-cta")?.removeAttribute("hidden");
-await import("/survive60/rc-next/assets/index-4Tva4-GA.js");
+await import("/survive60/rc-next/assets/index-BqogvWgZ.js");
 </script>
 </body>
 </html>
