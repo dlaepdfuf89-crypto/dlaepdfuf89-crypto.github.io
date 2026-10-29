@@ -122,14 +122,17 @@ byId('paste-run').addEventListener('click',async()=>{
   const isTsv=value.includes('\t');
   const rows=isTsv?api.parseTSV(value):api.parseCSV(value);
   if(rows.length<2)throw Error('제목 행과 거래 데이터가 최소 1행 이상 필요합니다.');
-  const keys=rows[0].cells.map(x=>x.trim());
-  const missing=api.HEADERS.filter(x=>!keys.includes(x));
-  if(missing.length)throw Error('첫 줄에 필요한 열이 없습니다: '+missing.join(', ')+'. 제공된 엑셀 표의 열 이름을 확인해 주세요.');
-  const csv=api.toCSV(rows[0].cells,rows.slice(1).map(row=>row.cells));
+  if(rows.length-1>api.MAX_ROWS)throw Error('엑셀 표는 한 번에 최대 10,000행까지 검사할 수 있습니다.');
+  const prepared=api.prepareExcelTable(rows);
+  const csv=api.toCSV(prepared.headers,prepared.rows);
   const staged=new File([csv],'엑셀_표_붙여넣기.csv',{type:'text/csv;charset=utf-8'});
   if(staged.size>api.MAX_FILE_BYTES)throw Error('변환된 데이터가 10MB를 초과합니다. 일부 행씩 검사해 주세요.');
   box.value='';
   setFiles([staged]);
+  const notes=[];
+  if(prepared.autoVendor||prepared.autoProduct)notes.push('코드가 없는 열은 이름을 기준으로 이번 검사에만 쓸 임시 코드를 생성했습니다. 같은 이름은 동일 항목으로 집계되므로 실제 거래처·상품이 다른 동명이 있다면 원본에서 코드를 넣어 다시 검사하세요.');
+  if(prepared.ignored)notes.push('집계에 사용하지 않는 추가 열 '+prepared.ignored+'개는 결과 파일에 포함되지 않습니다.');
+  byId('paste-note').textContent=notes.length?notes.join(' '):'7개 열을 사용해 검사를 진행했습니다. 다른 표에서는 열 이름 일부가 자동 인식됩니다.';
   await inspect();
  }catch(e){failure(String(e.message||e));}
 });
