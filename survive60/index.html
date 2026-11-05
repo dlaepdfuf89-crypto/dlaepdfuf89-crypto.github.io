@@ -32,7 +32,20 @@
 const mark=(s)=>{try{sessionStorage.setItem("s60-oneplay-host-boot-diagnostic-v1",JSON.stringify({status:s,time:new Date().toISOString()}))}catch{}};
 window.__s60OneplaySdkReady=false;
 mark("initializing");
-try{const {createSDK}=await import("https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js");const sdk=createSDK();window.sdk=sdk;const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);const started=await sdk.startGameAsync();if(started?.err){mark("game_start_rejected");}else{window.__s60OneplaySdkReady=true;mark("native_sdk_ready");}}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
+// Joystumble embeds the public web demo inside its own iframe. Do not delay free
+// gameplay on an unrelated ONEplay SDK network request in that trusted context.
+// Native ONEplay and every other context retain the original SDK startup path.
+const joystumbleEmbed=(()=>{
+  try{
+    const ref=new URL(document.referrer);
+    return window.self!==window.top && (ref.hostname==="joystumble.com" || ref.hostname.endsWith(".joystumble.com"));
+  }catch{return false}
+})();
+if(joystumbleEmbed){
+  mark("joystumble_embed_skip_oneplay_sdk");
+}else{
+  try{const {createSDK}=await import("https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js");const sdk=createSDK();window.sdk=sdk;const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);const started=await sdk.startGameAsync();if(started?.err){mark("game_start_rejected");}else{window.__s60OneplaySdkReady=true;mark("native_sdk_ready");}}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
+}
 if(window.__s60OneplaySdkReady!==true){
   const officialCta=document.getElementById("s60-official-store-cta");
   // Browser game directories have international audiences. Do not change Toss/ONEplay runtime.
