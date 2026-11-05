@@ -122,8 +122,59 @@ if(window.__s60OneplaySdkReady!==true){
 if(window.__s60OneplaySdkReady!==true){
   document.documentElement.classList.add("s60-browser-demo");
   const root=document.getElementById("root");
+  // The external game portals are largely international. Translate the
+  // essentials of the WEB DEMO only, without modifying native app bundles.
+  const englishBrowserVisitor=!/^ko(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||"ko");
+  const browserTranslations=new Map([
+    ["60초만 버텨봐","SURVIVE 60"],
+    ["짧게 한 판, 기록은 계속","Quick runs. Beat your record."],
+    ["탄막을 뚫고 살아남으세요","Dodge the bullet storm"],
+    ["60초 생존 작전","SURVIVE THE 60"],
+    ["일반 전투","60s Survival"],["보스 던전","Boss Battle"],
+    ["무제한 도전","Endless Mode"],["요일 던전","Daily Challenge"],
+    ["60초 생존 · 30초 보스전","60s survival · 30s boss"],
+    ["기본 모드 클리어로 티어 승급","Clear survival to rank up"],
+    ["▶ 60초 전투 시작","▶ START 60s RUN"],
+    ["광고 혜택","Ad Rewards"],["기체 선택","Choose Ship"],
+    ["코인 충전 · 강화","Upgrades"],["기록 · 시즌","Records"],
+    ["균형형","Balanced"],["3회 클리어","3 clears"],["10회 클리어","10 clears"],
+    ["전투기 스킨","SHIP SKINS"],["무료 · 광고 해금 · 프리미엄","Free · Ad unlock · Premium"],
+    ["장착 중","Equipped"],["누적 100킬","100 total kills"],
+    ["남은 시간","Time left"],["처치","Kills"],["레벨","Level"],
+    ["드래그 이동 · 자동 공격 · 60초 생존","Drag to move · Auto-fire · Survive 60s"],
+    ["아직 끝내기엔 아깝습니다","Don't give up yet"],["한 번 더?","ONE MORE TRY?"],
+    ["체력 60%로 즉시 복귀합니다.","Revive with 60% HP."],
+    ["이번 기록으로 끝내기","Finish this run"],
+    ["이번 생존 기록","YOUR RUN"],["획득","Earned"],["최고","Best"],
+    ["기록 더 올리기","Beat your record"],["바로 재도전","Try again"],
+    ["메인으로 돌아가 강화하기","Back to upgrades"],
+    ["코인 상점 · 영구 강화 바로가기","Upgrade your ship"],
+    ["↗ 기록 공유하기","↗ Share Challenge"],
+    ["↗ 최고기록 공유","↗ Share Challenge"],
+    ["광고 준비 중 · 결과 추가 보상","Bonus ad unavailable"]
+  ]);
+  const localizeBrowserDemo=()=>{
+    if(!englishBrowserVisitor||!root)return;
+    const lobby=root.querySelector(".shell.lobbyMode");
+    const targets=(lobby?[lobby]:[]).concat([
+      root.querySelector(".hud"),
+      root.querySelector(".overlay.revive"),
+      root.querySelector(".overlay.result")
+    ]).filter(Boolean);
+    for(const target of new Set(targets)){
+      const walker=document.createTreeWalker(target,NodeFilter.SHOW_TEXT);
+      let node;
+      while((node=walker.nextNode())){
+        const content=node.nodeValue||"";
+        const korean=content.trim();
+        const english=browserTranslations.get(korean);
+        if(english)node.nodeValue=content.replace(korean,english);
+      }
+    }
+  };
   let queued=false;
   const insertEditionChoices=()=>{
+    localizeBrowserDemo();
     // In the free browser demo, the Toss rewarded-ad SDK is unavailable. Do not
     // strand a first-time visitor behind an unclickable revival-ad button.
     const reviveScreen=root?.querySelector(".overlay.revive");
