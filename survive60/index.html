@@ -91,7 +91,13 @@ if(window.__s60OneplaySdkReady!==true){
     event.preventDefault();event.stopImmediatePropagation();
     const ko=/^ko(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||"ko");
     const title=ko?"60초만 버텨봐":"Survive 60";
-    const message=ko?"친구야, 60초만 버텨봐! 토스에서 바로 무료 도전":"Can you survive 60 seconds? Play the official game on Toss";
+    // Only use the actual kill count already shown on the completed run screen.
+    // Never claim a score when the visitor shares from the home screen.
+    const scoreText=button.closest(".overlay.result")?.querySelector(".resultStats > div:first-child b")?.textContent?.trim()||"";
+    const score=/^\\d{1,7}$/.test(scoreText)?Number(scoreText):null;
+    const message=score!==null
+      ?(ko?`나 방금 ${score}킬! 너는 이 기록 깰 수 있어? 🚀 60초 생존 게임, 토스에서 무료 도전`:`I scored ${score} kills in Survive 60! Can you beat that? Play free on Toss 🚀`)
+      :(ko?"친구야, 60초만 버텨봐! 토스에서 바로 무료 도전":"Can you survive 60 seconds? Play the official game on Toss");
     const shareText=message+"\n"+officialURL;
     if(typeof navigator.share==="function"){
       navigator.share({title,text:message,url:officialURL}).then(()=>feedback(ko?"정식 게임 링크 공유 완료":"Game link shared")).catch((e)=>{
