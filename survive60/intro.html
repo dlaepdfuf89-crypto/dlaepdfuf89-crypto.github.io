@@ -86,7 +86,7 @@ section{padding-top:36px;padding-bottom:58px}.section-title{font-size:clamp(24px
 <small class="s60-spotlight-note">토스 앱에서 ‘60초만 버텨봐’를 검색해도 플레이할 수 있습니다.</small>
 </div>
 <div class="s60-spotlight-video">
-<video controls playsinline preload="metadata" poster="./promo/20261103/SURVIVE60_SHORTS_COVER_1080x1920.png" aria-label="60초만 버텨봐 실제 플레이 20초 쇼츠 영상">
+<video id="s60-actual-gameplay-spotlight" controls muted playsinline preload="none" poster="./promo/20261103/SURVIVE60_SHORTS_COVER_1080x1920.png" aria-label="60초만 버텨봐 실제 플레이 20초 쇼츠 영상">
 <source src="./promo/20261103/SURVIVE60_REAL_GAMEPLAY_20SEC_VERTICAL_FINAL_20261103.mp4" type="video/mp4">
 동영상 재생을 지원하지 않는 브라우저입니다.
 </video>
@@ -148,5 +148,35 @@ section{padding-top:36px;padding-bottom:58px}.section-title{font-size:clamp(24px
   finally{busy=false;button.disabled=false}
  });
 })();
-</script></body>
+</script>
+<script>
+/* Show real gameplay only when the preview enters view; never force sound or mobile data usage. */
+(() => {
+  const video = document.getElementById('s60-actual-gameplay-spotlight');
+  if (!video || !('IntersectionObserver' in window)) return;
+  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+  const saveData = navigator.connection?.saveData === true;
+  const slowConnection = /^(?:slow-2g|2g)$/.test(navigator.connection?.effectiveType || '');
+  if (reducedMotion || saveData || slowConnection) return;
+  let automaticStartAttempted = false;
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting && !automaticStartAttempted && document.visibilityState === 'visible') {
+        automaticStartAttempted = true;
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+        video.play().catch(() => { /* User can play with native controls. */ });
+      } else if (!entry.isIntersecting && !video.paused) {
+        video.pause();
+      }
+    }
+  }, { threshold: 0.55 });
+  observer.observe(video);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && !video.paused) video.pause();
+  });
+})();
+</script>
+</body>
 </html>
