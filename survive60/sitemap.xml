@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-  <url><loc>https://dlaepdfuf89-crypto.github.io/survive60/</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://dlaepdfuf89-crypto.github.io/survive60/</loc><lastmod>2026-11-06</lastmod></url>
   <url>
     <loc>https://dlaepdfuf89-crypto.github.io/survive60/intro.html</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <video:video>
       <video:thumbnail_loc>https://dlaepdfuf89-crypto.github.io/survive60/promo/20261103/SURVIVE60_SHORTS_COVER_1080x1920.png</video:thumbnail_loc>
       <video:title>60초만 버텨봐 — 실제 게임 플레이와 보스전 20초 미리보기</video:title>
@@ -11,6 +11,14 @@
       <video:content_loc>https://dlaepdfuf89-crypto.github.io/survive60/promo/20261103/SURVIVE60_REAL_GAMEPLAY_20SEC_VERTICAL_FINAL_20261103.mp4</video:content_loc>
       <video:duration>20</video:duration>
       <video:publication_date>2026-11-03T18:49:04+09:00</video:publication_date>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://dlaepdfuf89-crypto.github.io/survive60/promo/20261106/SURVIVE60_REAL_BOSS_FRAME_540x960_20261106.jpg</video:thumbnail_loc>
+      <video:title>60초만 버텨봐 — 실제 보스와 탄막 슈팅 57초 플레이</video:title>
+      <video:description>실제 게임의 일반 전투부터 보스전과 고난도 탄막까지 담은 57초 플레이. 일부 촬영 장면은 개발용 테스트 설정을 사용했습니다. 토스와 ONEplay에서 무료 게임하기.</video:description>
+      <video:content_loc>https://dlaepdfuf89-crypto.github.io/survive60/promo/20261106/SURVIVE60_PREMIUM_REAL_GAMEPLAY_57SEC_1080x1920_20261106.mp4</video:content_loc>
+      <video:duration>58</video:duration>
+      <video:publication_date>2026-11-06T17:02:00+09:00</video:publication_date>
     </video:video>
   </url>
 </urlset>
