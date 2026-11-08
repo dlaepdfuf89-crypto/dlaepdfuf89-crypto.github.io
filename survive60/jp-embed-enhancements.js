@@ -402,8 +402,21 @@
     const root=document.getElementById("root");
     if(!root){setTimeout(install,25);return;}
     new MutationObserver(schedule).observe(root,{childList:true,subtree:false});
+    // Upgrade/revive/result overlays are mounted inside .arena, not directly
+    // under #root. Observe element additions only, avoiding per-frame text
+    // mutation scans in the live battle arena.
+    new MutationObserver(changes=>{
+      for(const change of changes)for(const node of change.addedNodes){
+        if(node.nodeType!==1)continue;
+        if(node.classList?.contains("overlay") ||
+          ((node.classList?.contains("arena") || node.classList?.contains("shell")) &&
+           node.querySelector?.(".overlay.upgrade,.overlay.result,.overlay.revive"))){
+          schedule();return;
+        }
+      }
+    }).observe(root,{childList:true,subtree:true});
     document.addEventListener("click",e=>{
-      if(e.target instanceof Element && e.target.closest(".lobbyTabs,.runModeSelector,.overlay.upgrade,.overlay.result"))schedule();
+      if(e.target instanceof Element && e.target.closest(".lobbyTabs,.runModeSelector,.startBtn,.overlay.upgrade,.overlay.result"))schedule();
     },true);
     document.addEventListener("keydown",e=>{
       const overlay=document.querySelector(".overlay.upgrade");
