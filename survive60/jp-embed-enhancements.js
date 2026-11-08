@@ -18,15 +18,15 @@
   // The free international build has no payable ONEplay store or rewarded ads.
   const css=document.createElement("style");
   css.textContent=`
-    html.s60-gameac-polished .lobbyTabs button:first-child,
-    html.s60-gameac-polished .rewardDock,
     html.s60-gameac-polished .oneplayIapCatalog,
     html.s60-gameac-polished .overlay.upgrade .transcendPick,
-    html.s60-gameac-polished .skinCard.skin-eclipse,
-    html.s60-gameac-polished .skinCard.skin-aurora,
     html.s60-gameac-polished .overlay.result .rewardBtn,
     html.s60-gameac-polished .overlay.revive .reviveBtn,
     html.s60-gameac-polished .lobbyQuickReward { display:none!important; }
+    html.s60-gameac-polished .s60JPMonetizationStatus{margin:9px 0 10px;padding:10px 11px;border:1px solid #48799a;border-radius:11px;background:#102941;color:#dceeff;font-size:11px;line-height:1.55;text-align:left;}
+    html.s60-gameac-polished .s60JPMonetizationStatus strong{display:block;color:#ffd58b;font-size:12px;margin-bottom:3px;}
+    html.s60-gameac-polished .s60JPShopLink{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #50aad8;border-radius:10px;background:#1c5178;color:#fff;text-decoration:none;font-size:12px;font-weight:800;margin-top:9px;}
+    html.s60-gameac-polished .skinCard[data-s60-ad-unavailable="true"]{opacity:.7;cursor:not-allowed;}
     html.s60-gameac-polished .overlay.upgrade button:focus-visible {
       outline:3px solid #a1f5ff!important;outline-offset:3px;
       box-shadow:0 0 0 6px rgba(22,174,250,.28)!important;
@@ -239,6 +239,9 @@
   // Full Japanese copy for previously overlooked rankings, daily, weekly and monthly panels.
   // Whole-sentence rules precede short generic substitutions to preserve natural Japanese.
   const panelPhrases = [
+    [/광고 보고 다음 판 공격 \+40%/g,"広告視聴で次のプレイ攻撃力+40%"],
+    [/광고 보고 다음 판 받는 피해 -50%/g,"広告視聴で次のプレイ被ダメージ-50%"],
+    [/광고 상자 \+(\d+) 코인/g,"広告宝箱 +$1コイン"],
     [/60(?:초|秒)\s*만 버텨봐/g,"SURVIVE 60"],
     [/60(?:초|秒)\s*생존 작전/g,"60秒サバイバル作戦"],
     [/전체 이용자 랭킹/g,"全プレイヤーランキング"],
@@ -309,7 +312,7 @@
     [/적/g,"敵機"],[/격추/g,"撃破"],[/진행 중/g,"進行中"],
     [/주간/g,"週間"],[/월간/g,"月間"],[/도전/g,"チャレンジ"],
     [/월요일/g,"月曜日"],[/일요일/g,"日曜日"],[/초기화/g,"更新"],
-    [/결산전/g,"決戦"],[/추가/g,"追加"],[/검증/g,"確認"],
+    [/결산전/g,"決戦"],[/추가/g,"追加"],[/검증/g,"確認"],[/보고/g,"視聴で"],[/판/g,"プレイ"],[/받는/g,"受ける"],[/상자/g,"宝箱"],
     [/플랫폼/g,"プラットフォーム"],[/지원합니다/g,"対応します"],
     [/달성/g,"達成"],[/매월/g,"毎月"],[/무관한/g,"不要の"],
     [/무료/g,"無料"],[/게임 내/g,"ゲーム内"],[/이 기기에만/g,"この端末だけに"],
@@ -338,17 +341,59 @@
   }
   function localizeTree(el) {
     if(el.matches(".shell.lobbyMode")){
-      // Do not advertise an unusable ONEplay-only payment catalogue to Japanese
-      // free-browser players; their real in-game coin upgrades remain available.
-      for(const block of el.querySelectorAll(".oneplayIapCatalog,.rewardDock,.lobbyPanelIntro.premiumStatus")){
-        if(block.matches(".lobbyPanelIntro.premiumStatus"))continue;
+      // Restore visible ad and shop entry points. The Japanese browser build has
+      // no approved rewarded-ad or web-billing provider yet: never simulate a
+      // successful ad or take payment from an unsupported SDK.
+      const tabs=Array.from(el.querySelectorAll(".lobbyTabs button"));
+      const shopTab=tabs[2];
+      if(shopTab && shopTab.textContent!=="ショップ・強化")shopTab.textContent="ショップ・強化";
+      const adTab=tabs[0];
+      if(adTab){
+        adTab.style.removeProperty("display");
+        adTab.removeAttribute("aria-hidden");
+        adTab.tabIndex=0;
+      }
+      for(const dock of el.querySelectorAll(".rewardDock")){
+        dock.style.removeProperty("display");
+        dock.removeAttribute("aria-hidden");
+        for(const button of dock.querySelectorAll("button")){
+          button.disabled=true;
+          button.title="日本版ブラウザの報酬広告は配信連携待ちです";
+        }
+      }
+      const activeTab=tabs.findIndex(tab=>tab.getAttribute("aria-pressed")==="true");
+      if(activeTab===0){
+        const dock=el.querySelector(".rewardDock");
+        if(dock && !el.querySelector("#s60JPAdsNotice")){
+          const info=document.createElement("aside");
+          info.id="s60JPAdsNotice";info.className="s60JPMonetizationStatus";info.setAttribute("role","status");
+          info.innerHTML="<strong>広告報酬メニュー</strong>動画広告の配信・報酬付与は現在準備中です。広告事業者との連携が完了するまで視聴できず、コインは付与されません。";
+          dock.before(info);
+        }
+      }
+      if(activeTab===2){
+        const shop=el.querySelector(".metaShop");
+        if(shop && !el.querySelector("#s60JPShopNotice")){
+          const info=document.createElement("aside");
+          info.id="s60JPShopNotice";info.className="s60JPMonetizationStatus";info.setAttribute("role","status");
+          const title=document.createElement("strong");title.textContent="ショップ・プレミアムコイン";
+          const desc=document.createElement("span");desc.textContent="下のコイン強化は獲得したゲーム内コインで利用できます。Web版の有料決済は未対応です。";
+          const link=document.createElement("a");link.className="s60JPShopLink";link.href="https://onesto.re/oneplay/0001010330";link.target="_blank";link.rel="noopener noreferrer";link.textContent="ONEplay公式版で購入する ↗";
+          const note=document.createElement("small");note.textContent="購入は対応端末・地域のONEplayアプリ内でのみ可能です。ここでは決済を行いません。";
+          info.append(title,desc,link,note);shop.before(info);
+        }
+      }
+      for(const card of el.querySelectorAll(".skinCard.skin-eclipse,.skinCard.skin-aurora")){
+        const owned=/装備|장착/.test(card.textContent||"") && !/広告|광고/.test(card.textContent||"");
+        if(!owned){card.disabled=true;card.dataset.s60AdUnavailable="true";card.title="報酬広告の提供待ち";}
+        else {card.removeAttribute("data-s60-ad-unavailable");card.disabled=false;}
+      }
+      // Native ONEplay in-app catalogue cannot process purchases in this free
+      // web build. Its unavailable checkout remains hidden while the real coin
+      // shop and an optional official ONEplay app route stay visible.
+      for(const block of el.querySelectorAll(".oneplayIapCatalog")){
         block.style.setProperty("display","none","important");
         block.setAttribute("aria-hidden","true");
-      }
-      for(const tab of el.querySelectorAll(".lobbyTabs button:first-child")){
-        tab.style.setProperty("display","none","important");
-        tab.setAttribute("aria-hidden","true");
-        tab.tabIndex=-1;
       }
     }
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
