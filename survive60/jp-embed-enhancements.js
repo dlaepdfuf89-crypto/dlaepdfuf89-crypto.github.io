@@ -177,6 +177,12 @@
     ["드래그 이동 · 자동 공격 · 60초 생존","ドラッグで移動 · 自動射撃 · 60秒生存"],
     ["🔥 연속","🔥 連続"],["🏆 최고","🏆 ベスト"],["🎯 오늘","🎯 今日"],
     ["아직 끝내기엔 아깝습니다","まだ諦めないで！"],
+    ["도전 종료 · 생존 보상 정산","チャレンジを終了・生存報酬を獲得"],
+    ["진행","進捗"],["구간","区間"],
+    ["드래그로 이동","ドラッグで移動"],
+    ["공격은 자동","攻撃は自動"],
+    ["아슬아슬 회피!","間一髪で回避！"],
+    ["위험","危険"],
     ["한 번 더?","もう一度？"],
     ["체력 60%로 즉시 복귀합니다.","HP60%で復活します。"],
     ["HP 60%로 즉시 부활합니다.","HP60%で復活します。"],
@@ -387,6 +393,39 @@
   // Full Japanese copy for previously overlooked rankings, daily, weekly and monthly panels.
   // Whole-sentence rules precede short generic substitutions to preserve natural Japanese.
   const panelPhrases = [
+    // React renders numeric counters in separate text nodes. Translate the
+    // actual surrounding fragments, not only fully interpolated sentences.
+    [/20초부터\s*15초\s*단위\s*보상\s*·\s*최고\s*기록/g,
+      "20秒以降15秒ごとに報酬 · 最長記録"],
+    [/초\s*·\s*현재/g,"秒 · 現在"],
+    // Dynamic run-mode copy must be translated before generic single-word
+    // substitutions; otherwise mixed fragments like "고속 敵機기 편대" leak.
+    [/20초부터\s*15초\s*단위\s*보상\s*·\s*최고\s*기록\s*(\d+)초\s*·\s*현재\s*(\d+)구간/g,
+      "20秒以降15秒ごとに報酬・最長$1秒・第$2段階"],
+    [/무제한\s*생존전/g,"エンドレスサバイバル"],
+    [/무제한\s*생존\s*(\d+)초/g,"エンドレス生存 $1秒"],
+    [/오늘의\s*던전(?=\s*[·:])/g,"本日のチャレンジ"],
+    [/성공\s*시/g,"達成時"],[/하루\s*1회/g,"1日1回"],
+    [/특수\s*규칙\s*:/g,"特別ルール:"],
+    [/^진행\s*(\d+)\s*\/\s*(\d+)$/g,"進捗 $1/$2"],
+    [/혜성\s*추격전/g,"彗星追撃戦"],[/강철\s*요새/g,"鋼鉄要塞"],
+    [/양면\s*포위전/g,"両側包囲戦"],[/집중\s*포격전/g,"集中砲撃戦"],
+    [/초고속\s*회피전/g,"超高速回避戦"],[/철벽\s*방어전/g,"鉄壁防衛戦"],
+    [/보스\s*연속전/g,"ボス連戦"],
+    [/가속\s*돌진\s*·\s*고속\s*적기\s*편대/g,"高速突撃・敵機編隊"],
+    [/느리지만\s*튼튼한\s*장갑\s*편대/g,"重装甲編隊が接近"],
+    [/좌우\s*번갈아\s*등장하는\s*측면\s*기습/g,"左右からの奇襲"],
+    [/시작\s*8초부터\s*보스\s*집중\s*포격/g,"開始8秒からボス集中砲撃"],
+    [/고속\s*적기\s*러시\s*·\s*내\s*기체\s*이동\s*\+18%/g,"高速敵機ラッシュ・自機の移動速度+18%"],
+    [/장갑\s*편대\s*압박\s*·\s*20초마다\s*체력\s*12\s*회복/g,"装甲編隊・20秒ごとにHP12回復"],
+    [/8초·38초·68초\s*보스\s*등장/g,"8秒・38秒・68秒ボス登場"],
+    [/고속\s*적기\s*24기\s*격추/g,"高速敵機24機撃破"],
+    [/장갑\s*적기\s*10기\s*파괴/g,"装甲敵機10機撃破"],
+    [/고속\s*적기\s*20기\s*격추/g,"高速敵機20機撃破"],
+    [/보스\s*누적\s*피해\s*2,200/g,"ボス累計ダメージ2,200"],
+    [/75초\s*끝까지\s*살아남기/g,"75秒間生き残る"],
+    [/90초\s*끝까지\s*살아남기/g,"90秒間生き残る"],
+    [/보스\s*2기\s*격파/g,"ボス2体撃破"],
     [/무적\s*보스\s*·\s*90(?:초|秒)\s*화력전/g,"無敵ボス・90秒火力戦"],
     [/평균/g,"平均"],[/피해\s*\/\s*초/g,"ダメージ/秒"],
     [/2,000\s*\/\s*5,000\s*누적\s*피해\s*보너스/g,"累計ダメージ達成ボーナス 2,000 / 5,000"],
@@ -493,7 +532,7 @@
   ];
   // Small persistent headers and footers sit outside .shell.lobbyMode during combat.
   // Include them explicitly so active combat/revive receives the same localization.
-  const zones = ".top,.retention,.modeObjectiveBoss,.modeObjectiveDaily,.modeObjectiveEndless,.bossHud,.noticeToast,.shell.lobbyMode,.overlay.upgrade,.overlay.result,.overlay.revive,.hud,.hint";
+  const zones = ".top,.retention,.modeObjectiveBoss,.modeObjectiveDaily,.modeObjectiveEndless,.bossHud,.noticeToast,.shell.lobbyMode,.overlay.upgrade,.overlay.result,.overlay.revive,.hud,.hint,.endlessCashout,.s60FirstFlightGuide,.s60NearMissFeedback,.s60HpDisplay";
   let pending = false;
   const targetedObservers = new Map();
 
@@ -646,6 +685,12 @@
         }
       }
     }
+    // Localize visible pop-up text and accessibility labels added during combat.
+    if(el.matches(".s60FirstFlightGuide"))el.setAttribute("aria-label","ドラッグで移動、攻撃は自動です");
+    if(el.matches(".s60HpDisplay")){
+      const progress=el.closest(".bars");
+      if(progress)progress.setAttribute("aria-label","機体のHP");
+    }
     // Rewarded ads are unavailable on the free hosted version.
     for(const b of el.querySelectorAll(".overlay.result button.rewardBtn[disabled],.overlay.revive button.reviveBtn[disabled],button.lobbyQuickReward[disabled]")){
       b.style.display="none";b.setAttribute("aria-hidden","true");
@@ -685,6 +730,7 @@
       for(const change of changes)for(const node of change.addedNodes){
         if(node.nodeType!==1)continue;
         if(node.classList?.contains("overlay") ||
+          node.matches?.(".endlessCashout,.s60FirstFlightGuide,.s60NearMissFeedback,.s60HpDisplay") ||
           ((node.classList?.contains("arena") || node.classList?.contains("shell")) &&
            node.querySelector?.(".overlay.upgrade,.overlay.result,.overlay.revive"))){
           schedule();return;
