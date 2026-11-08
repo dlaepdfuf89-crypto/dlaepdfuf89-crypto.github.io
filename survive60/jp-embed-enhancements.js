@@ -18,6 +18,8 @@
     html.s60-gameac-polished .rewardDock,
     html.s60-gameac-polished .oneplayIapCatalog,
     html.s60-gameac-polished .overlay.upgrade .transcendPick,
+    html.s60-gameac-polished .skinCard.skin-eclipse,
+    html.s60-gameac-polished .skinCard.skin-aurora,
     html.s60-gameac-polished .overlay.result .rewardBtn,
     html.s60-gameac-polished .overlay.revive .reviveBtn,
     html.s60-gameac-polished .lobbyQuickReward { display:none!important; }
@@ -143,7 +145,7 @@
     ["↗ 기록 공유하기","↗ 記録をシェア"],
     ["광고 준비 중 · 초월 강화","広告準備中 · 超越強化"],
     ["이번 판 1회 · 공격 +8 + 체력 +20","1プレイ1回・攻撃+8／HP+20"],
-    ["무료 · 광고 해금 · 프리미엄","無料・広告解放・プレミアム"],
+    ["무료 · 광고 해금 · 프리미엄","無料・実績達成・コイン交換"],
     ["장착","装備する"],
     ["공격형","攻撃型"],["방어형","防御型"],
     ["3회 클리어","3回クリア"],["10회 클리어","10回クリア"],
