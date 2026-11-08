@@ -100,9 +100,11 @@ if(window.__s60OneplaySdkReady!==true){
   };
   document.addEventListener("click",(event)=>{
     const button=event.target instanceof Element?event.target.closest(".resultSocial button:last-child, .socialDock button:last-child"):null;
-    if(!button || !/공유|share/i.test(button.textContent||""))return;
+    if(!button || !/공유|share|シェア/i.test(button.textContent||""))return;
     event.preventDefault();event.stopImmediatePropagation();
-    const ko=/^ko(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||"ko");
+    const shareLocale=(new URLSearchParams(location.search).get("lang")||navigator.languages?.[0]||navigator.language||"ko").toLowerCase();
+    const ko=/^ko(?:-|$)/.test(shareLocale);
+    const ja=/^ja(?:-|$)/.test(shareLocale);
     const title=ko?"60초만 버텨봐":"Survive 60";
     // Global portal players share an instantly playable URL; Korean players share Toss.
     const shareURL=ko?officialURL:freeBrowserURL;
@@ -111,15 +113,15 @@ if(window.__s60OneplaySdkReady!==true){
     const scoreText=button.closest(".overlay.result")?.querySelector(".resultStats > div:first-child b")?.textContent?.trim()||"";
     const score=/^\d{1,7}$/.test(scoreText)?Number(scoreText):null;
     const message=score!==null
-      ?(ko?`나 방금 ${score}킬! 너는 이 기록 깰 수 있어? 🚀 60초 생존 게임, 토스에서 무료 도전`:`I scored ${score} kills in Survive 60! Can you beat that? Play instantly in your browser 🚀`)
-      :(ko?"친구야, 60초만 버텨봐! 토스에서 바로 무료 도전":"Can you survive 60 seconds? Play free in your browser—no download needed");
+      ?(ko?`나 방금 ${score}킬! 너는 이 기록 깰 수 있어? 🚀 60초 생존 게임, 토스에서 무료 도전`:ja?`Survive 60で${score}体撃破！この記録を超えられる？無料で今すぐ挑戦 🚀`:`I scored ${score} kills in Survive 60! Can you beat that? Play instantly in your browser 🚀`)
+      :(ko?"친구야, 60초만 버텨봐! 토스에서 바로 무료 도전":ja?"60秒間生き残れる？ブラウザですぐ無料プレイ！":"Can you survive 60 seconds? Play free in your browser—no download needed");
     const shareText=message+"\n"+shareURL;
     if(typeof navigator.share==="function"){
-      navigator.share({title,text:message,url:shareURL}).then(()=>feedback(ko?"정식 게임 링크 공유 완료":"Game link shared")).catch((e)=>{
-        if(e?.name!=="AbortError")feedback(ko?"공유를 완료하지 못했습니다. 링크 복사를 이용해주세요.":"Sharing failed; use your browser's copy option.");
+      navigator.share({title,text:message,url:shareURL}).then(()=>feedback(ko?"정식 게임 링크 공유 완료":ja?"ゲームリンクを共有しました":"Game link shared")).catch((e)=>{
+        if(e?.name!=="AbortError")feedback(ko?"공유를 완료하지 못했습니다. 링크 복사를 이용해주세요.":ja?"共有できませんでした。リンクをコピーしてください。":"Sharing failed; use your browser's copy option.");
       });
     }else if(navigator.clipboard?.writeText){
-      navigator.clipboard.writeText(shareText).then(()=>feedback(ko?"토스 정식 게임 링크가 복사됐습니다":"Free browser game link copied")).catch(()=>feedback(ko?"링크 복사에 실패했습니다":"Could not copy the link"));
+      navigator.clipboard.writeText(shareText).then(()=>feedback(ko?"토스 정식 게임 링크가 복사됐습니다":ja?"ゲームリンクをコピーしました":"Free browser game link copied")).catch(()=>feedback(ko?"링크 복사에 실패했습니다":ja?"リンクをコピーできませんでした":"Could not copy the link"));
     }else{
       const field=document.createElement("textarea");
       field.value=shareText;field.readOnly=true;
@@ -128,7 +130,7 @@ if(window.__s60OneplaySdkReady!==true){
       let ok=false;
       try{ok=document.execCommand("copy")}catch{}
       field.remove();
-      feedback(ok?(ko?"토스 정식 게임 링크가 복사됐습니다":"Free browser game link copied"):(ko?"링크 복사에 실패했습니다":"Could not copy the link"));
+      feedback(ok?(ko?"토스 정식 게임 링크가 복사됐습니다":ja?"ゲームリンクをコピーしました":"Free browser game link copied"):(ko?"링크 복사에 실패했습니다":ja?"リンクをコピーできませんでした":"Could not copy the link"));
     }
   },true);
 }
@@ -180,7 +182,7 @@ if(window.__s60OneplaySdkReady!==true){
     ["60초 생존 · 30초 보스전","60秒生存・30秒ボス戦"],
     ["기본 모드 클리어로 티어 승급","クリアしてランクアップ"],
     ["▶ 60초 전투 시작","▶ 60秒チャレンジ開始"],["광고 혜택","広告報酬"],
-    ["기체 선택","機体を選ぶ"],["코인 충전 · 강화","強化"],["기록 · 시즌","記録・シーズン"],
+    ["기체 선택","機体を選ぶ"],["코인 충전 · 강화","強化"],["기록 · 시즌","記録・シーズン"],["클리어","回クリア"],
     ["균형형","バランス型"],["3회 클리어","3回クリア"],["10회 클리어","10回クリア"],
     ["전투기 스킨","機体スキン"],["무료 · 광고 해금 · 프리미엄","無料・広告解放・プレミアム"],
     ["장착 중","装備中"],["누적 100킬","累計100キル"],
@@ -211,7 +213,20 @@ if(window.__s60OneplaySdkReady!==true){
         const content=node.nodeValue||"";
         const korean=content.trim();
         const english=activeBrowserTranslations.get(korean);
-        if(english)node.nodeValue=content.replace(korean,english);
+        if(english){node.nodeValue=content.replace(korean,english);continue;}
+        if(japaneseBrowserVisitor){
+          // Preserve original game state and all numeric values; translate dynamic labels only.
+          const translated=korean
+            .replace(/(\d+)클리어/g,"$1回クリア")
+            .replace(/광고\s*(\d+\s*\/\s*\d+)회\s*·\s*준비 중/g,"広告報酬は現在利用できません")
+            .replace(/([\d,]+)코인 교환/g,"$1コインと交換")
+            .replace(/다음 랭크까지\s*(\d+)킬/g,"次のランクまであと$1キル")
+            .replace(/오늘 미션까지\s*(\d+)킬/g,"今日のミッションまであと$1キル")
+            .replace(/시즌\s*(\d+)P/g,"シーズン$1P")
+            .replace(/다음\s+([A-Z]+)\s+(\d+)회/g,"次の$1まで$2回")
+            .replace(/(\d+)킬/g,"$1キル");
+          if(translated!==korean)node.nodeValue=content.replace(korean,translated);
+        }
       }
     }
   };
@@ -260,6 +275,7 @@ if(window.__s60OneplaySdkReady!==true){
     queued=true;
     requestAnimationFrame(()=>{queued=false;insertEditionChoices()});
   });
+  // Keep mutation processing low-cost during real-time gameplay.
   if(root){observer.observe(root,{childList:true,subtree:true});insertEditionChoices()}
 }
 </script>
