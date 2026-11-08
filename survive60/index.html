@@ -71,6 +71,7 @@ await import("/survive60/rc-next/assets/index-DzTmSkkv.js");
 // instead share the OFFICIAL edition. No native bundle, IAP, or ad SDK is changed.
 if(window.__s60OneplaySdkReady!==true){
   const officialURL="https://tossminiapp.com/d/deokseol60/launch";
+  const freeBrowserURL="https://dlaepdfuf89-crypto.github.io/survive60/";
   let shareStatusTimer;
   const feedback=(msg)=>{
     let toast=document.getElementById("s60-browser-share-feedback");
@@ -91,20 +92,22 @@ if(window.__s60OneplaySdkReady!==true){
     event.preventDefault();event.stopImmediatePropagation();
     const ko=/^ko(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||"ko");
     const title=ko?"60초만 버텨봐":"Survive 60";
+    // Global portal players share an instantly playable URL; Korean players share Toss.
+    const shareURL=ko?officialURL:freeBrowserURL;
     // Only use the actual kill count already shown on the completed run screen.
     // Never claim a score when the visitor shares from the home screen.
     const scoreText=button.closest(".overlay.result")?.querySelector(".resultStats > div:first-child b")?.textContent?.trim()||"";
     const score=/^\d{1,7}$/.test(scoreText)?Number(scoreText):null;
     const message=score!==null
-      ?(ko?`나 방금 ${score}킬! 너는 이 기록 깰 수 있어? 🚀 60초 생존 게임, 토스에서 무료 도전`:`I scored ${score} kills in Survive 60! Can you beat that? Play free on Toss 🚀`)
-      :(ko?"친구야, 60초만 버텨봐! 토스에서 바로 무료 도전":"Can you survive 60 seconds? Play the official game on Toss");
-    const shareText=message+"\n"+officialURL;
+      ?(ko?`나 방금 ${score}킬! 너는 이 기록 깰 수 있어? 🚀 60초 생존 게임, 토스에서 무료 도전`:`I scored ${score} kills in Survive 60! Can you beat that? Play instantly in your browser 🚀`)
+      :(ko?"친구야, 60초만 버텨봐! 토스에서 바로 무료 도전":"Can you survive 60 seconds? Play free in your browser—no download needed");
+    const shareText=message+"\n"+shareURL;
     if(typeof navigator.share==="function"){
-      navigator.share({title,text:message,url:officialURL}).then(()=>feedback(ko?"정식 게임 링크 공유 완료":"Game link shared")).catch((e)=>{
+      navigator.share({title,text:message,url:shareURL}).then(()=>feedback(ko?"정식 게임 링크 공유 완료":"Game link shared")).catch((e)=>{
         if(e?.name!=="AbortError")feedback(ko?"공유를 완료하지 못했습니다. 링크 복사를 이용해주세요.":"Sharing failed; use your browser's copy option.");
       });
     }else if(navigator.clipboard?.writeText){
-      navigator.clipboard.writeText(shareText).then(()=>feedback(ko?"토스 정식 게임 링크가 복사됐습니다":"Official Toss game link copied")).catch(()=>feedback(ko?"링크 복사에 실패했습니다":"Could not copy the link"));
+      navigator.clipboard.writeText(shareText).then(()=>feedback(ko?"토스 정식 게임 링크가 복사됐습니다":"Free browser game link copied")).catch(()=>feedback(ko?"링크 복사에 실패했습니다":"Could not copy the link"));
     }else{
       const field=document.createElement("textarea");
       field.value=shareText;field.readOnly=true;
@@ -113,7 +116,7 @@ if(window.__s60OneplaySdkReady!==true){
       let ok=false;
       try{ok=document.execCommand("copy")}catch{}
       field.remove();
-      feedback(ok?(ko?"토스 정식 게임 링크가 복사됐습니다":"Official Toss game link copied"):(ko?"링크 복사에 실패했습니다":"Could not copy the link"));
+      feedback(ok?(ko?"토스 정식 게임 링크가 복사됐습니다":"Free browser game link copied"):(ko?"링크 복사에 실패했습니다":"Could not copy the link"));
     }
   },true);
 }
