@@ -18,6 +18,42 @@
   // The free international build has no payable ONEplay store or rewarded ads.
   const css=document.createElement("style");
   css.textContent=`
+    /* game-ac.com's 350x680 iframe: exactly ONE wheel-scroll area, the
+       in-game lobby menu. The former 650px arena minimum made the document
+       741px tall while the viewport was 680px, causing inaccessible items. */
+    html.s60-gameac-polished .shell.lobbyMode{
+      box-sizing:border-box;
+      display:flex!important;
+      flex-direction:column!important;
+      height:100dvh!important;
+      min-height:0!important;
+      max-height:100dvh!important;
+      overflow:hidden!important;
+      overscroll-behavior:contain;
+    }
+    html.s60-gameac-polished .shell.lobbyMode>.arena{
+      box-sizing:border-box;
+      display:block;
+      flex:1 1 auto!important;
+      height:auto!important;
+      min-height:0!important;
+      max-height:none!important;
+      aspect-ratio:auto!important;
+      overflow:hidden!important;
+    }
+    html.s60-gameac-polished .shell.lobbyMode .overlay.intro{
+      box-sizing:border-box;
+      display:flex;
+      overflow-y:auto!important;
+      overflow-x:hidden!important;
+      min-height:0!important;
+      max-height:100%!important;
+      height:100%!important;
+      overscroll-behavior-y:contain!important;
+      scrollbar-width:thin;
+      scrollbar-color:#557d9d transparent;
+      padding-bottom:18px!important;
+    }
     html.s60-gameac-polished .oneplayIapCatalog,
     html.s60-gameac-polished .overlay.upgrade .transcendPick,
     html.s60-gameac-polished .overlay.result .rewardBtn,
@@ -123,6 +159,18 @@
     ["짧게 한 판, 기록은 계속","短い一戦、記録は続く"],
     ["남은 시간","残り時間"],["생존 시간","生存時間"],["레벨","レベル"],
     ["보스 던전","ボスバトル"],["친구에게 60초 기록 대결 초대하기","友達を60秒記録バトルに招待"],
+    // Weekly rotation titles are distinct from day-operation names. Exact
+    // matching prevents generic Korean fragments from corrupting game rules.
+    ["유성 추격전","流星追撃戦"],["강철 방어전","鋼鉄防衛戦"],
+    ["정예 격추전","精鋭迎撃戦"],["보스 화력전","ボス火力戦"],
+    ["고속 돌파전","高速突破戦"],["장기 생존전","長期生存戦"],
+    ["오늘의 작전 적용 중 ✓","本日の作戦を適用中 ✓"],
+    ["조준 견제","照準けん制"],["교차·측면 압박","交差・側面攻撃"],
+    ["회전·안전구역 탄막","回転・安全地帯の弾幕"],
+    ["삼연속 조준","3連続照準"],["측면 견제","側面攻撃"],["교차 탄막","交差弾幕"],
+    ["정밀 조준","精密照準"],["회전 폭격","回転砲撃"],["방사형 안전구역","放射状の安全地帯"],
+    ["오중 확산탄","5方向拡散弾"],["중앙 회피 통로","中央回避通路"],["나선 탄막","らせん弾幕"],
+    ["고속 저격","高速狙撃"],["측면 협공","側面挟撃"],["상단 봉쇄","上方封鎖"],
     ["균형형","バランス型"],["장착 중","装備中"],["시청","視聴"],
     ["일","日"],["연속","連続"],["최고","ベスト"],["완료","達成"],
     ["로 즉시 복귀합니다.","で復活します。"],["로 즉시 부활합니다.","で復活します。"],
@@ -339,6 +387,16 @@
   // Full Japanese copy for previously overlooked rankings, daily, weekly and monthly panels.
   // Whole-sentence rules precede short generic substitutions to preserve natural Japanese.
   const panelPhrases = [
+    [/무적\s*보스\s*·\s*90(?:초|秒)\s*화력전/g,"無敵ボス・90秒火力戦"],
+    [/평균/g,"平均"],[/피해\s*\/\s*초/g,"ダメージ/秒"],
+    [/2,000\s*\/\s*5,000\s*누적\s*피해\s*보너스/g,"累計ダメージ達成ボーナス 2,000 / 5,000"],
+    [/현재\s*피해\s*보상/g,"現在のダメージ報酬"],
+    [/처치\s*\/\s*생존\s*보상\s*없음/g,"撃破・生存報酬なし"],
+    [/공격\s*단계/g,"攻撃フェーズ"],[/예고\s*후\s*발사/g,"予告後に発射"],
+    [/보스\s*체력\s*([+-]?\d+)\s*%\s*증가/g,"ボスHP補正 $1%"],
+    [/보스\s*체력/g,"ボスHP補正"],
+    [/%\s*증가/g,"%"],
+    [/오늘의\s*작전\s*적용\s*중/g,"本日の作戦を適用中"],
     [/짧게\s*한\s*판\s*,\s*기록은\s*계속/g,"短い一戦、記録は続く"],
     [/^로\s*즉시\s*(?:복귀|부활)합니다\.?/g,"で復活します。"],
     [/친구에게\s*60(?:초|秒)\s*(?:기록|記録)\s*대결\s*초대하기/g,"友達を60秒記録バトルに招待"],
@@ -642,17 +700,21 @@
       const choices=Array.from(overlay.querySelectorAll(".weaponPick:not([disabled]),.statPicks button:not([disabled])"));
       if(!choices.length)return;
       const key=e.key;
-      if(key==="ArrowDown" || key==="ArrowRight" || key==="ArrowUp" || key==="ArrowLeft"){
+      const forward=key==="ArrowDown"||key==="ArrowRight"||key==="s"||key==="S"||key==="d"||key==="D";
+      const backward=key==="ArrowUp"||key==="ArrowLeft"||key==="w"||key==="W"||key==="a"||key==="A";
+      if(forward||backward){
+        // Consume WASD/arrows before the game window's movement handler.
+        // The overlay is modal: movement keys must navigate power-ups only.
         e.preventDefault(); e.stopImmediatePropagation();
+        if(e.repeat)return;
         const current=choices.indexOf(document.activeElement);
-        const next= key==="ArrowDown"||key==="ArrowRight"?1:-1;
+        const next=forward?1:-1;
         const idx=(current<0?(next===1?-1:0):current)+next;
         choices[(idx+choices.length)%choices.length].focus();
       } else if(key===" " || key==="Spacebar"){
-        if(choices.includes(document.activeElement)){
-          e.preventDefault();e.stopImmediatePropagation();
-          document.activeElement.click();
-        }
+        e.preventDefault();e.stopImmediatePropagation();
+        if(!choices.includes(document.activeElement))choices[0].focus();
+        if(choices.includes(document.activeElement))document.activeElement.click();
       }
     },true);
     schedule();
