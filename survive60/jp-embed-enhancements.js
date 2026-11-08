@@ -1,5 +1,6 @@
 /* Survive 60 / game-ac.com Japanese hosted-browser enhancement.
- * Applies only inside the partner iframe. Native Toss/ONEplay bundles unchanged.
+ * Applies to explicit ?embed=gameac URLs even when opened directly,
+ * or to game-ac.com framed visits. Native Toss/ONEplay bundles unchanged.
  */
 (() => {
   const qs = new URLSearchParams(location.search);
@@ -7,10 +8,13 @@
   let refHost = "";
   try { refHost = new URL(document.referrer).hostname.toLowerCase(); } catch {}
   const portal = qs.get("embed") === "gameac" || refHost === "game-ac.com" || refHost.endsWith(".game-ac.com");
-  if (window.self === window.top || !portal || !/^ja(?:-|$)/.test(locale)) return;
+  if (!portal || !/^ja(?:-|$)/.test(locale)) return;
 
   document.documentElement.classList.add("s60-gameac-polished");
   document.documentElement.lang="ja";
+  document.title="Survive 60 | 60秒サバイバル・シューティング";
+  const pageDescription=document.querySelector('meta[name="description"]');
+  if(pageDescription)pageDescription.content="無料の60秒サバイバルシューティング。敵の弾幕を回避し、武器を進化させてボスに挑戦しよう。";
   // The free international build has no payable ONEplay store or rewarded ads.
   const css=document.createElement("style");
   css.textContent=`
@@ -232,16 +236,104 @@
     [/·\s*(\d+)위/g," · $1位"],
     [/(\d+)위/g,"$1位"]
   ];
+  // Full Japanese copy for previously overlooked rankings, daily, weekly and monthly panels.
+  // Whole-sentence rules precede short generic substitutions to preserve natural Japanese.
+  const panelPhrases = [
+    [/60(?:초|秒)\s*만 버텨봐/g,"SURVIVE 60"],
+    [/60(?:초|秒)\s*생존 작전/g,"60秒サバイバル作戦"],
+    [/전체 이용자 랭킹/g,"全プレイヤーランキング"],
+    [/60(?:초|秒)\s*생존 모드\s*·\s*처치 수 기준/g,"60秒サバイバル・撃破数順"],
+    [/닉네임을 설정해 주세요/g,"ニックネームを設定してください"],
+    [/아직 등록된 (?:기록|記録)이 없습니다\.\s*실제 생존전을 완료해 첫 번째 순위에 도전하세요\./g,"まだ記録がありません。サバイバルをクリアしてランキング1位を目指そう。"],
+    [/ONEplay 익명 게임 세션 기준\s*·\s*닉네임은 직접 설정\s*·\s*(?:기록|記録)은 (?:전투|バトル) 종료 후 서버에 등록됩니다\.\s*기기 변경 시 기존 세션의 내 순위가 자동 연결되지는 않습니다\./g,"ONEplay匿名プレイセッション単位。ニックネームは手動設定。記録はバトル終了後に登録されます。別の端末へのランキング引継ぎはできません。"],
+    [/기본 (?:보상|報酬)은 (?:광고|広告) 없이 지급\s*·\s*추가 (?:광고|広告) (?:보상|報酬)은 실제 (?:광고|広告) 인증 후 제공/g,"基本報酬に広告視聴は不要です。このブラウザ版では追加の広告報酬は利用できません。"],
+    [/추가 (?:광고|広告) (?:보상|報酬)은 플랫폼 검증 후 지원합니다\./g,"このブラウザ版では追加の広告報酬を利用できません。"],
+    [/(?:광고|広告)·결제와 무관한 무료 게임 내 (?:보상|報酬)\s*·\s*이 기기에만 저장/g,"広告・決済不要の無料ゲーム内報酬。データはこの端末に保存されます。"],
+    [/월요일 초기화\s*·\s*주간 (?:보상|報酬)/g,"毎週月曜更新・ウィークリー報酬"],
+    [/매월 1일 초기화/g,"毎月1日に更新"],
+    [/보스 HP -31% 증가/g,"ボスHP補正 -31%"],
+    [/보스 HP -31%/g,"ボスHP補正 -31%"],
+    [/출석\s*·\s*일일 임무/g,"ログイン報酬・デイリーミッション"],
+    [/매일 도전해서 성장 자금 (?:획득|獲得)/g,"毎日プレイして強化用コインを獲得"],
+    [/(?:오늘|今日) 출석 (?:보상|報酬)/g,"本日のログインボーナス"],
+    [/주간 도전/g,"ウィークリーチャレンジ"],
+    [/일요일\s*·\s*주간 결산전/g,"日曜日・ウィークリー決戦"],
+    [/(?:오늘|今日)의 작전 선택/g,"本日の作戦"],
+    [/월간 도전/g,"マンスリーチャレンジ"],
+    [/서버에 등록됩니다/g,"サーバーに登録されます"],
+    [/기기 변경 시 기존 세션의 내 순위가 자동 연결되지는 않습니다/g,"別の端末では以前のランキング記録を引き継げません"],
+    [/아직 등록된 (?:기록|記録)이 없습니다/g,"まだ登録された記録がありません"],
+    [/실제 생존전을 완료해 첫 번째 순위에 도전하세요/g,"サバイバルをクリアしてランキング1位を目指そう"],
+    [/(?:랭킹|ランキング) 불러오는 중/g,"ランキングを読み込み中"],
+    [/첫 (?:기록|記録) 대기/g,"最初の記録を待っています"],
+    [/전체 TOP 30/g,"ランキング TOP 30"],
+    [/전체 등록 이용자/g,"参加プレイヤー数"],
+    [/(?:기록|記録) 등록 이용자/g,"登録プレイヤー数"],
+    [/(?:오늘|今日) 미션/g,"本日のミッション"]
+  ];
+  const panelWords = new Map([
+    ["60초만 버텨봐","SURVIVE 60"],["60초 생존 작전","60秒サバイバル作戦"],
+    ["탄막을 뚫고 살아남으세요","弾幕をかわして生き残れ！"],["무제한 도전","エンドレス"],
+    ["요일 던전","デイリーチャレンジ"],["기본 모드 클리어로 티어 승급","クリアしてランクアップ"],
+    ["전체 이용자 랭킹","全プレイヤーランキング"],
+    ["새로고침","更新"],["내 순위","自分の順位"],["첫 기록 대기","初回記録待ち"],
+    ["내 닉네임","自分のニックネーム"],["닉네임","ニックネーム"],["저장","保存"],
+    ["전체 TOP 30","ランキング TOP 30"],["명","人"],["출석 · 일일 임무","ログイン報酬・デイリーミッション"],
+    ["매일 도전해서 성장 자금 획득","毎日プレイして強化用コインを獲得"],
+    ["오늘 출석 보상","本日のログインボーナス"],["받기","受け取る"],
+    ["진행 중","進行中"],["적 30기 격추","敵機を30機撃破"],["적 120기 격추","敵機を120機撃破"],
+    ["60초 생존 1회","60秒生存を1回達成"],["60초 생존 3회","60秒生存を3回達成"],
+    ["주간 도전","ウィークリーチャレンジ"],["일요일 · 주간 결산전","日曜日・ウィークリー決戦"],
+    ["오늘의 작전 선택","本日の作戦を選ぶ"],
+    ["월간 도전","マンスリーチャレンジ"],["주간 300킬","週間300キル"],
+    ["주간 900킬","週間900キル"],["주간 5회 생존","週間5回生存"],
+    ["주간 15회 생존","週間15回生存"],["월간 600킬 달성","月間600キル達成"],
+    ["월간 2,000킬 달성","月間2,000キル達成"],
+    ["월간 12회 생존","月間12回生存"],["월간 40회 생존","月間40回生存"]
+  ]);
+  const panelFragments = [
+    [/생존전/g,"サバイバル"],[/생존/g,"生存"],[/이용자/g,"プレイヤー"],
+    [/닉네임/g,"ニックネーム"],[/등록된/g,"登録された"],[/등록/g,"登録"],
+    [/랭킹/g,"ランキング"],[/순위/g,"順位"],[/새로고침/g,"更新"],
+    [/설정해 주세요/g,"設定してください"],[/설정/g,"設定"],[/저장/g,"保存"],
+    [/첫 번째/g,"1位"],[/번째/g,"位"],[/첫/g,"初回"],
+    [/아직/g,"まだ"],[/없습니다/g,"ありません"],[/완료해/g,"完了して"],
+    [/도전하세요/g,"挑戦してください"],[/대기/g,"待機中"],[/불러오는 중/g,"読み込み中"],
+    [/전체/g,"全体"],[/내 /g,"自分の"],[/익명/g,"匿名"],[/게임 세션/g,"ゲームセッション"],
+    [/기준/g,"基準"],[/직접/g,"手動"],[/기기/g,"端末"],[/변경 시/g,"変更時"],
+    [/기존/g,"以前の"],[/자동/g,"自動"],[/연결되지는 않습니다/g,"引き継がれません"],
+    [/끝나면/g,"終了後"],[/종료 후/g,"終了後"],[/서버에/g,"サーバーに"],
+    [/출석/g,"ログイン"],[/일일/g,"デイリー"],[/임무/g,"ミッション"],
+    [/매일/g,"毎日"],[/도전해서/g,"挑戦して"],[/성장 자금/g,"強化用コイン"],
+    [/받기/g,"受け取る"],[/적\s*(\d+)\s*기\s*격추/g,"敵機$1機撃破"],
+    [/적/g,"敵機"],[/격추/g,"撃破"],[/진행 중/g,"進行中"],
+    [/주간/g,"週間"],[/월간/g,"月間"],[/도전/g,"チャレンジ"],
+    [/월요일/g,"月曜日"],[/일요일/g,"日曜日"],[/초기화/g,"更新"],
+    [/결산전/g,"決戦"],[/추가/g,"追加"],[/검증/g,"確認"],
+    [/플랫폼/g,"プラットフォーム"],[/지원합니다/g,"対応します"],
+    [/달성/g,"達成"],[/매월/g,"毎月"],[/무관한/g,"不要の"],
+    [/무료/g,"無料"],[/게임 내/g,"ゲーム内"],[/이 기기에만/g,"この端末だけに"],
+    [/보상/g,"報酬"],[/결제/g,"決済"],[/ 없이/g,"なし"],[/지급/g,"支給"],
+    [/실제/g,"実際の"],[/인증/g,"認証"],[/후/g,"後"],[/제공/g,"提供"],
+    [/완료/g,"完了"],[/처치/g,"撃破"],[/모드/g,"モード"],
+    [/보스(?=\s*HP)/g,"ボス"],[/증가/g,"増加"],[/클리어/g,"クリア"],
+    [/공격력/g,"攻撃力"],[/력/g,"力"],[/최대/g,"最大"],[/획득/g,"獲得"],
+    [/(\d+)\s*명/g,"$1人"],[/명$/g,"人"]
+  ];
   const zones = ".shell.lobbyMode,.overlay.upgrade,.overlay.result,.overlay.revive,.hud,.hint";
   let pending = false;
   const targetedObservers = new Map();
 
   function translateText(text) {
     let result = text, trimmed = text.trim();
-    const exact = words.get(trimmed);
+    const exact = words.get(trimmed) ?? panelWords.get(trimmed);
     if (exact !== undefined) return text.replace(trimmed, exact);
+    if (trimmed === "START") return text.replace(trimmed, "初期");
+    if (/^(?:\d+\s*)?CLEAR$/.test(trimmed)) return text.replace(/CLEAR/, "回クリア");
     if (!/[가-힣]/.test(trimmed)) return text;
+    for (const [pattern,replacement] of panelPhrases) result=result.replace(pattern,replacement);
     for (const [pattern,replacement] of rules) result=result.replace(pattern,replacement);
+    for (const [pattern,replacement] of panelFragments) result=result.replace(pattern,replacement);
     return result;
   }
   function localizeTree(el) {
