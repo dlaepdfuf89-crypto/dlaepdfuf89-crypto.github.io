@@ -25,7 +25,7 @@
 <link rel="stylesheet" crossorigin href="/survive60/rc-next/assets/index-BziPukj7.css">
 </head>
 <body>
-<div id="s60-official-store-cta" hidden><a href="https://tossminiapp.com/d/deokseol60/launch" target="_blank" rel="noopener noreferrer" aria-label="토스 앱에서 60초만 버텨봐 무료 플레이"><span class="s60-official-tag">토스 정식판</span><span class="s60-official-copy"><b>토스에서 바로 무료 플레이</b><small>60초 생존 · 보상형 광고 · 코인 강화</small></span><span class="s60-official-arrow" aria-hidden="true">›</span></a><a class="s60-onestore-direct" href="https://onesto.re/oneplay/0001010330" target="_blank" rel="noopener noreferrer" aria-label="원스토어 ONEplay에서 60초만 버텨봐 게임하기">원스토어 ONEplay에서 게임하기 ↗</a></div>
+<div id="s60-official-store-cta" hidden><a href="https://tossminiapp.com/d/deokseol60/launch" target="_blank" rel="noopener noreferrer" aria-label="토스 앱에서 60초만 버텨봐 무료 플레이"><span class="s60-official-tag">토스 정식판</span><span class="s60-official-copy"><b>토스에서 바로 무료 플레이</b><small>60초 생존 · 보상형 광고 · 코인 강화</small></span><span class="s60-official-arrow" aria-hidden="true">›</span></a><a class="s60-onestore-direct" href="https://onesto.re/oneplay/0001010330" target="_blank" rel="noopener noreferrer" aria-label="원스토어 앱에서 서바이벌60 ONEplay 정식판 실행, 앱이 없으면 원스토어 안내 페이지로 이동할 수 있습니다">원스토어 앱에서 ONEplay 열기 ↗</a></div>
 <div id="root"></div>
 <script type="module">
 // Load SDK inside try so a blocked native SDK cannot prevent free browser play.
@@ -203,7 +203,7 @@ if(window.__s60OneplaySdkReady!==true){
     el.appendChild(caption);
     for(const item of [
       {label:english?"Play on Toss ↗":"토스 무료 플레이 ↗",cls:"s60-official-toss",url:"https://tossminiapp.com/d/deokseol60/launch"},
-      {label:english?"ONEplay edition ↗":"ONEplay 정식판 ↗",cls:"s60-official-oneplay",url:"https://onesto.re/oneplay/0001010330"}
+      {label:english?"ONEplay app ↗":"ONEplay · 원스토어 앱 ↗",cls:"s60-official-oneplay",url:"https://onesto.re/oneplay/0001010330"}
     ]){
       const a=document.createElement("a");
       a.href=item.url;a.target="_blank";a.rel="noopener noreferrer";a.className=item.cls;
