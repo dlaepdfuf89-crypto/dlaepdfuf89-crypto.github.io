@@ -73,6 +73,23 @@
       font-size:11px!important;
     }
     html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueListTitle{flex-wrap:wrap;gap:4px;}
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueRows>li{
+      box-sizing:border-box;
+      grid-template-columns:36px minmax(0,1fr) minmax(44px,max-content);
+      gap:5px;
+      padding:8px 7px;
+      font-size:12px;
+      min-width:0;
+    }
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueRows>li span{
+      min-width:0;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueRows>li strong{
+      font-size:12px;
+      white-space:nowrap;
+    }
     html.s60-gameac-polished .dailyHub,
     html.s60-gameac-polished .weeklyHub{min-width:0;max-width:100%;overflow-wrap:break-word;}
     html.s60-gameac-polished .dailyHubHead,
@@ -511,6 +528,51 @@
         if(score && /킬/.test(score.textContent||"")){
           score.textContent=(score.textContent||"").replace(/킬/g,"キル");
         }
+      }
+    }
+    // ONEplay global leaderboard is populated asynchronously. Localize every
+    // actual row (not only personal top-five or an empty loading state).
+    // Default anonymous placeholders are display-only; keep custom usernames
+    // exactly as submitted and never modify leaderboard server records.
+    if(el.matches(".shell.lobbyMode")){
+      const board=el.querySelector(".oneplayLeague");
+      if(board){
+        board.setAttribute("aria-label","全プレイヤーランキング");
+        for(const row of board.querySelectorAll(".oneplayLeagueRows > li")){
+          const position=row.querySelector(":scope > b");
+          const nickname=row.querySelector(":scope > span");
+          const score=row.querySelector(":scope > strong");
+          if(position){
+            const translated=(position.textContent||"").replace(/^(\d+)\s*위$/,"$1位");
+            if(translated!==position.textContent)position.textContent=translated;
+          }
+          if(nickname){
+            const current=nickname.textContent||"";
+            const translated=current.replace(/^플레이어-([0-9a-f]{5})$/i,"プレイヤー-$1");
+            if(current!==translated)nickname.textContent=translated;
+          }
+          if(score){
+            const current=score.textContent||"";
+            const translated=current.replace(/(\d+)\s*킬/g,"$1キル");
+            if(current!==translated)score.textContent=translated;
+          }
+        }
+        const myRank=board.querySelector(".oneplayLeagueMine > b");
+        if(myRank){
+          const current=myRank.textContent||"";
+          const translated=current.replace(/^(\d+)\s*위$/,"$1位");
+          if(current!==translated)myRank.textContent=translated;
+        }
+        const myDetail=board.querySelector(".oneplayLeagueMine > small");
+        if(myDetail){
+          const current=myDetail.textContent||"";
+          const translated=current.replace(/플레이어-([0-9a-f]{5})(?=$|\s)/gi,"プレイヤー-$1")
+            .replace(/(\d+)\s*킬/g,"$1キル");
+          if(current!==translated)myDetail.textContent=translated;
+        }
+        const nameInput=board.querySelector(".oneplayLeagueForm input");
+        if(nameInput && nameInput.placeholder!=="例：スペースパイロット")
+          nameInput.placeholder="例：スペースパイロット";
       }
     }
     if(el.matches(".overlay.upgrade")){
