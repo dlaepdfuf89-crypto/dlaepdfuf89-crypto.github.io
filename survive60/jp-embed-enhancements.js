@@ -28,6 +28,51 @@
     html.s60-gameac-polished .s60JPShopLink{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #50aad8;border-radius:10px;background:#1c5178;color:#fff;text-decoration:none;font-size:12px;font-weight:800;margin-top:9px;}
     html.s60-gameac-polished .skinCard[data-s60-ad-unavailable="true"]{opacity:.7;cursor:not-allowed;}
     /* Japanese labels are longer; preserve readable card headings and two-column buttons in 350px iframe. */
+    /* Fix full leaderboard clipping: source layout collapsed this whole section
+       to ~32px while its own content needed >400px (observed on 350px portal). */
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeague{
+      box-sizing:border-box;
+      display:grid!important;
+      grid-auto-rows:max-content;
+      height:auto!important;
+      min-height:max-content!important;
+      max-height:none!important;
+      flex:0 0 auto!important;
+      overflow:visible!important;
+      align-self:stretch;
+      padding:12px!important;
+      margin:8px 0!important;
+    }
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueHeader{
+      display:grid!important;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:8px;
+      align-items:start;
+      min-width:0;
+    }
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueHeader>div{min-width:0;}
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueHeader strong{
+      font-size:14px!important;
+      line-height:1.5!important;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+      white-space:normal;
+    }
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueHeader small{
+      font-size:10px!important;
+      line-height:1.45!important;
+      white-space:normal;
+      overflow-wrap:anywhere;
+    }
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueHeader button{
+      box-sizing:border-box;
+      min-width:62px;
+      max-width:80px;
+      white-space:normal;
+      padding:7px!important;
+      font-size:11px!important;
+    }
+    html.s60-gameac-polished .lobbyMode .intro .oneplayLeagueListTitle{flex-wrap:wrap;gap:4px;}
     html.s60-gameac-polished .dailyHub,
     html.s60-gameac-polished .weeklyHub{min-width:0;max-width:100%;overflow-wrap:break-word;}
     html.s60-gameac-polished .dailyHubHead,
