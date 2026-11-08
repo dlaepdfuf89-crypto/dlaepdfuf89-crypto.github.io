@@ -497,6 +497,22 @@
       const dst=translateText(src);
       if (src!==dst) n.nodeValue=dst;
     }
+    // Personal best rows may be re-rendered from persisted game scores after
+    // the generic text pass. Always normalize the actual rank/kill nodes; tests
+    // must seed five scores, not rely on an empty leaderboard.
+    if(el.matches(".shell.lobbyMode")){
+      const rank=el.querySelector(".personalRank");
+      if(rank) for(const row of rank.querySelectorAll(":scope > div")){
+        const position=row.querySelector(":scope > span");
+        const score=row.querySelector(":scope > strong");
+        if(position && /[0-9]+\s*위/.test(position.textContent||"")){
+          position.textContent=(position.textContent||"").replace(/([0-9]+)\s*위/g,"$1位");
+        }
+        if(score && /킬/.test(score.textContent||"")){
+          score.textContent=(score.textContent||"").replace(/킬/g,"キル");
+        }
+      }
+    }
     if(el.matches(".overlay.upgrade")){
       // This hosted demo has no supported rewarded-ad provider.
       for(const b of el.querySelectorAll("button.transcendPick")){
