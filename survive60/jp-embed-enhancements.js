@@ -27,6 +27,29 @@
     html.s60-gameac-polished .s60JPMonetizationStatus strong{display:block;color:#ffd58b;font-size:12px;margin-bottom:3px;}
     html.s60-gameac-polished .s60JPShopLink{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #50aad8;border-radius:10px;background:#1c5178;color:#fff;text-decoration:none;font-size:12px;font-weight:800;margin-top:9px;}
     html.s60-gameac-polished .skinCard[data-s60-ad-unavailable="true"]{opacity:.7;cursor:not-allowed;}
+    /* Japanese labels are longer; preserve readable card headings and two-column buttons in 350px iframe. */
+    html.s60-gameac-polished .dailyHub,
+    html.s60-gameac-polished .weeklyHub{min-width:0;max-width:100%;overflow-wrap:break-word;}
+    html.s60-gameac-polished .dailyHubHead,
+    html.s60-gameac-polished .weeklyHub header{display:grid!important;grid-template-columns:minmax(0,1fr);gap:3px;min-width:0;justify-content:stretch;text-align:left;}
+    html.s60-gameac-polished .dailyHubHead strong,
+    html.s60-gameac-polished .weeklyHub header strong{font-size:14px!important;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere;}
+    html.s60-gameac-polished .dailyHubHead small,
+    html.s60-gameac-polished .weeklyHub header small{font-size:10px!important;line-height:1.5;white-space:normal;word-break:normal;}
+    html.s60-gameac-polished .dailyAttend,
+    html.s60-gameac-polished .dailyMission,
+    html.s60-gameac-polished .weeklyMission{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(104px,43%);gap:8px;align-items:center;min-width:0;}
+    html.s60-gameac-polished .dailyAttend>span,
+    html.s60-gameac-polished .dailyMission>div,
+    html.s60-gameac-polished .weeklyMission>span{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:normal;}
+    html.s60-gameac-polished .dailyMission b,
+    html.s60-gameac-polished .weeklyMission b{font-size:11px!important;line-height:1.45;}
+    html.s60-gameac-polished .dailyAttend button,
+    html.s60-gameac-polished .dailyMission button,
+    html.s60-gameac-polished .weeklyMission button{box-sizing:border-box;width:100%;min-width:0;max-width:100%;padding:7px 5px;font-size:11px!important;white-space:normal;overflow-wrap:anywhere;word-break:normal;line-height:1.35;text-align:center;}
+    html.s60-gameac-polished .top>div:first-child{min-width:0;flex:1;}
+    html.s60-gameac-polished .top>div:first-child>span{max-width:100%;white-space:normal;overflow-wrap:anywhere;font-size:10px;}
+    html.s60-gameac-polished .overlay.revive p{max-width:100%;white-space:normal;overflow-wrap:anywhere;}
     html.s60-gameac-polished .overlay.upgrade button:focus-visible {
       outline:3px solid #a1f5ff!important;outline-offset:3px;
       box-shadow:0 0 0 6px rgba(22,174,250,.28)!important;
@@ -35,6 +58,21 @@
   document.head.appendChild(css);
   const words = new Map([
     ["▶ 60초 전투 시작","▶ 60秒チャレンジ開始"],
+    ["짧게 한 판, 기록은 계속","短い一戦、記録は続く"],
+    ["남은 시간","残り時間"],["생존 시간","生存時間"],["레벨","レベル"],
+    ["보스 던전","ボスバトル"],["친구에게 60초 기록 대결 초대하기","友達を60秒記録バトルに招待"],
+    ["균형형","バランス型"],["장착 중","装備中"],["시청","視聴"],
+    ["일","日"],["연속","連続"],["최고","ベスト"],["완료","達成"],
+    ["로 즉시 복귀합니다.","で復活します。"],["로 즉시 부활합니다.","で復活します。"],
+    ["드래그 이동 · 자동 공격 · 60초 생존","ドラッグで移動 · 自動射撃 · 60秒生存"],
+    ["🔥 연속","🔥 連続"],["🏆 최고","🏆 ベスト"],["🎯 오늘","🎯 今日"],
+    ["아직 끝내기엔 아깝습니다","まだ諦めないで！"],
+    ["한 번 더?","もう一度？"],
+    ["체력 60%로 즉시 복귀합니다.","HP60%で復活します。"],
+    ["HP 60%로 즉시 부활합니다.","HP60%で復活します。"],
+    ["이번 기록으로 끝내기","この記録で終了"],
+    ["다음 무기 진화 · Lv.","次の武器進化 · Lv."],
+    ["연사 증가","連射速度UP"],["즉시 회복","すぐに回復"],
     ["일반 전투","60秒サバイバル"],
     ["전투기 스킨","機体スキン"],
     ["광고 준비 중","広告は利用できません"],
@@ -239,6 +277,15 @@
   // Full Japanese copy for previously overlooked rankings, daily, weekly and monthly panels.
   // Whole-sentence rules precede short generic substitutions to preserve natural Japanese.
   const panelPhrases = [
+    [/짧게\s*한\s*판\s*,\s*기록은\s*계속/g,"短い一戦、記録は続く"],
+    [/^로\s*즉시\s*(?:복귀|부활)합니다\.?/g,"で復活します。"],
+    [/친구에게\s*60(?:초|秒)\s*(?:기록|記録)\s*대결\s*초대하기/g,"友達を60秒記録バトルに招待"],
+    [/広告\s*(\d+\s*\/\s*\d+)回\s*·\s*시청/g,"広告 $1回 · 準備中"],
+    [/광고\s*(\d+\s*\/\s*\d+)회\s*·\s*시청/g,"広告 $1回 · 準備中"],
+    [/(\d+)일\b/g,"$1日"],
+    [/드래그\s*이동\s*·\s*자동\s*공격\s*·\s*60(?:초|秒)\s*생존/g,"ドラッグで移動 · 自動射撃 · 60秒生存"],
+    [/(?:체력|HP)\s*60%로\s*즉시\s*(?:복귀|부활)합니다\.?/g,"HP60%で復活します。"],
+    [/다음\s*무기\s*진화\s*[·-]\s*Lv\./g,"次の武器進化 · Lv."],
     [/광고 보고 다음 판 공격 \+40%/g,"広告視聴で次のプレイ攻撃力+40%"],
     [/광고 보고 다음 판 받는 피해 -50%/g,"広告視聴で次のプレイ被ダメージ-50%"],
     [/광고 상자 \+(\d+) 코인/g,"広告宝箱 +$1コイン"],
@@ -279,6 +326,7 @@
     ["탄막을 뚫고 살아남으세요","弾幕をかわして生き残れ！"],["무제한 도전","エンドレス"],
     ["요일 던전","デイリーチャレンジ"],["기본 모드 클리어로 티어 승급","クリアしてランクアップ"],
     ["전체 이용자 랭킹","全プレイヤーランキング"],
+    ["공식 전체 랭킹은 토스 출시 후 이용 가능합니다 · 현재 내 기록만 표시","公式ランキングはToss版で利用できます。ここでは端末内の自己記録のみ表示します。"],
     ["새로고침","更新"],["내 순위","自分の順位"],["첫 기록 대기","初回記録待ち"],
     ["내 닉네임","自分のニックネーム"],["닉네임","ニックネーム"],["저장","保存"],
     ["전체 TOP 30","ランキング TOP 30"],["명","人"],["출석 · 일일 임무","ログイン報酬・デイリーミッション"],
@@ -323,7 +371,9 @@
     [/공격력/g,"攻撃力"],[/력/g,"力"],[/최대/g,"最大"],[/획득/g,"獲得"],
     [/(\d+)\s*명/g,"$1人"],[/명$/g,"人"]
   ];
-  const zones = ".shell.lobbyMode,.overlay.upgrade,.overlay.result,.overlay.revive,.hud,.hint";
+  // Small persistent headers and footers sit outside .shell.lobbyMode during combat.
+  // Include them explicitly so active combat/revive receives the same localization.
+  const zones = ".top,.retention,.modeObjectiveBoss,.modeObjectiveDaily,.modeObjectiveEndless,.bossHud,.noticeToast,.shell.lobbyMode,.overlay.upgrade,.overlay.result,.overlay.revive,.hud,.hint";
   let pending = false;
   const targetedObservers = new Map();
 
