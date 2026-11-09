@@ -18,6 +18,10 @@
   // The free international build has no payable ONEplay store or rewarded ads.
   const css=document.createElement("style");
   css.textContent=`
+    /* The host website may embed the game inside a 272-302px mobile column.
+       The base CSS has body min-width:320px; that silently clips rankings and
+       menu choices inside narrow iframes even when the outer page does not scroll. */
+    @media (max-width:319px){html.s60-gameac-polished body{min-width:0!important;}}
     /* game-ac.com's 350x680 iframe: exactly ONE wheel-scroll area, the
        in-game lobby menu. The former 650px arena minimum made the document
        741px tall while the viewport was 680px, causing inaccessible items. */
@@ -69,6 +73,8 @@
     html.s60-gameac-polished .lobbyMode .intro .oneplayLeague{
       box-sizing:border-box;
       display:grid!important;
+      grid-template-columns:minmax(0,1fr)!important;
+      min-width:0!important;
       grid-auto-rows:max-content;
       height:auto!important;
       min-height:max-content!important;
