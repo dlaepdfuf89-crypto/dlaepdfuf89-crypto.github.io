@@ -146,8 +146,15 @@ if(window.__s60OneplaySdkReady!==true){
   // essentials of the WEB DEMO only, without modifying native app bundles.
   const visitorLocale=(new URLSearchParams(location.search).get("lang")||navigator.languages?.[0]||navigator.language||"ko").toLowerCase();
   const japaneseBrowserVisitor=/^ja(?:-|$)/.test(visitorLocale);
-  if(japaneseBrowserVisitor)document.documentElement.lang="ja";
+  if(japaneseBrowserVisitor){
+    document.documentElement.lang="ja";
+    document.title="Survive 60 | 無料ブラウザシューティング";
+  }
   const englishBrowserVisitor=!/^ko(?:-|$)/.test(visitorLocale);
+  if(englishBrowserVisitor && !japaneseBrowserVisitor){
+    document.documentElement.lang="en";
+    document.title="Survive 60 | Free Bullet-Hell Space Shooter";
+  }
   const browserTranslations=new Map([
     ["60초만 버텨봐","SURVIVE 60"],
     ["짧게 한 판, 기록은 계속","Quick runs. Beat your record."],
@@ -174,7 +181,9 @@ if(window.__s60OneplaySdkReady!==true){
     ["코인 상점 · 영구 강화 바로가기","Upgrade your ship"],
     ["↗ 기록 공유하기","↗ Share Challenge"],
     ["↗ 최고기록 공유","↗ Share Challenge"],
-    ["광고 준비 중 · 결과 추가 보상","Bonus ad unavailable"]
+    ["광고 준비 중 · 결과 추가 보상","Bonus ad unavailable"],
+    ["보스 출현 · 30초","Boss incoming · 30s"],["클리어"," clears"],
+    ["🔥 연속","🔥 Streak"],["🏆 최고","🏆 Best"],["🎯 오늘","🎯 Today"]
   ]);
   // Japanese labels are applied to the free browser demo only. Toss and ONEplay builds are unchanged.
   const japaneseBrowserTranslations=new Map([
@@ -217,6 +226,17 @@ if(window.__s60OneplaySdkReady!==true){
         const korean=content.trim();
         const english=activeBrowserTranslations.get(korean);
         if(english){node.nodeValue=content.replace(korean,english);continue;}
+        if(!japaneseBrowserVisitor){
+          // Localize dynamic rank, ad-status and currency labels without affecting progress or gameplay.
+          const translated=korean
+            .replace(/(\d+)클리어/g,"$1 clears")
+            .replace(/광고\s*(\d+\s*\/\s*\d+)회\s*·\s*준비 중/g,"Ads $1 · Unavailable")
+            .replace(/([\d,]+)코인 교환/g,"$1 coins to unlock")
+            .replace(/다음 랭크까지\s*(\d+)킬/g,"$1 kills to next rank")
+            .replace(/오늘 미션까지\s*(\d+)킬/g,"$1 kills left in daily mission")
+            .replace(/(\d+)킬/g,"$1 kills");
+          if(translated!==korean)node.nodeValue=content.replace(korean,translated);
+        }
         if(japaneseBrowserVisitor){
           // Preserve original game state and all numeric values; translate dynamic labels only.
           const translated=korean
@@ -273,13 +293,23 @@ if(window.__s60OneplaySdkReady!==true){
     }
     actions.before(el);
   };
-  const observer=new MutationObserver(()=>{
-    if(queued)return;
+  const observer=new MutationObserver((records)=>{
+    // Translate React-updated lobby text nodes, but do not scan during active gameplay HUD updates.
+    const relevant=records.some(rec=>rec.type==="childList" || (rec.type==="characterData" && rec.target.parentElement?.closest(".overlay.intro,.overlay.revive,.overlay.result")));
+    if(!relevant||queued)return;
     queued=true;
     requestAnimationFrame(()=>{queued=false;insertEditionChoices()});
   });
   // Keep mutation processing low-cost during real-time gameplay.
-  if(root){observer.observe(root,{childList:true,subtree:true});insertEditionChoices()}
+  if(root){
+    observer.observe(root,{childList:true,subtree:true,characterData:true});
+    insertEditionChoices();
+    // Two low-cost post-mount passes handle dynamic labels updated by React text nodes.
+    if(englishBrowserVisitor){
+      window.setTimeout(insertEditionChoices,180);
+      window.setTimeout(insertEditionChoices,850);
+    }
+  }
 }
 </script>
 </body>
