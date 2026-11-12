@@ -81,7 +81,14 @@ if(window.__s60OneplaySdkReady!==true){
   // The Japanese portal needs the entire 680–720px frame for active play.
   if(!specialGameAcEmbed)officialCta?.removeAttribute("hidden");
 }
-await import("/survive60/rc-next/assets/index-DzTmSkkv.js");
+// Production ONEplay only: apply the validated on-sale product guard bundle.
+// Keep the existing browser-demo / Japanese partner version unchanged.
+const s60NativeShopGuard = window.__s60OneplaySdkReady === true;
+if (s60NativeShopGuard) {
+  const activeTheme = document.querySelector('link[rel="stylesheet"][href="/survive60/rc-next/assets/index-BziPukj7.css"]');
+  if (activeTheme) activeTheme.href = "/survive60/rc-next/assets/index-BI_INJHn.css";
+}
+await import(s60NativeShopGuard ? "/survive60/rc-next/assets/index-hKEuTk5l.js" : "/survive60/rc-next/assets/index-DzTmSkkv.js");
 // Browser-only sharing: the live game shares via Toss SDK; browser demo viewers
 // instead share the OFFICIAL edition. No native bundle, IAP, or ad SDK is changed.
 if(window.__s60OneplaySdkReady!==true){
