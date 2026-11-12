@@ -102,7 +102,9 @@ footer a{color:#9acbe2}
 <div class="actions">
 <a class="primary" href="#play">▶ 今すぐ無料でプレイ</a>
 <a class="secondary" href="/survive60/?embed=gameac&amp;lang=ja" target="_blank" rel="noopener noreferrer">別ウィンドウで開く</a>
+<button class="secondary" type="button" id="s60-ja-share" aria-describedby="s60-ja-share-status" style="font-family:inherit;cursor:pointer">友だちに挑戦を送る</button>
 </div>
+<p id="s60-ja-share-status" role="status" aria-live="polite" style="font-size:12px;line-height:1.5;color:#a7e6ff;min-height:1em;margin:7px 0 0"></p>
 <p class="helper">PC・スマートフォン対応。初回起動には通信が必要です。記録・セーブ内容は利用環境により異なります。</p>
 </div>
 <div class="gamebox" id="play">
@@ -151,5 +153,37 @@ footer a{color:#9acbe2}
 <div><a href="/survive60/intro.html" lang="ko">한국어 안내</a>　·　<a href="/survive60/en.html" lang="en">English</a>　·　<a href="#play">日本語でプレイ</a></div>
 </footer>
 </main>
+
+<script>
+(()=>{'use strict';
+ const button=document.getElementById('s60-ja-share');
+ const status=document.getElementById('s60-ja-share-status');
+ if(!button||!status)return;
+ const url='https://dlaepdfuf89-crypto.github.io/survive60/ja/';
+ const title='Survive 60｜60秒間生き残れる？';
+ const message='弾幕をよけて60秒生存！無料の宇宙シューティングに挑戦してみて。';
+ let busy=false;
+ button.addEventListener('click',async()=>{
+  if(busy)return;
+  busy=true;button.disabled=true;
+  try{
+   if(typeof navigator.share==='function'){
+    try{await navigator.share({title,text:message,url});status.textContent='共有しました。';return}
+    catch(error){if(error&&error.name==='AbortError'){status.textContent='共有をキャンセルしました。';return}}
+   }
+   const content=message+' '+url;
+   if(navigator.clipboard&&typeof navigator.clipboard.writeText==='function'){
+    try{await navigator.clipboard.writeText(content);status.textContent='挑戦リンクをコピーしました。友だちに送ってください！';return}catch(error){}
+   }
+   const field=document.createElement('textarea');
+   field.value=content;field.readOnly=true;field.style.position='fixed';field.style.left='-9999px';
+   document.body.appendChild(field);field.select();
+   const success=document.execCommand('copy');field.remove();
+   status.textContent=success?'挑戦リンクをコピーしました。友だちに送ってください！':'URLをコピーして友だちに送ってください：'+url;
+  }catch(error){status.textContent='リンクを共有できませんでした。URLをコピーして送ってください：'+url}
+  finally{busy=false;button.disabled=false}
+ });
+})();
+</script>
 </body>
 </html>
