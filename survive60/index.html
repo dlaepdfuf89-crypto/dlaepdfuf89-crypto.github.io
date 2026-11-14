@@ -343,6 +343,20 @@ if(window.__s60OneplaySdkReady!==true){
       }
     }
     const screen=root?.querySelector(".overlay.result");
+    // React can split score numbers and the Korean count suffix into different text
+    // nodes. Normalize only the free browser result readouts after they mount.
+    if(englishBrowserVisitor && screen){
+      for(const selector of [".missionLine",".rankProgress > span"]){
+        const el=screen.querySelector(selector);
+        if(!el)continue;
+        const original=el.textContent||"";
+        const translated=japaneseBrowserVisitor
+          ?original.replace(/(\d+)킬/g,"$1キル").replace(/(\d+)회/g,"$1回")
+          :original.replace(/Next\s+([A-Z]+)\s+(\d+)회/g,(_,name,n)=>"Next "+name+" in "+n+(Number(n)===1?" clear":" clears"))
+            .replace(/(\d+)킬/g,"$1 kills").replace(/(\d+)회/g,"$1 clears");
+        if(translated!==original)el.textContent=translated;
+      }
+    }
     const actions=screen?.querySelector(".resultActions");
     if(!actions||screen.querySelector("#s60-demo-result-official"))return;
     const el=document.createElement("section");
