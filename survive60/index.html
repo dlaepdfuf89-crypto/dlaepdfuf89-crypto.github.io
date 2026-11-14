@@ -71,10 +71,18 @@ if(window.__s60OneplaySdkReady!==true){
     const heading=officialCta.querySelector(".s60-official-copy b");
     const helper=officialCta.querySelector(".s60-official-copy small");
     const link=officialCta.querySelector("a");
-    if(tag)tag.textContent="TOSS EDITION";
-    if(heading)heading.textContent="Open the official game in Toss";
-    if(helper)helper.textContent="Drag to move · Auto-fire · Survive 60 seconds";
-    if(link)link.setAttribute("aria-label","Open Survive 60 in the Toss app");
+    // A non-Korean browser visitor can try the live game without a Korean platform app.
+    // This is the browser-demo fallback ONLY. Native ONEplay SDK-ready flow is untouched.
+    const ja=/^ja(?:-|$)/.test(visitorLanguage);
+    if(tag)tag.textContent=ja?"無料ブラウザゲーム":"FREE BROWSER GAME";
+    if(heading)heading.textContent=ja?"このページですぐに無料プレイ":"Play Survive 60 here — free";
+    if(helper)helper.textContent=ja?"下の「▶ 60초 전투 시작」で開始 · ドラッグ / WASD / 方向キー":"No install · Tap ▶ 60초 전투 시작 below · Drag / WASD / arrows";
+    if(link){
+      link.setAttribute("href","#root");
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+      link.setAttribute("aria-label",ja?"このページ内の無料ゲームへ移動":"Jump to the free playable Survive 60 game below");
+    }
     const oneplay=officialCta.querySelector(".s60-onestore-direct");
     if(oneplay){oneplay.textContent="Play on ONEplay ↗";oneplay.setAttribute("aria-label","Play Survive 60 via ONEplay");}
   }
