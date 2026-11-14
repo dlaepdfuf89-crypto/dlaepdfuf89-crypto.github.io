@@ -171,6 +171,7 @@ if(window.__s60OneplaySdkReady!==true){
     document.title="Survive 60 | Free Bullet-Hell Space Shooter";
   }
   const browserTranslations=new Map([
+    ["기본 60초 전투","Standard 60s Survival"],
     ["하나를 고르세요","Choose one upgrade"],
     ["한 번에 3발을 퍼뜨립니다","Fires three shots in a spread"],
     ["강한 단발 화력으로 진화합니다","Evolves into a stronger single shot"],
@@ -214,6 +215,7 @@ if(window.__s60OneplaySdkReady!==true){
   ]);
   // Japanese labels are applied to the free browser demo only. Toss and ONEplay builds are unchanged.
   const japaneseBrowserTranslations=new Map([
+    ["기본 60초 전투","通常の60秒サバイバル"],
     ["하나를 고르세요","強化を1つ選んでください"],
     ["한 번에 3발을 퍼뜨립니다","3発の弾を扇状に発射します"],
     ["강한 단발 화력으로 진화합니다","威力の高い単発攻撃に進化します"],
@@ -269,6 +271,10 @@ if(window.__s60OneplaySdkReady!==true){
         if(!japaneseBrowserVisitor){
           // Localize dynamic rank, ad-status and currency labels without affecting progress or gameplay.
           const translated=korean
+            .replace(/기본 60초 전투/g,"Standard 60s Survival")
+            .replace(/시즌/g,"Season")
+            .replace(/다음 랭크까지/g,"To next rank:")
+            .replace(/다음\s+([A-Z]+)/g,"Next $1")
             .replace(/다음 무기 진화\s*·\s*Lv\.(\d+)/g,"Next weapon evolution · Lv.$1")
             .replace(/(\d+)클리어/g,"$1 clears")
             .replace(/광고\s*(\d+\s*\/\s*\d+)회\s*·\s*준비 중/g,"Ads $1 · Unavailable")
@@ -281,6 +287,9 @@ if(window.__s60OneplaySdkReady!==true){
         if(japaneseBrowserVisitor){
           // Preserve original game state and all numeric values; translate dynamic labels only.
           const translated=korean
+            .replace(/기본 60초 전투/g,"通常の60秒サバイバル")
+            .replace(/시즌/g,"シーズン")
+            .replace(/다음 랭크까지/g,"次のランクまであと")
             .replace(/다음 무기 진화\s*·\s*Lv\.(\d+)/g,"次の武器進化 · Lv.$1")
             .replace(/(\d+)클리어/g,"$1回クリア")
             .replace(/광고\s*(\d+\s*\/\s*\d+)회\s*·\s*준비 중/g,"広告報酬は現在利用できません")
@@ -303,6 +312,14 @@ if(window.__s60OneplaySdkReady!==true){
     const reviveScreen=root?.querySelector(".overlay.revive");
     const reviveAd=reviveScreen?.querySelector(".reviveBtn");
     const finishButton=reviveScreen?.querySelector(".giveUpBtn");
+    // Defensive Japanese-only rescue for React split/later-replaced text nodes in the death prompt.
+    if(japaneseBrowserVisitor && reviveScreen){
+      const small=reviveScreen.querySelector(":scope > small");
+      const title=reviveScreen.querySelector(":scope > h1");
+      if(small && /아직 끝내기/.test(small.textContent||""))small.textContent="まだ諦めないで！";
+      if(title && /한 번 더/.test(title.textContent||""))title.textContent="もう一度？";
+      if(finishButton && /이번 기록/.test(finishButton.textContent||""))finishButton.textContent="この記録で終了";
+    }
     // Web demo cannot revive via an ad. Give a clear free replay route instead.
     // Do not send international players to a Korea-only app before they finish a run.
     if(reviveAd?.disabled && finishButton && !reviveScreen.querySelector("#s60-demo-revive-note")){
