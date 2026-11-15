@@ -396,7 +396,7 @@ if(window.__s60OneplaySdkReady!==true){
     const button=origin instanceof Element ? origin.closest(".overlay.result .resultActions button") : null;
     if(!button)return;
     const label=button.textContent||"";
-    if(!/(Share Challenge|記録を共有|記録共有|기록 공유|기록공유)/i.test(label))return;
+    if(!/(Share Challenge|記録を共有|記録共有|シェア|기록 공유|기록공유)/i.test(label))return;
     // Capture before React's native-Toss share handler. Do not call or patch the app SDK.
     event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();
     const ko=/^ko(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||"ko");
