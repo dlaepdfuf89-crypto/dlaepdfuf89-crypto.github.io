@@ -378,6 +378,70 @@ if(window.__s60OneplaySdkReady!==true){
     }
     actions.before(el);
   };
+  // Public browser demo share: the Toss bridge is unavailable outside the Toss host.
+  // Keep the original platform builds untouched and offer a real free-play referral.
+  const browserShareFeedback=(button,message)=>{
+    let status=button.parentElement?.querySelector("#s60-browser-share-status");
+    if(!status){
+      status=document.createElement("p");
+      status.id="s60-browser-share-status";
+      status.setAttribute("role","status");
+      status.style.cssText="grid-column:1/-1;margin:6px 0 0;font:600 12px/1.5 system-ui,-apple-system,sans-serif;color:#bdeaff;text-align:center";
+      button.insertAdjacentElement("afterend",status);
+    }
+    status.textContent=message;
+  };
+  const handleBrowserResultShare=async(event)=>{
+    const origin=event.target;
+    const button=origin instanceof Element ? origin.closest(".overlay.result .resultActions button") : null;
+    if(!button)return;
+    const label=button.textContent||"";
+    if(!/(Share Challenge|記録を共有|記録共有|기록 공유|기록공유)/i.test(label))return;
+    // Capture before React's native-Toss share handler. Do not call or patch the app SDK.
+    event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();
+    const ko=/^ko(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||"ko");
+    const ja=/^ja(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||"ko");
+    const url=ko
+      ?"https://tossminiapp.com/d/deokseol60/launch"
+      :ja
+        ?"https://dlaepdfuf89-crypto.github.io/survive60/ja/"
+        :"https://dlaepdfuf89-crypto.github.io/survive60/";
+    const result=button.closest(".overlay.result");
+    const scoreText=result?.querySelector(".resultStats > div:first-child b")?.textContent||"";
+    const kills=Number.parseInt(scoreText.replace(/[^0-9]/g,""),10);
+    const score=Number.isFinite(kills)?kills:null;
+    const message=ja
+      ?("🎮 Survive 60"+(score!==null?" · "+score+"キル":"")+"！記録に挑戦しよう。")
+      :ko
+        ?("🎮 60초만 버텨봐"+(score!==null?" · "+score+"킬":"")+"! 내 기록에 도전해 봐.")
+        :("🎮 Survive 60"+(score!==null?" · "+score+" kills":"")+"! Can you beat my score?");
+    try{
+      if(typeof navigator.share==="function"){
+        try{
+          await navigator.share({title:"Survive 60",text:message,url});
+          browserShareFeedback(button,ja?"共有できました":ko?"도전장 공유가 완료됐습니다.":"Challenge shared.");
+          return;
+        }catch(error){
+          if(error?.name==="AbortError")return;
+        }
+      }
+      const payload=message+"\\n"+url;
+      if(navigator.clipboard?.writeText){
+        await navigator.clipboard.writeText(payload);
+      }else{
+        const temp=document.createElement("textarea");
+        temp.value=payload;temp.readOnly=true;
+        temp.style.cssText="position:fixed;left:-9999px;top:0;opacity:0";
+        document.body.appendChild(temp);temp.select();
+        const success=document.execCommand("copy");temp.remove();
+        if(!success)throw new Error("copy_unavailable");
+      }
+      browserShareFeedback(button,ja?"挑戦リンクをコピーしました":ko?"도전 링크를 복사했습니다.":"Challenge link copied.");
+    }catch{
+      browserShareFeedback(button,ja?"コピーできませんでした。リンクを長押ししてください。":ko?"복사가 안 됩니다. 아래 게임 주소를 직접 공유해 주세요.":"Copy unavailable — share the game link below.");
+    }
+  };
+  window.addEventListener("click",(event)=>{void handleBrowserResultShare(event);},true);
   const observer=new MutationObserver((records)=>{
     // Translate React-updated lobby text nodes, but do not scan during active gameplay HUD updates.
     const relevant=records.some(rec=>rec.type==="childList" || (rec.type==="characterData" && rec.target.parentElement?.closest(".overlay.intro,.overlay.revive,.overlay.result,.overlay.upgrade")));
