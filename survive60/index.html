@@ -425,7 +425,7 @@ if(window.__s60OneplaySdkReady!==true){
           if(error?.name==="AbortError")return;
         }
       }
-      const payload=message+"\\n"+url;
+      const payload=message+"\n"+url;
       if(navigator.clipboard?.writeText){
         await navigator.clipboard.writeText(payload);
       }else{
