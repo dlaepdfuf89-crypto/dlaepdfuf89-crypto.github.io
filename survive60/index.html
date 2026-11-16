@@ -86,6 +86,39 @@ if(window.__s60OneplaySdkReady!==true){
     const oneplay=officialCta.querySelector(".s60-onestore-direct");
     if(oneplay){oneplay.textContent="Play on ONEplay ↗";oneplay.setAttribute("aria-label","Play Survive 60 via ONEplay");}
   }
+  // Android Korean visitors can search INSIDE the ONE store app using its
+  // documented search URL scheme. The ONEplay PID web shortlink does not show
+  // this HTML5 game's detail, so never claim the link opens the game itself.
+  // Preserve the existing ONEplay info page as a fallback when no app launches.
+  if(/^ko(?:-|$)/i.test(visitorLanguage) && /Android/i.test(navigator.userAgent)){
+    document.documentElement.dataset.s60OnestoreSearch = "android";
+    const topOneplay=officialCta?.querySelector(".s60-onestore-direct");
+    if(topOneplay){
+      topOneplay.textContent="원스토어 앱에서 게임 검색 ↗";
+      topOneplay.setAttribute("aria-label","원스토어 앱의 검색 화면에서 60초만 버텨봐 찾기. 원스토어 앱이 없으면 ONEplay 안내 페이지로 이동합니다");
+    }
+    document.addEventListener("click",(event)=>{
+      const link=event.target instanceof Element
+        ?event.target.closest("a.s60-onestore-direct, a.s60-official-oneplay"):null;
+      if(!link || link.href!=="https://onesto.re/oneplay/0001010330")return;
+      event.preventDefault();
+      event.stopPropagation();
+      let appOpened=false;
+      const onVisibility=()=>{if(document.hidden)appOpened=true;};
+      document.addEventListener("visibilitychange",onVisibility);
+      const fallback=()=>{
+        document.removeEventListener("visibilitychange",onVisibility);
+        if(!appOpened && !document.hidden)
+          window.location.assign("https://onesto.re/oneplay/0001010330");
+      };
+      window.setTimeout(fallback,1700);
+      try{
+        window.location.assign("onestore://common/search/"+encodeURIComponent("60초만 버텨봐"));
+      }catch{
+        fallback();
+      }
+    },true);
+  }
   // The Japanese portal needs the entire 680–720px frame for active play.
   if(!specialGameAcEmbed)officialCta?.removeAttribute("hidden");
 }
