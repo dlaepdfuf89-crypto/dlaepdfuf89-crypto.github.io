@@ -46,7 +46,7 @@
 <a class="btn outline" href="https://dlaepdfuf89-crypto.github.io/survive60/" aria-label="Start Survive 60 free browser demo">Play the free browser demo</a>
 <a class="btn outline" href="https://tossminiapp.com/d/deokseol60/launch" rel="noopener">Open full game in Toss</a>
 <span class="btn outline" role="note" aria-label="ONEplay web game is playable in Korea's ONE store app only; search for 60초만 버텨봐">ONEplay: Korean ONE store app only</span>
-<button class="btn share-cta" type="button" id="s60-en-share" aria-label="Share the free Survive 60 browser game with a friend">↗ Challenge a friend — share the free game</button>
+<button class="btn share-cta" type="button" id="s60-en-share" aria-label="Share the Survive 60 Playgama Sandbox game with a friend">↗ Challenge a friend — share the Playgama game</button>
 <p id="s60-en-share-status" class="share-status" role="status" aria-live="polite"></p>
 </div>
 <p class="fine"><strong>Browser demo:</strong> no sign-up or payment to start. Toss and ONEplay are separate official editions; availability depends on the platform. Optional rewarded ads and in-app purchases may be offered in the official editions.</p>
@@ -70,15 +70,15 @@
 </div></section>
 </main>
 <footer><div class="wrap foot"><span>© SongiSongi · Survive 60 / 60초만 버텨봐</span><span>Actual-game footage · Free browser demo · No paid promotions · <a href="https://dlaepdfuf89-crypto.github.io/survive60/ja/" lang="ja" style="color:#b9edff;text-decoration:underline;text-underline-offset:3px">日本語</a></span></div></footer>
-<a class="sticky" href="https://dlaepdfuf89-crypto.github.io/survive60/" aria-label="Play Survive 60 browser demo for free">▶ Play free now</a>
+<a class="sticky" href="https://playgama.ai/play/bseilmhuxn7vr2" aria-label="Play Survive 60 on Playgama Sandbox for free">▶ Play on Playgama</a>
 <script>
 (()=>{'use strict';
  const button=document.getElementById('s60-en-share');
  const status=document.getElementById('s60-en-share-status');
  if(!button||!status)return;
- const url='https://dlaepdfuf89-crypto.github.io/survive60/';
+ const url='https://playgama.ai/play/bseilmhuxn7vr2';
  const title='Survive 60 | One-finger space shooter';
- const message='Can you survive 60 seconds? Dodge the bullets and beat the boss. Play the free browser game:';
+ const message='Can you survive 60 seconds? Dodge the bullets and beat the boss. Play the free Playgama Sandbox game:';
  let busy=false;
  button.addEventListener('click',async()=>{
   if(busy)return;busy=true;button.disabled=true;
@@ -93,8 +93,8 @@
    }
    const field=document.createElement('textarea');field.value=plain;field.readOnly=true;field.style.position='fixed';field.style.left='-9999px';document.body.appendChild(field);field.select();
    const ok=document.execCommand('copy');field.remove();
-   status.textContent=ok?'Challenge link copied. Share it with a friend!':'Copy the browser game link to invite a friend.';
-  }catch(error){status.textContent='You can share the browser game link directly.'}
+   status.textContent=ok?'Challenge link copied. Share it with a friend!':'Copy the Playgama game link to invite a friend.';
+  }catch(error){status.textContent='You can share the Playgama game link directly.'}
   finally{busy=false;button.disabled=false}
  });
 })();
