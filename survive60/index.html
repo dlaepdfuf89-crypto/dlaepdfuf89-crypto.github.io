@@ -74,17 +74,17 @@ if(window.__s60OneplaySdkReady!==true){
     // A non-Korean browser visitor can try the live game without a Korean platform app.
     // This is the browser-demo fallback ONLY. Native ONEplay SDK-ready flow is untouched.
     const ja=/^ja(?:-|$)/.test(visitorLanguage);
-    if(tag)tag.textContent=ja?"無料ブラウザゲーム":"FREE BROWSER GAME";
-    if(heading)heading.textContent=ja?"このページですぐに無料プレイ":"Play Survive 60 here — free";
-    if(helper)helper.textContent=ja?"「▶ 60秒チャレンジ開始」を押してプレイ · ドラッグ / WASD / 方向キー":"No install · Tap ▶ START 60s RUN below · Drag / WASD / arrows";
+    if(tag)tag.textContent=ja?"PLAYGAMA公開版":"PLAYGAMA SANDBOX";
+    if(heading)heading.textContent=ja?"Playgama版を無料プレイ":"Play the game on Playgama — free";
+    if(helper)helper.textContent=ja?"インストール不要 · Playgamaで60秒サバイバルに挑戦":"No installation · Launch the 60-second challenge on Playgama";
     if(link){
-      link.setAttribute("href","#root");
-      link.removeAttribute("target");
-      link.removeAttribute("rel");
-      link.setAttribute("aria-label",ja?"このページ内の無料ゲームへ移動":"Jump to the free playable Survive 60 game below");
+      link.setAttribute("href","https://playgama.ai/play/bseilmhuxn7vr2");
+      link.setAttribute("target","_blank");
+      link.setAttribute("rel","noopener noreferrer");
+      link.setAttribute("aria-label",ja?"Playgamaのサンドボックス公開版で無料プレイ":"Open existing Playgama Sandbox game, free to play");
     }
     const pg=officialCta.querySelector(".s60-playgama-direct");
-    if(pg){pg.textContent=ja?"Playgamaで遊ぶ ↗":"Play on Playgama ↗";pg.setAttribute("aria-label",ja?"Playgama上でSurvive 60をプレイ":"Play Survive 60 on Playgama Sandbox");}
+    if(pg){pg.setAttribute("href","#root");pg.removeAttribute("target");pg.removeAttribute("rel");pg.textContent=ja?"このページで無料体験":"Try the local browser demo";pg.setAttribute("aria-label",ja?"このページ内の無料ゲームをプレイ":"Play the existing free browser demo on this page");}
     const oneplay=officialCta.querySelector(".s60-onestore-direct");
     if(oneplay){oneplay.textContent=ja?"ONEplay：韓国のONE storeアプリ内で検索":"ONEplay: search in Korea’s ONE store app";oneplay.setAttribute("aria-label","ONEplay Web games can only be found and played within the Korean ONE store app.");}
   }
