@@ -3,30 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#071321" />
+    <meta name="theme-color" content="#FFF8F7" />
     <link rel="icon" type="image/png" href="/survive60/rc-next/favicon.png" />
-    <title>60초만 버텨봐 | Survive 60</title>
+    <title>60초만 버텨봐! — 귀여운 우주 생존 게임</title>
     
-    <link rel="stylesheet" crossorigin href="/survive60/rc-next/assets/index-DRNlmzTW.css">
-    <style id="s60-boss-visual-20261118">
-/* SURVIVE60 BOSS STAGING — visual only; game mechanics and SDK intact */
-@keyframes s60-threat-arrival{0%{opacity:0;filter:saturate(.65)}60%{opacity:.82;filter:saturate(1.15)}100%{opacity:.57;filter:saturate(1)}}
-@keyframes s60-threat-breathe{0%,100%{opacity:.42}50%{opacity:.70}}
-main.shell.playing .arena.bossActive:not(.lobby) .spaceBackdrop::after{
-content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-background:radial-gradient(ellipse 82% 42% at 50% 13%,rgba(255,46,88,.35),rgba(183,28,63,.13) 42%,transparent 78%),linear-gradient(180deg,rgba(88,11,41,.12),transparent 44%);
-mix-blend-mode:screen;
-animation:s60-threat-arrival 850ms ease-out both,s60-threat-breathe 3.2s ease-in-out 850ms infinite}
-main.shell.playing .arena.bossActive:not(.lobby){
-border-color:#8b4c67!important;
-box-shadow:0 12px 34px #01050d80,inset 0 0 0 1px #ff688640,inset 0 0 58px #951c432d!important}
-main.shell.playing .arena .bossWarning{
-max-width:calc(100% - 32px);padding:13px 18px!important;border:1px solid #ff6889!important;border-left:4px solid #ffbd76!important;border-radius:12px!important;
-background:linear-gradient(115deg,#4d1225f5,#1b0a19f4)!important;
-box-shadow:0 8px 32px #07010de0,0 0 22px #ff315444!important;
-color:#ffddae!important;text-shadow:0 2px 8px #11010c;font-weight:950!important;letter-spacing:.08em!important}
-@media(prefers-reduced-motion:reduce){main.shell.playing .arena.bossActive:not(.lobby) .spaceBackdrop::after{animation:none;opacity:.57}}
-</style>
+    <link rel="stylesheet" crossorigin href="/survive60/rc-next/assets/index-GAE3UtQg.css">
+    
   </head>
   <body>
     <div id="root"></div>
@@ -36,7 +18,7 @@ const mark=(s)=>{try{sessionStorage.setItem("s60-oneplay-host-boot-diagnostic-v1
 window.__s60OneplaySdkReady=false;
 mark("initializing");
 try{const sdk=createSDK();window.sdk=sdk;const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);await sdk.startGameAsync();window.__s60OneplaySdkReady=true;mark("native_sdk_ready")}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
-await import("/survive60/rc-next/assets/index-7TdwPq50.js");
+await import("/survive60/rc-next/assets/index-BF_Y_pcS.js");
 </script>
 </body>
 </html>
