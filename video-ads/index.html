@@ -49,6 +49,30 @@
   .mobile-order-bar .mob-buy:focus-visible{outline:3px solid white;outline-offset:3px}
 }
 @media(max-width:360px){.mobile-order-bar{gap:7px;padding-left:10px;padding-right:10px}.mobile-order-bar .mob-price strong{font-size:13px}.mobile-order-bar .mob-price small{font-size:9px}.mobile-order-bar .mob-buy{font-size:12px;padding:9px 10px}}
+
+
+/* VIDEO_ADS mobile-first conversion QA: real product use is visible before any scroll. */
+.mobile-first-preview{display:none}
+@media(max-width:850px){
+  .hero{padding:34px 0 42px;gap:0}
+  .hero h1{font-size:36px;line-height:1.12;letter-spacing:-.05em;margin:17px 0 18px}
+  .hero .eyebrow{font-size:11px}
+  .hero .lead{font-size:14px;line-height:1.7;margin:14px 0 18px}
+  .hero .micro{font-size:10px;line-height:1.6;margin-top:13px}
+  .hero-art{display:none}
+  .mobile-first-preview{display:block;position:relative;width:100%;height:172px;overflow:hidden;border-radius:7px;background:#293b34;text-decoration:none;color:#fff}
+  .mobile-first-preview img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 73%}
+  .mobile-first-preview:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,22,19,.73),transparent 64%);pointer-events:none}
+  .mobile-first-preview-note{position:absolute;z-index:1;bottom:13px;left:15px;right:12px;font-size:12px;font-weight:750;line-height:1.4;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .mobile-first-preview:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:34px}
+  .mobile-first-preview{height:172px}
+  .hero .lead{font-size:13.5px}
+  .hero .cta-row .btn{min-height:48px;padding:10px 14px}
+}
+
 </style>
 </head>
 <body>
@@ -65,6 +89,10 @@
       <div>
         <div class="eyebrow">REAL FOOTAGE. BETTER STORY.</div>
         <h1>제품은 이미<br>촬영하셨나요?<br><em>이제 보여줄 차례입니다.</em></h1>
+        <a class="mobile-first-preview" href="#sample" aria-label="압축팩 실제 사용 장면을 편집한 24초 광고 시연 영상 보기">
+          <img src="./showcase/natural_product_poster_20261121.jpg" alt="실제 촬영 스톡 영상 속 압축팩 사용 장면. 유료 고객 납품이 아닌 자체 편집 시연" loading="eager" decoding="async">
+          <span class="mobile-first-preview-note">실사 사용 장면 · 24초 편집 시연 보기 ↗</span>
+        </a>
         <p class="lead">브랜드가 직접 촬영한 제품 사용 장면을 바탕으로, 처음 3초의 관심부터 기능 이해와 구매 안내까지. 필요한 장면만 골라 20~40초 세로 광고로 편집합니다.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="https://kmong.com/gig/857106" target="_blank" rel="noopener noreferrer">1편 29만원 · 제작 의뢰 ↗</a>
