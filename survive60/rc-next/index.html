@@ -13,12 +13,12 @@
   <body>
     <div id="root"></div>
   <script type="module">
-import {createSDK} from "https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js";
+import {createSDK} from "https://h5sdk.onestore.net/lib/v1.2.0/onestore-h5-sdk.min.js";
 const mark=(s)=>{try{sessionStorage.setItem("s60-oneplay-host-boot-diagnostic-v1",JSON.stringify({status:s,time:new Date().toISOString()}))}catch{}};
 window.__s60OneplaySdkReady=false;
 mark("initializing");
-try{const sdk=createSDK();window.sdk=sdk;if(typeof sdk.on==="function"){sdk.on("pause",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-pause")));sdk.on("resume",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-resume")));}const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);await sdk.startGameAsync();window.__s60OneplaySdkReady=true;mark("native_sdk_ready")}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
-await import("/survive60/rc-next/assets/index-fc1bc3ddaa71.js");
+try{const sdk=createSDK();window.sdk=sdk;if(typeof sdk.on==="function"){sdk.on("pause",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-pause")));sdk.on("resume",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-resume")));}const result=await sdk.initializeAsync();if(result&&!result.err){const s60Language=typeof result.userLanguage==="string"&&result.userLanguage.trim()?result.userLanguage.trim():typeof result.locale==="string"&&result.locale.trim()?result.locale.trim():"ko";const s60Country=typeof result.userCountry==="string"&&/^[A-Za-z]{2}$/.test(result.userCountry)?result.userCountry.toUpperCase():undefined;window.__s60OneplayEnvironment=Object.freeze({language:s60Language,country:s60Country,locale:typeof result.locale==="string"?result.locale:undefined});document.documentElement.lang=s60Language;}if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);await sdk.startGameAsync();window.__s60OneplaySdkReady=true;mark("native_sdk_ready")}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
+await import("/survive60/rc-next/assets/index-fc1bc3ddaa71-global12.js");
 </script>
 </body>
 </html>
