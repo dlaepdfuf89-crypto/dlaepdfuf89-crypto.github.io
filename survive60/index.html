@@ -70,7 +70,7 @@ const approvedPortalEmbed=(()=>{
 if(approvedPortalEmbed){
   mark("browser_portal_embed_skip_oneplay_sdk");
 }else{
-  try{const {createSDK}=await import("https://h5sdk.onestore.net/lib/v1.1.0/onestore-h5-sdk.min.js");const sdk=createSDK();window.sdk=sdk;if(typeof sdk.on==="function"){sdk.on("pause",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-pause")));sdk.on("resume",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-resume")));}const result=await sdk.initializeAsync();if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);const started=await sdk.startGameAsync();if(started?.err){mark("game_start_rejected");}else{window.__s60OneplaySdkReady=true;mark("native_sdk_ready");}}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
+  try{const {createSDK}=await import("https://h5sdk.onestore.net/lib/v1.2.0/onestore-h5-sdk.min.js");const sdk=createSDK();window.sdk=sdk;if(typeof sdk.on==="function"){sdk.on("pause",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-pause")));sdk.on("resume",()=>window.dispatchEvent(new Event("s60-oneplay-sdk-resume")));}const result=await sdk.initializeAsync();if(result&&!result.err){const s60Language=typeof result.userLanguage==="string"&&result.userLanguage.trim()?result.userLanguage.trim():typeof result.locale==="string"&&result.locale.trim()?result.locale.trim():"ko";const s60Country=typeof result.userCountry==="string"&&/^[A-Za-z]{2}$/.test(result.userCountry)?result.userCountry.toUpperCase():undefined;window.__s60OneplayEnvironment=Object.freeze({language:s60Language,country:s60Country,locale:typeof result.locale==="string"?result.locale:undefined});document.documentElement.lang=s60Language;}if(result?.err){mark("initialize_rejected");}else{sdk.setLoadingProgress(100);const started=await sdk.startGameAsync();if(started?.err){mark("game_start_rejected");}else{window.__s60OneplaySdkReady=true;mark("native_sdk_ready");}}}catch(e){mark("sdk_unavailable");console.warn("ONEplay host SDK unavailable",e)}
 }
 if(window.__s60OneplaySdkReady!==true){
   const officialCta=document.getElementById("s60-official-store-cta");
@@ -130,7 +130,7 @@ if (s60NativeShopGuard) {
   const activeTheme = document.querySelector('link[rel="stylesheet"][href="/survive60/rc-next/assets/index-C2PdnG1L.css"]');
   if (activeTheme) activeTheme.href = "/survive60/rc-next/assets/index-BKITO0__.css";
 }
-await import(s60NativeShopGuard ? "/survive60/rc-next/assets/index-fc1bc3ddaa71.js" : "/survive60/rc-next/assets/index-CFPySwlR.js");
+await import(s60NativeShopGuard ? "/survive60/rc-next/assets/index-fc1bc3ddaa71-global12.js" : "/survive60/rc-next/assets/index-CFPySwlR.js");
 // Browser-only sharing: the live game shares via Toss SDK; browser demo viewers
 // instead share the OFFICIAL edition. No native bundle, IAP, or ad SDK is changed.
 if(window.__s60OneplaySdkReady!==true){
