@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 150">
+<defs>
+<linearGradient id="m" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e6edf4"/><stop offset=".18" stop-color="#79899a"/><stop offset=".46" stop-color="#273545"/><stop offset=".74" stop-color="#101924"/><stop offset="1" stop-color="#060b12"/></linearGradient>
+<linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d8fbff"/><stop offset=".22" stop-color="#63dcff"/><stop offset=".58" stop-color="#1b86e6"/><stop offset="1" stop-color="#0a295c"/></linearGradient>
+<radialGradient id="c"><stop stop-color="#fff"/><stop offset=".18" stop-color="#d7ffff"/><stop offset=".42" stop-color="#62e5ff"/><stop offset=".72" stop-color="#177dd7"/><stop offset="1" stop-color="#061a3f"/></radialGradient>
+</defs>
+<g stroke-linejoin="round" stroke-linecap="round">
+<path d="M60 5 69 25 75 42 91 50 114 58 99 69 86 102 72 91 60 141 48 91 34 102 21 69 6 58 29 50 45 42 51 25Z" fill="url(#m)" stroke="#b9c8d5" stroke-width="2.2"/>
+<path d="M60 10 67 30 70 47 60 75 50 47 53 30Z" fill="#070d15" stroke="#4ecfff" stroke-width="1.8"/>
+<path d="M45 42 29 50 10 58 38 62 52 49Z" fill="#162535" stroke="#7ce6ff" stroke-width="1.5"/>
+<path d="M75 42 91 50 110 58 82 62 68 49Z" fill="#162535" stroke="#7ce6ff" stroke-width="1.5"/>
+<path d="M34 63 18 87 44 78 51 58Z" fill="#0b2d59" stroke="#329fe9" stroke-width="1.5"/>
+<path d="M86 63 102 87 76 78 69 58Z" fill="#0b2d59" stroke="#329fe9" stroke-width="1.5"/>
+<path d="M47 78 39 111 53 103 60 79Z" fill="url(#b)" stroke="#8beeff" stroke-width="1.2"/>
+<path d="M73 78 81 111 67 103 60 79Z" fill="url(#b)" stroke="#8beeff" stroke-width="1.2"/>
+<path d="M48 55 54 45 66 45 72 55 69 73 60 83 51 73Z" fill="#081321" stroke="#3ca9e8" stroke-width="1.5"/>
+<ellipse cx="60" cy="62" rx="8.5" ry="11" fill="url(#c)" stroke="#e8ffff" stroke-width="1.6"/>
+<path d="M22 57 39 57M81 57 98 57M34 69 47 66M73 66 86 69M51 91 56 87M69 91 64 87" stroke="#d7e3ec" stroke-width="1.4" opacity=".8"/>
+<path d="M51 104 56 145 60 106 64 145 69 104 66 91H54Z" fill="#53cfff" opacity=".86"/>
+</g></svg>

@@ -1,0 +1,17 @@
+{
+  "art": "D:\\SURVIVE60_WORK\\release_submission_pack\\revenue_stage_20261013\\public\\art\\v6\\s60-v6-battle-banner.webp",
+  "store": "D:\\SURVIVE60_WORK\\release_submission_pack\\revenue_stage_20261013\\public\\art\\v6\\s60-store-feature-v6-1024x500.png",
+  "sourceSprites": [
+    "enemy-boss.png",
+    "enemy-fast.png",
+    "enemy-grunt.png",
+    "enemy-tank.png",
+    "player-aegis.png",
+    "player-nova.png",
+    "player-viper.png"
+  ],
+  "production": false,
+  "storeUpload": false,
+  "title": "60초만 버텨봐",
+  "notes": "Real V4 ship and boss sprites plus authored cinematic effects; promotional illustration NOT game screenshot"
+}
