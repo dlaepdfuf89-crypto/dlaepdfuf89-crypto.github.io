@@ -1,7 +1,7 @@
 // SURVIVE60: isolated locale-routing candidate; global commercial activation is NOT enabled.
 // Only the official native SDK's environment is consulted. Browser language and URL cannot authorize payments.
 const ROUTES = {"ko": {"js": "/survive60/rc-next/global-stage-20261124/ko/assets/index-CKYiZ4li.js", "css": "/survive60/rc-next/global-stage-20261124/ko/assets/index-B1BbkUVw.css", "lang": "ko", "mode": "global-gated-stage"}, "en": {"js": "/survive60/rc-next/global-stage-20261124/en/assets/index-Vfq-z2bn.js", "css": "/survive60/rc-next/global-stage-20261124/en/assets/index-D3u0kSUM.css", "lang": "en", "mode": "global-gated-stage"}};
-const DOMESTIC = {"js": "/survive60/rc-next/assets/index-fc1bc3ddaa71-global12.js", "css": "/survive60/rc-next/assets/index-BKITO0__.css", "lang": "ko", "mode": "domestic-existing"};
+const DOMESTIC = {"js": "/survive60/rc-next/assets/index-s60-midnight-20261128.js", "css": "/survive60/rc-next/assets/index-BKITO0__.css", "lang": "ko", "mode": "domestic-existing"};
 const BROWSER = {"js": "/survive60/rc-next/assets/index-CFPySwlR.js", "css": "/survive60/rc-next/assets/index-BKITO0__.css", "lang": "ko", "mode": "browser-existing"};
 export function chooseOneplayEdition(ready, env) {
   if(ready !== true) return {...BROWSER};
